@@ -1,0 +1,2536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Código IAM - Atención Primaria</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .clock {
+            text-align: right;
+        }
+
+        .clock .time {
+            font-size: 28px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .clock .date {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .section {
+            border-radius: 12px;
+            padding: 24px;
+            border: 2px solid;
+        }
+
+        .section h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-patient { background: #f8fafc; border-color: #e2e8f0; }
+        .section-timeline { background: #f0fdf4; border-color: #bbf7d0; }
+        .section-ecg { background: #fef3c7; border-color: #fde047; }
+        .section-clinical { background: #ede9fe; border-color: #c4b5fd; }
+        .section-contra { background: #fee2e2; border-color: #fca5a5; }
+        .section-strategy { background: #dbeafe; border-color: #93c5fd; }
+        .section-meds { background: #f0fdfa; border-color: #99f6e4; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="time"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid;
+            margin-bottom: 10px;
+            transition: transform 0.1s;
+        }
+
+        .checkbox-item:active {
+            transform: scale(0.98);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .checkbox-item span {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .alert-box {
+            background: #fee2e2;
+            border: 3px solid #dc2626;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            animation: pulse 2s infinite;
+            margin-top: 20px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .alert-box .icon {
+            font-size: 32px;
+            color: #dc2626;
+        }
+
+        .alert-box .text {
+            font-weight: 700;
+            font-size: 18px;
+            color: #dc2626;
+        }
+
+        .time-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .time-row input {
+            flex: 1;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            background: #22c55e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #16a34a;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            padding: 16px 32px;
+            font-size: 16px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-success {
+            background: #10b981;
+            padding: 16px 32px;
+            font-size: 16px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-warning {
+            width: 100%;
+            background: #eab308;
+            padding: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 8px;
+        }
+
+        .btn-warning:hover {
+            background: #ca8a04;
+        }
+        
+        .footer .btn-warning {
+            width: auto;
+            padding: 16px 32px;
+            font-size: 16px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer .btn-warning:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .footer {
+            padding: 30px;
+            background: #f8fafc;
+            border-top: 2px solid #e2e8f0;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .info-box {
+            padding: 16px;
+            border-radius: 8px;
+            border: 2px solid;
+            margin-top: 20px;
+        }
+
+        .info-box.yellow {
+            background: #fef3c7;
+            border-color: #fde047;
+        }
+
+        .info-box.red {
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+
+        .dose-display {
+            font-size: 24px;
+            font-weight: 700;
+            color: #dc2626;
+            margin-bottom: 4px;
+        }
+
+        .med-item {
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid;
+            margin-bottom: 12px;
+        }
+
+        .med-item.given {
+            background: #d1fae5;
+            border-color: #6ee7b7;
+        }
+
+        .med-item.not-given {
+            background: white;
+            border-color: #99f6e4;
+        }
+
+        .med-inputs {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 8px;
+        }
+
+        .med-inputs select,
+        .med-inputs input {
+            padding: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 2px solid #6ee7b7;
+            border-radius: 6px;
+            background: white;
+        }
+        
+        .med-inputs select {
+            cursor: pointer;
+            color: #065f46;
+        }
+        
+        .med-inputs select:hover {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; }
+            .btn, .footer { display: none !important; }
+        }
+
+        @media (max-width: 1200px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .header button {
+                width: 100%;
+            }
+            
+            .footer {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .footer button {
+                width: 100%;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr !important;
+            }
+            
+            .time-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .time-row span {
+                text-align: left;
+                margin-top: 5px;
+            }
+            
+            #recomendacionesPanel, #recordatoriosPanel {
+                padding: 15px;
+            }
+            
+            #recomendacionesPanel h3, #recordatoriosPanel h3 {
+                font-size: 16px;
+            }
+            
+            .med-inputs {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        .help-tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 15px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .help-tab:hover {
+            color: #2a5298;
+            background: #f1f5f9;
+        }
+
+        .help-tab.active {
+            color: #2a5298;
+            border-bottom-color: #2a5298;
+        }
+
+        .help-content {
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ecg-pattern {
+            margin-bottom: 25px;
+        }
+
+        .ecg-pattern h3 {
+            color: #1e293b;
+            font-size: 18px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .pattern-box {
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid;
+            line-height: 1.6;
+        }
+
+        .pattern-box.critical {
+            background: #fef2f2;
+            border-color: #fca5a5;
+        }
+
+        .pattern-box.warning {
+            background: #fffbeb;
+            border-color: #fcd34d;
+        }
+
+        .pattern-box.info {
+            background: #eff6ff;
+            border-color: #93c5fd;
+        }
+
+        .pattern-box ul {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+
+        .pattern-box li {
+            margin: 6px 0;
+        }
+
+        .pattern-box p {
+            margin: 10px 0;
+        }
+
+        .flowchart {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .flow-step {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 15px;
+            margin: 10px auto;
+            max-width: 400px;
+        }
+
+        .flow-step.decision {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: white;
+            border: 3px solid #d97706;
+        }
+
+        .flow-step.action-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: 3px solid #1d4ed8;
+        }
+
+        .flow-step.action-fibrinolysis {
+            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            color: white;
+            border: 3px solid #be185d;
+        }
+
+        .flow-arrow {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #475569;
+            margin: 10px 0;
+        }
+
+        .flow-arrow-small {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #475569;
+            margin: 5px 0;
+        }
+
+        .sgarbossa-criteria {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .criteria-item {
+            display: flex;
+            gap: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .criteria-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .criteria-item.modified {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        .criteria-points {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            min-width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .criteria-item.modified .criteria-points {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .criteria-content {
+            flex: 1;
+        }
+
+        .criteria-content h4 {
+            color: #1e293b;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .criteria-content p {
+            color: #475569;
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        .criteria-note {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .criteria-note {
+            background: #e0f2fe;
+            color: #075985;
+        }
+
+        .criteria-note.warning {
+            background: #fef3c7;
+            color: #854d0e;
+        }
+
+        .criteria-note.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .protocol-timeline {
+            position: relative;
+            padding-left: 60px;
+        }
+
+        .protocol-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #3b82f6 0%, #8b5cf6 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .timeline-number {
+            position: absolute;
+            left: -60px;
+            top: 20px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .timeline-content h4 {
+            color: #1e293b;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .timeline-content ul {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+
+        .timeline-content li {
+            margin: 8px 0;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .timeline-content p {
+            color: #1e293b;
+            font-weight: 600;
+            margin: 12px 0 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>Dashboard Código IAM</h1>
+                <p>Atención Primaria - Protocolo actualizado 2023</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <button onclick="toggleHelp()" style="padding: 12px 24px; background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                    📚 Guía de Ayuda
+                </button>
+                <div class="clock">
+                    <div class="time" id="currentTime"></div>
+                    <div class="date" id="currentDate"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Ayuda -->
+        <div id="helpModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 1000; overflow-y: auto; padding: 20px;">
+            <div style="max-width: 1200px; margin: 0 auto; background: white; border-radius: 16px; padding: 30px; position: relative;">
+                <button onclick="toggleHelp()" style="position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: #ef4444; color: white; border: none; font-size: 20px; cursor: pointer; font-weight: bold;">×</button>
+                
+                <h1 style="color: #1e3c72; margin-bottom: 30px; font-size: 28px;">📚 Guía de Ayuda - Código IAM</h1>
+
+                <!-- Tabs -->
+                <div style="display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 2px solid #e2e8f0;">
+                    <button class="help-tab active" onclick="showHelpTab('patrones')" data-tab="patrones">Patrones ECG</button>
+                    <button class="help-tab" onclick="showHelpTab('algoritmo')" data-tab="algoritmo">Algoritmo Decisión</button>
+                    <button class="help-tab" onclick="showHelpTab('sgarbossa')" data-tab="sgarbossa">Criterios Sgarbossa</button>
+                    <button class="help-tab" onclick="showHelpTab('protocolo')" data-tab="protocolo">Protocolo Codi IAM</button>
+                </div>
+
+                <!-- Tab: Patrones ECG -->
+                <div id="tab-patrones" class="help-content">
+                    <h2 style="color: #2a5298; margin-bottom: 20px;">🔍 Identificación de Patrones Electrocardiográficos</h2>
+                    
+                    <div class="ecg-pattern">
+                        <h3>⚠️ Patrón de De Winter (NUEVO 2023)</h3>
+                        <div class="pattern-box critical">
+                            <div style="font-weight: 700; font-size: 18px; color: #dc2626; margin-bottom: 10px;">
+                                ¡EQUIVALENTE A STEMI! - Requiere activación inmediata
+                            </div>
+                            <p><strong>Hallazgos clave:</strong></p>
+                            <ul>
+                                <li>Depresión del ST de 1-3 mm en derivaciones precordiales (V2-V6)</li>
+                                <li>Ondas T altas, simétricas y prominentes</li>
+                                <li>Elevación del ST pequeña (0.5-1 mm) en aVR</li>
+                                <li><strong>NO hay elevación del ST en precordiales</strong></li>
+                            </ul>
+                            <p><strong>Significado clínico:</strong></p>
+                            <p>Indica oclusión proximal de la arteria descendente anterior izquierda (LAD). Es un patrón DINÁMICO que puede evolucionar rápidamente a STEMI clásico.</p>
+                            <p style="background: #fef2f2; padding: 10px; border-radius: 6px; border-left: 4px solid #dc2626; margin-top: 10px;">
+                                <strong>⚠️ ACCIÓN:</strong> Activar Código IAM inmediatamente aunque NO haya elevación del ST típica.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="ecg-pattern">
+                        <h3>📊 Depresión ST difusa + Elevación aVR</h3>
+                        <div class="pattern-box warning">
+                            <p><strong>Hallazgos clave:</strong></p>
+                            <ul>
+                                <li>Depresión del ST ≥1 mm en ≥8 derivaciones</li>
+                                <li>Elevación del ST en aVR (≥1 mm)</li>
+                                <li>Puede haber elevación en V1</li>
+                            </ul>
+                            <p><strong>Significado clínico:</strong></p>
+                            <p>Sugiere enfermedad del tronco coronario izquierdo o enfermedad multivaso grave. Pronóstico muy grave.</p>
+                        </div>
+                    </div>
+
+                    <div class="ecg-pattern">
+                        <h3>🔄 Infarto Posterior</h3>
+                        <div class="pattern-box info">
+                            <p><strong>Hallazgos clave:</strong></p>
+                            <ul>
+                                <li>Onda R alta en V1-V2 (imagen especular de onda Q)</li>
+                                <li>Depresión del ST en V1-V3 (imagen especular de elevación)</li>
+                                <li>Onda T positiva alta en V1-V2</li>
+                                <li><strong>Confirmación:</strong> Elevación del ST >0.5 mm en V7-V9</li>
+                            </ul>
+                            <p><strong>Acción:</strong> Realizar derivaciones posteriores (V7, V8, V9) para confirmar.</p>
+                        </div>
+                    </div>
+
+                    <div class="ecg-pattern">
+                        <h3>➡️ Infarto de Ventrículo Derecho</h3>
+                        <div class="pattern-box info">
+                            <p><strong>Hallazgos clave:</strong></p>
+                            <ul>
+                                <li>Elevación del ST en derivaciones inferiores (II, III, aVF)</li>
+                                <li>Elevación del ST en V1 y derivaciones derechas (V3R, V4R)</li>
+                                <li>V4R es la más sensible y específica</li>
+                            </ul>
+                            <p><strong>Importancia clínica:</strong></p>
+                            <p>Asociado a IAM inferior. Mayor riesgo de hipotensión, bradiarritmias y shock. <strong>Contraindicación relativa para nitratos.</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="ecg-pattern">
+                        <h3>🔀 STEMI con Bloqueo de Rama</h3>
+                        <div class="pattern-box warning">
+                            <p><strong>Desafío diagnóstico:</strong></p>
+                            <p>El bloqueo de rama (especialmente BRIHH) dificulta la interpretación del ST. Usar criterios de Sgarbossa-Smith (ver pestaña específica).</p>
+                            <p><strong>Puntos clave:</strong></p>
+                            <ul>
+                                <li>BRIHH de nueva aparición = considerar equivalente a STEMI</li>
+                                <li>BRDHH: menos interferencia, más fácil de interpretar</li>
+                                <li>Aplicar score de Sgarbossa (≥3 puntos = probable IAM)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Algoritmo -->
+                <div id="tab-algoritmo" class="help-content" style="display: none;">
+                    <h2 style="color: #2a5298; margin-bottom: 20px;">🎯 Algoritmo de Decisión de Estrategia de Reperfusión</h2>
+                    
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <h3 style="margin-bottom: 15px; font-size: 20px;">¿El paciente cumple criterios de Código IAM?</h3>
+                        <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 8px;">
+                            <p style="margin-bottom: 10px;"><strong>✓ STEMI:</strong> Elevación ST, De Winter, depresión difusa+aVR, posterior, VD, BRIHH nuevo</p>
+                            <p><strong>✓ NSTEMI muy alto riesgo:</strong> Shock (TAS &lt;90), dolor refractario</p>
+                        </div>
+                    </div>
+
+                    <div class="flowchart">
+                        <div class="flow-step decision">
+                            <strong>¿Código IAM Activado?</strong>
+                        </div>
+                        <div class="flow-arrow">↓ SÍ</div>
+                        
+                        <div class="flow-step decision">
+                            <strong>¿Tiempo esperado de traslado + tiempo puerta-balón &lt;120 min?</strong>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                            <div>
+                                <div class="flow-arrow">↓ SÍ</div>
+                                <div class="flow-step action-primary">
+                                    <strong>ANGIOPLASTIA PRIMARIA</strong>
+                                    <hr style="margin: 10px 0; border: none; border-top: 1px solid rgba(255,255,255,0.3);">
+                                    <p style="font-size: 13px; margin: 0;">
+                                        • Aspirina 300 mg VO<br>
+                                        • Segundo antiagregante según algoritmo<br>
+                                        • Heparina no fraccionada o enoxaparina<br>
+                                        • Activar sala de hemodinámica<br>
+                                        • Traslado urgente
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flow-arrow">↓ NO</div>
+                                <div class="flow-step decision">
+                                    <strong>¿Contraindicaciones para fibrinólisis?</strong>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+                                    <div>
+                                        <div class="flow-arrow-small">↓ NO</div>
+                                        <div class="flow-step action-fibrinolysis">
+                                            <strong>FIBRINÓLISIS</strong>
+                                            <hr style="margin: 10px 0;">
+                                            <p style="font-size: 12px; margin: 0;">
+                                                • Aspirina 300 mg<br>
+                                                • Clopidogrel 300 mg<br>
+                                                • TNK según peso<br>
+                                                • Enoxaparina<br>
+                                                • Traslado post-TNK
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flow-arrow-small">↓ SÍ</div>
+                                        <div class="flow-step action-primary">
+                                            <strong>ICP</strong>
+                                            <hr style="margin: 10px 0;">
+                                            <p style="font-size: 12px; margin: 0;">
+                                                Traslado urgente para angioplastia aunque &gt;120 min
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: #fef3c7; padding: 20px; border-radius: 12px; border: 2px solid #fde047; margin-top: 30px;">
+                        <h3 style="color: #854d0e; margin-bottom: 15px;">📋 Contraindicaciones ABSOLUTAS para Fibrinólisis:</h3>
+                        <ul style="color: #854d0e; line-height: 1.8;">
+                            <li>Hemorragia cerebral previa (cualquier momento)</li>
+                            <li>AVC isquémico &lt;6 meses</li>
+                            <li>Lesión/neoplasia del SNC</li>
+                            <li>Traumatismo mayor/cirugía/trauma craneal &lt;3 meses</li>
+                            <li>Sangrado activo o diátesis hemorrágica</li>
+                            <li>Sospecha disección aórtica</li>
+                            <li>HTA refractaria (&gt;180/110 mmHg)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tab: Sgarbossa -->
+                <div id="tab-sgarbossa" class="help-content" style="display: none;">
+                    <h2 style="color: #2a5298; margin-bottom: 20px;">🔬 Criterios de Sgarbossa-Smith</h2>
+                    
+                    <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <h3 style="margin-bottom: 10px;">Para diagnóstico de IAM en presencia de BRIHH o ritmo de marcapasos</h3>
+                        <p style="font-size: 14px; opacity: 0.9;">Desarrollado porque el BRIHH dificulta la interpretación del segmento ST</p>
+                    </div>
+
+                    <div class="sgarbossa-criteria">
+                        <div class="criteria-item">
+                            <div class="criteria-points">5 puntos</div>
+                            <div class="criteria-content">
+                                <h4>Elevación del ST concordante ≥1 mm</h4>
+                                <p>Elevación del ST en la misma dirección (concordante) que el complejo QRS.</p>
+                                <p><strong>Ejemplo:</strong> En derivación con QRS positivo (hacia arriba), el ST también está elevado hacia arriba.</p>
+                                <div class="criteria-note">Altamente específico para IAM</div>
+                            </div>
+                        </div>
+
+                        <div class="criteria-item">
+                            <div class="criteria-points">3 puntos</div>
+                            <div class="criteria-content">
+                                <h4>Depresión del ST concordante ≥1 mm en V1-V3</h4>
+                                <p>Depresión del ST en V1, V2 o V3, concordante con el QRS.</p>
+                                <div class="criteria-note">Muy específico - indica IAM posterior o lateral</div>
+                            </div>
+                        </div>
+
+                        <div class="criteria-item">
+                            <div class="criteria-points">2 puntos</div>
+                            <div class="criteria-content">
+                                <h4>Elevación del ST discordante ≥5 mm (Criterio original)</h4>
+                                <p>Elevación del ST en dirección opuesta al QRS, pero de gran magnitud.</p>
+                                <div class="criteria-note warning">⚠️ Criterio original modificado por Smith</div>
+                            </div>
+                        </div>
+
+                        <div class="criteria-item modified">
+                            <div class="criteria-points">≥25%</div>
+                            <div class="criteria-content">
+                                <h4>Criterio Modificado de Smith (2012)</h4>
+                                <p><strong>Elevación del ST ≥25% de la amplitud del QRS</strong></p>
+                                <p>Más sensible que el criterio de Sgarbossa original.</p>
+                                <p><strong>Cálculo:</strong> (Elevación ST / Amplitud S) × 100 ≥ 25%</p>
+                                <div class="criteria-note success">✓ Recomendado usar este criterio en lugar del original de 5mm</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: #e0f2fe; padding: 20px; border-radius: 12px; border: 2px solid #7dd3fc; margin-top: 30px;">
+                        <h3 style="color: #0369a1; margin-bottom: 15px;">📊 Interpretación del Score:</h3>
+                        <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                            <p style="color: #0c4a6e; margin: 0;"><strong>≥3 puntos:</strong> Alta probabilidad de IAM agudo → Activar Código IAM</p>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px;">
+                            <p style="color: #0c4a6e; margin: 0;"><strong>&lt;3 puntos:</strong> Probabilidad baja (pero no excluye) → Valorar clínica, biomarcadores, ecocardiografía</p>
+                        </div>
+                    </div>
+
+                    <div style="background: #fef2f2; padding: 20px; border-radius: 12px; border: 2px solid #fecaca; margin-top: 20px;">
+                        <h3 style="color: #991b1b; margin-bottom: 15px;">⚠️ Importante:</h3>
+                        <ul style="color: #991b1b; line-height: 1.8;">
+                            <li>Los criterios de Sgarbossa son MUY ESPECÍFICOS pero poco SENSIBLES</li>
+                            <li>Un score bajo NO excluye IAM - considerar siempre el contexto clínico</li>
+                            <li>BRIHH de nueva aparición = considerar equivalente a STEMI</li>
+                            <li>En caso de duda con BRIHH: comparar con ECG previos si disponibles</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tab: Protocolo -->
+                <div id="tab-protocolo" class="help-content" style="display: none;">
+                    <h2 style="color: #2a5298; margin-bottom: 20px;">📋 Protocolo Codi IAM - Actuación en Atención Primaria</h2>
+                    
+                    <div class="protocol-timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-number">1</div>
+                            <div class="timeline-content">
+                                <h4>Primer Contacto (&lt;10 min)</h4>
+                                <ul>
+                                    <li>Evaluación rápida: dolor torácico, disnea, síncope</li>
+                                    <li>Constantes vitales: TA, FC, SpO₂</li>
+                                    <li>Monitorización continua</li>
+                                    <li>Acceso venoso periférico</li>
+                                    <li><strong>ECG de 12 derivaciones inmediato</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-number">2</div>
+                            <div class="timeline-content">
+                                <h4>Interpretación ECG y Decisión según Clínica</h4>
+                                
+                                <div style="background: #dcfce7; padding: 15px; border-radius: 8px; border-left: 4px solid #22c55e; margin-bottom: 15px;">
+                                    <h5 style="color: #166534; margin: 0 0 10px 0; font-size: 16px;">✅ CLÍNICA TÍPICA + ECG compatible</h5>
+                                    <ul style="margin: 0; padding-left: 20px; color: #166534;">
+                                        <li>Dolor opresivo >20 minutos</li>
+                                        <li>Irradiación a brazo izquierdo/mandíbula</li>
+                                        <li>Cortejo vegetativo (sudoración, náuseas)</li>
+                                        <li>No responde a NTG</li>
+                                    </ul>
+                                    <div style="background: #22c55e; color: white; padding: 12px; border-radius: 6px; margin-top: 10px; font-weight: 700; text-align: center;">
+                                        → ACTIVAR CÓDIGO IAM INMEDIATAMENTE
+                                    </div>
+                                    <p style="margin: 10px 0 0 0; font-size: 13px; color: #166534;">
+                                        <strong>NO ESPERAR ECG de control.</strong> El tiempo es músculo.
+                                    </p>
+                                </div>
+                                
+                                <div style="background: #fef3c7; padding: 15px; border-radius: 8px; border-left: 4px solid #eab308; margin-bottom: 15px;">
+                                    <h5 style="color: #854d0e; margin: 0 0 10px 0; font-size: 16px;">⚠️ CLÍNICA ATÍPICA o DUDOSA + ECG</h5>
+                                    <ul style="margin: 0; padding-left: 20px; color: #854d0e;">
+                                        <li>Dolor atípico (breve, punzante, localizado)</li>
+                                        <li>Paciente muy joven sin factores de riesgo</li>
+                                        <li>Dolor nocturno en reposo (sospecha espasmo)</li>
+                                        <li>Cambios ECG borderline o dudosos</li>
+                                    </ul>
+                                    <div style="background: white; padding: 12px; border-radius: 6px; margin-top: 10px; border: 2px solid #eab308;">
+                                        <p style="margin: 0; color: #854d0e; font-weight: 600;">
+                                            1. Administrar NTG sublingual<br>
+                                            2. ECG de control a los 15 minutos<br>
+                                            3. Si persiste elevación → Activar código
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div style="background: #fee2e2; padding: 15px; border-radius: 8px; border-left: 4px solid #dc2626;">
+                                    <h5 style="color: #991b1b; margin: 0 0 10px 0; font-size: 16px;">🚨 MUY ALTO RIESGO</h5>
+                                    <p style="margin: 0 0 10px 0; color: #991b1b;">
+                                        <strong>Activación INMEDIATA independientemente de ECG o clínica:</strong>
+                                    </p>
+                                    <ul style="margin: 0; padding-left: 20px; color: #991b1b;">
+                                        <li>Shock cardiogénico (detectado automáticamente si TAS &lt;90 mmHg)</li>
+                                        <li>Dolor refractario a tratamiento</li>
+                                        <li>Insuficiencia cardíaca aguda</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-number">3</div>
+                            <div class="timeline-content">
+                                <h4>Tratamiento Inicial (Antes del Traslado)</h4>
+                                <ul>
+                                    <li><strong>AAS 300 mg VO</strong> (masticar) - Lo antes posible</li>
+                                    <li><strong>Nitroglicerina sublingual</strong> (si TA adecuada, no en IAM VD) - Para valorar respuesta</li>
+                                    <li><strong>Segundo antiagregante</strong> según algoritmo (tras confirmar elevación persistente)</li>
+                                    <li>Morfina 3-5 mg IV si dolor persistente (y TAS >90)</li>
+                                    <li>Oxígeno solo si SpO₂ &lt;90%</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-number">4</div>
+                            <div class="timeline-content">
+                                <h4>Estrategia según Distancia y Contraindicaciones</h4>
+                                <p><strong>Centro con Hemodinámica &lt;120 min:</strong></p>
+                                <ul>
+                                    <li>Traslado para angioplastia primaria</li>
+                                    <li>SEM se hace cargo del paciente</li>
+                                </ul>
+                                <p><strong>Centro con Hemodinámica &gt;120 min y sin contraindicaciones:</strong></p>
+                                <ul>
+                                    <li>Valorar fibrinólisis in situ</li>
+                                    <li>TNK según peso, clopidogrel 300 mg, enoxaparina</li>
+                                    <li>Traslado post-fibrinólisis para angiografía</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-number">5</div>
+                            <div class="timeline-content">
+                                <h4>Durante el Traslado</h4>
+                                <ul>
+                                    <li>Monitorización continua</li>
+                                    <li>Mantener vía venosa permeable</li>
+                                    <li>ECG seriados si disponible</li>
+                                    <li>Anticipar complicaciones (arritmias, shock)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: #dcfce7; padding: 20px; border-radius: 12px; border: 2px solid #86efac; margin-top: 30px;">
+                        <h3 style="color: #166534; margin-bottom: 15px;">✅ Objetivos del Código IAM:</h3>
+                        <ul style="color: #166534; line-height: 1.8;">
+                            <li><strong>ECG-Balón &lt;120 minutos</strong> (objetivo &lt;90 min)</li>
+                            <li><strong>Puerta-TNK &lt;30 minutos</strong> si fibrinólisis</li>
+                            <li>Reperfusión universal (100% pacientes con indicación)</li>
+                            <li>Reducción de mortalidad y complicaciones</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: #fff7ed; padding: 20px; border-radius: 12px; border: 2px solid #fed7aa; margin-top: 20px;">
+                        <h3 style="color: #9a3412; margin-bottom: 15px;">📞 Hospitales de Referencia en Cataluña:</h3>
+                        <p style="color: #9a3412;">La región está dividida en 10 áreas, cada una con un hospital de referencia con sala de hemodinámica 24/7. El SEM (061) coordinará el traslado al hospital correspondiente según zona geográfica y disponibilidad.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Columna Izquierda -->
+            <div>
+                <!-- Datos del Paciente -->
+                <div class="section section-patient">
+                    <h2>👤 Datos del Paciente</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Edad (años)</label>
+                            <input type="number" id="edad" onchange="updateContraindications()">
+                        </div>
+                        <div class="form-group">
+                            <label>Peso (kg)</label>
+                            <input type="number" id="peso" onchange="calculateTNK()">
+                        </div>
+                        <div class="form-group">
+                            <label>Sexo</label>
+                            <select id="sexo">
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+                        <div class="form-group full">
+                            <label>Alergias conocidas</label>
+                            <input type="text" id="alergias" placeholder="Ninguna conocida">
+                        </div>
+                        <div class="form-group full">
+                            <label style="display: flex; align-items: center; gap: 10px; padding: 12px; background: #fff7ed; border-radius: 8px; border: 2px solid #fed7aa; cursor: pointer;">
+                                <input type="checkbox" id="anticoagulacion" style="width: 18px; height: 18px;">
+                                <span style="font-weight: 600; color: #ea580c;">Anticoagulación oral activa</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cronología -->
+                <div class="section section-timeline" style="margin-top: 20px;">
+                    <h2>🕐 Cronología</h2>
+                    
+                    <div style="background: #dcfce7; padding: 12px; border-radius: 8px; border-left: 4px solid #22c55e; margin-bottom: 15px; font-size: 13px; color: #166534;">
+                        <strong>💡 Criterio pragmático:</strong> Si clínica TÍPICA + ECG compatible → ACTIVAR YA (no esperar ECG control). ECG control solo en casos DUDOSOS.
+                    </div>
+                    
+                    <div class="time-row">
+                        <input type="time" id="inicioSintomas">
+                        <button class="btn" onclick="markTime('inicioSintomas')">Ahora</button>
+                        <span style="font-size: 13px; color: #16a34a; min-width: 160px;">Inicio de síntomas</span>
+                    </div>
+                    <div class="time-row">
+                        <input type="time" id="primerContacto">
+                        <button class="btn" onclick="markTime('primerContacto')">Ahora</button>
+                        <span style="font-size: 13px; color: #16a34a; min-width: 160px;">Primer contacto médico</span>
+                    </div>
+                    <div class="time-row">
+                        <input type="time" id="ecgRealizado">
+                        <button class="btn" onclick="markTime('ecgRealizado')">Ahora</button>
+                        <span style="font-size: 13px; color: #16a34a; min-width: 160px;">ECG inicial realizado</span>
+                    </div>
+                    <div class="time-row">
+                        <input type="time" id="ecgControl">
+                        <button class="btn" onclick="markTime('ecgControl')">Ahora</button>
+                        <span style="font-size: 13px; color: #ea580c; min-width: 160px;">ECG control (15 min post-NTG)</span>
+                    </div>
+                    <div class="time-row">
+                        <input type="time" id="activacionCodigo">
+                        <button class="btn" onclick="markTime('activacionCodigo')">Ahora</button>
+                        <span style="font-size: 13px; color: #dc2626; min-width: 160px; font-weight: 700;">Activación Código IAM</span>
+                    </div>
+                </div>
+
+                <!-- Hallazgos ECG -->
+                <div class="section section-ecg" style="margin-top: 20px;">
+                    <h2>📊 Hallazgos Electrocardiográficos</h2>
+                    
+                    <div class="checkbox-item" style="border-color: #fde047;" onclick="toggleCheck('elevacionST')">
+                        <input type="checkbox" id="elevacionST" onclick="event.stopPropagation(); checkActivation()">
+                        <span>Elevación del segmento ST</span>
+                    </div>
+                    
+                    <div class="checkbox-item" style="border-color: #fca5a5; background: #fee2e2;" onclick="toggleCheck('patronWinter')">
+                        <input type="checkbox" id="patronWinter" onclick="event.stopPropagation(); checkActivation()">
+                        <span style="color: #dc2626; font-weight: 600;">⚠️ Patrón de De Winter (Equivalente STEMI)</span>
+                    </div>
+                    
+                    <div class="checkbox-item" style="border-color: #fca5a5; background: #fee2e2;" onclick="toggleCheck('depresionSTconAVR')">
+                        <input type="checkbox" id="depresionSTconAVR" onclick="event.stopPropagation(); checkActivation()">
+                        <span style="color: #dc2626; font-weight: 600;">Depresión ST difusa + elevación aVR</span>
+                    </div>
+                    
+                    <div class="checkbox-item" style="border-color: #fde047;" onclick="toggleCheck('infartoPosterior')">
+                        <input type="checkbox" id="infartoPosterior" onclick="event.stopPropagation(); checkActivation()">
+                        <span>Infarto posterior</span>
+                    </div>
+                    
+                    <div class="checkbox-item" style="border-color: #fde047;" onclick="toggleCheck('infartoVD')">
+                        <input type="checkbox" id="infartoVD" onclick="event.stopPropagation(); checkActivation(); updateRecomendaciones();">
+                        <span>⚠️ Infarto ventrículo derecho</span>
+                    </div>
+                    
+                    <div class="checkbox-item" style="border-color: #fde047;" onclick="toggleCheck('bbefh')">
+                        <input type="checkbox" id="bbefh" onclick="event.stopPropagation(); checkActivation()">
+                        <span>BBEFH de nueva aparición</span>
+                    </div>
+                    
+                    <div class="checkbox-item" style="border-color: #fde047;" onclick="toggleCheck('bbdfh')">
+                        <input type="checkbox" id="bbdfh" onclick="event.stopPropagation(); checkActivation()">
+                        <span>BBDFH de nueva aparición</span>
+                    </div>
+                    
+                    <div class="checkbox-item" style="border-color: #fde047;" onclick="toggleCheck('marcapassos')">
+                        <input type="checkbox" id="marcapassos" onclick="event.stopPropagation(); checkActivation()">
+                        <span>Ritmo de marcapassos</span>
+                    </div>
+                    
+                    <textarea id="otrosECG" placeholder="Otros hallazgos ECG..." style="border-color: #fde047; margin-top: 10px;"></textarea>
+                </div>
+
+                <!-- Alerta de activación -->
+                <div id="alertaActivacion" style="display: none;" class="alert-box">
+                    <div class="icon">⚠️</div>
+                    <div>
+                        <div class="text">¡Elevación del ST detectada!</div>
+                        <div style="font-size: 14px; color: #991b1b;" id="alertaTexto">
+                            Administrar NTG y realizar ECG de control a los 15 min para confirmar elevación PERSISTENTE
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Derecha -->
+            <div>
+                <!-- Datos Clínicos -->
+                <div class="section section-clinical">
+                    <h2>🏥 Datos Clínicos</h2>
+                    
+                    <div style="background: #fef3c7; padding: 16px; border-radius: 8px; border: 2px solid #fde047; margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #854d0e; font-size: 15px;">
+                            ¿Clínica TÍPICA de IAM?
+                        </label>
+                        <div style="display: flex; gap: 10px;">
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; background: white; padding: 10px 16px; border-radius: 6px; border: 2px solid #fde047; flex: 1;">
+                                <input type="radio" name="clinicaIAM" id="clinicaSi" value="si" style="width: 18px; height: 18px; cursor: pointer;" onchange="checkActivation()">
+                                <span style="font-weight: 600; color: #854d0e;">SÍ - Típica</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; background: white; padding: 10px 16px; border-radius: 6px; border: 2px solid #fde047; flex: 1;">
+                                <input type="radio" name="clinicaIAM" id="clinicaNo" value="no" style="width: 18px; height: 18px; cursor: pointer;" onchange="checkActivation()">
+                                <span style="font-weight: 600; color: #854d0e;">NO - Atípica/Dudosa</span>
+                            </label>
+                        </div>
+                        <div style="font-size: 12px; color: #92400e; margin-top: 8px; line-height: 1.4;">
+                            <strong>Típica:</strong> Dolor opresivo >20 min, irradiación a brazo/mandíbula, cortejo vegetativo, no responde a NTG<br>
+                            <strong>Atípica:</strong> Dolor breve, localización atípica, paciente muy joven, dudas diagnósticas
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid" style="margin-bottom: 16px;">
+                        <div class="form-group">
+                            <label>TAS (mmHg)</label>
+                            <input type="number" id="tas">
+                        </div>
+                        <div class="form-group">
+                            <label>TAD (mmHg)</label>
+                            <input type="number" id="tad">
+                        </div>
+                        <div class="form-group">
+                            <label>FC (lpm)</label>
+                            <input type="number" id="fc">
+                        </div>
+                        <div class="form-group">
+                            <label>SpO₂ (%)</label>
+                            <input type="number" id="spo2">
+                        </div>
+                        <div class="form-group full">
+                            <label>Clasificación Killip</label>
+                            <select id="killip">
+                                <option value="1">I - Auscultación normal</option>
+                                <option value="2">II - Crepitantes y/o 3er ruido</option>
+                                <option value="3">III - Edema agudo de pulmón</option>
+                                <option value="4">IV - Shock cardiogénico</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item" style="border-color: #fca5a5; background: #fee2e2;" onclick="toggleCheck('dolorRefractario')">
+                        <input type="checkbox" id="dolorRefractario" onclick="event.stopPropagation(); checkActivation()">
+                        <span style="color: #dc2626; font-weight: 600;">Dolor refractario a tratamiento</span>
+                    </div>
+                    
+                    <!-- Alerta automática de shock cardiogénico -->
+                    <div id="alertaShock" style="display: none; background: #fee2e2; padding: 12px; border-radius: 8px; border: 2px solid #dc2626; margin-top: 10px;">
+                        <div style="color: #dc2626; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 8px;">
+                            <span>⚠️</span>
+                            <span>Posible SHOCK CARDIOGÉNICO detectado</span>
+                        </div>
+                        <div style="color: #991b1b; font-size: 12px; margin-top: 6px;">
+                            TAS &lt;90 mmHg sugiere shock. Valorar clínica completa.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel de Recomendaciones Dinámicas -->
+                <div id="recomendacionesPanel" style="display: none; background: white; border-radius: 12px; padding: 20px; border: 2px solid #3b82f6; margin-top: 20px;">
+                    <h3 style="color: #1e3c72; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        💡 Recomendaciones Clínicas
+                    </h3>
+                    <div id="recomendacionesList" style="display: flex; flex-direction: column; gap: 10px;">
+                        <!-- Las recomendaciones se insertarán aquí dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Panel de Recordatorios de Tiempo -->
+                <div id="recordatoriosPanel" style="display: none; background: #fff7ed; border-radius: 12px; padding: 20px; border: 2px solid #fb923c; margin-top: 20px;">
+                    <h3 style="color: #9a3412; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        ⏰ Recordatorios de Tiempo
+                    </h3>
+                    <div id="recordatoriosList" style="display: flex; flex-direction: column; gap: 10px;">
+                        <!-- Los recordatorios se insertarán aquí dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Contraindicaciones -->
+                <div class="section section-contra" style="margin-top: 20px;">
+                    <h2>⚠️ Contraindicaciones para Fibrinólisis</h2>
+                    
+                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('hemorragiaCerebral')">
+                        <input type="checkbox" id="hemorragiaCerebral" onclick="event.stopPropagation()">
+                        <span style="font-size: 13px;">Hemorragia cerebral previa</span>
+                    </div>
+                    
+                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('avcReciente')">
+                        <input type="checkbox" id="avcReciente" onclick="event.stopPropagation()">
+                        <span style="font-size: 13px;">AVC isquémico &lt;6 meses</span>
+                    </div>
+                    
+                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('traumaCirugia')">
+                        <input type="checkbox" id="traumaCirugia" onclick="event.stopPropagation()">
+                        <span style="font-size: 13px;">Trauma/cirugía reciente &lt;3 meses</span>
+                    </div>
+                    
+                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('sangradoActivo')">
+                        <input type="checkbox" id="sangradoActivo" onclick="event.stopPropagation()">
+                        <span style="font-size: 13px;">Sangrado activo</span>
+                    </div>
+                    
+                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('htaRefractaria')">
+                        <input type="checkbox" id="htaRefractaria" onclick="event.stopPropagation()">
+                        <span style="font-size: 13px;">HTA refractaria (&gt;180/110)</span>
+                    </div>
+                    
+                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('gestacion')">
+                        <input type="checkbox" id="gestacion" onclick="event.stopPropagation()">
+                        <span style="font-size: 13px;">Gestación</span>
+                    </div>
+                    
+                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('ictusAit')">
+                        <input type="checkbox" id="ictusAit" onclick="event.stopPropagation()">
+                        <span style="font-size: 13px;">Ictus/AIT previo</span>
+                    </div>
+                </div>
+
+                <!-- Estrategia -->
+                <div class="section section-strategy" style="margin-top: 20px;">
+                    <h2>💉 Estrategia de Reperfusión</h2>
+                    
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label>Decisión</label>
+                        <select id="decision" onchange="updateStrategy()">
+                            <option value="">Seleccionar...</option>
+                            <option value="icp">Angioplastia primaria (ICP)</option>
+                            <option value="fibrinolisis">Fibrinólisis in situ</option>
+                        </select>
+                    </div>
+
+                    <div id="motivoFibrinolisis" style="display: none; margin-bottom: 20px;">
+                        <label>Motivo de fibrinólisis</label>
+                        <textarea id="motivoFibrinolisisText" placeholder="Ej: Tiempo traslado estimado >90 min"></textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label>Hospital de destino</label>
+                        <input type="text" id="hospitalDestino">
+                    </div>
+
+                    <!-- Recomendación segundo antiagregante -->
+                    <div class="info-box yellow">
+                        <div style="font-weight: 700; font-size: 15px; margin-bottom: 8px; color: #854d0e;">
+                            Segundo antiagregante recomendado:
+                        </div>
+                        <button class="btn-warning" onclick="calculateAntiplatelet()">
+                            Calcular recomendación
+                        </button>
+                        <div id="antiplateletResult" style="margin-top: 12px; padding: 12px; background: white; border-radius: 6px; font-weight: 700; font-size: 16px; color: #1e293b; text-transform: uppercase; text-align: center; display: none;">
+                        </div>
+                    </div>
+
+                    <!-- Calculadora TNK -->
+                    <div id="tnkCalculator" style="display: none;" class="info-box red">
+                        <div style="font-weight: 700; font-size: 15px; margin-bottom: 8px; color: #991b1b;">
+                            Dosis Tenecteplasa calculada:
+                        </div>
+                        <div class="dose-display" id="tnkDose"></div>
+                        <div style="font-size: 14px; color: #991b1b;" id="tnkVolume"></div>
+                    </div>
+                </div>
+
+                <!-- Medicación -->
+                <div class="section section-meds" style="margin-top: 20px;">
+                    <h2>💊 Medicación Administrada</h2>
+                    
+                    <div id="medicationList"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <button class="btn-warning" onclick="copyReport()" style="background: #f59e0b; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); padding: 16px 32px; font-size: 16px; border-radius: 12px; display: inline-flex; align-items: center; gap: 10px;">
+                📋 Copiar Informe al Portapapeles
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Datos de medicamentos con dosis sugeridas e instrucciones
+        const medications = [
+            { 
+                id: 'aspirina', 
+                name: 'AAS (Aspirina)', 
+                doseOptions: ['300 mg'],
+                defaultRoute: 'VO',
+                instructions: '✓ Masticar y tragar para mejor absorción\n✓ Dosis de carga en IAM\n✓ Administrar lo antes posible'
+            },
+            { 
+                id: 'clopidogrel', 
+                name: 'Clopidogrel', 
+                doseOptions: ['300 mg', '600 mg'],
+                defaultRoute: 'VO',
+                instructions: '✓ Dosis de carga: 600 mg (preferida)\n✓ 300 mg si edad >75 años\n✓ Tragar entero con agua'
+            },
+            { 
+                id: 'ticagrelor', 
+                name: 'Ticagrelor', 
+                doseOptions: ['180 mg'],
+                defaultRoute: 'VO',
+                instructions: '✓ Dosis de carga: 2 comprimidos de 90 mg\n✓ NO requiere ajuste por edad\n✓ Tragar entero con agua'
+            },
+            { 
+                id: 'prasugrel', 
+                name: 'Prasugrel', 
+                doseOptions: ['60 mg'],
+                defaultRoute: 'VO',
+                instructions: '✓ Dosis de carga: 60 mg (6 comprimidos de 10 mg)\n⚠️ Contraindicado si: edad >75 años, peso <60 kg, AIT/ictus previo\n✓ Tragar entero con agua'
+            },
+            { 
+                id: 'tenecteplasa', 
+                name: 'Tenecteplasa (TNK)', 
+                doseOptions: ['Según peso (ver calculadora)'],
+                defaultRoute: 'IV',
+                instructions: '✓ Bolo único IV en 5-10 segundos\n✓ Usar calculadora automática arriba\n✓ Reconstituir con 10 ml de agua estéril\n⚠️ Verificar ausencia de contraindicaciones'
+            },
+            { 
+                id: 'enoxaparina', 
+                name: 'Enoxaparina', 
+                doseOptions: ['30 mg IV + 1 mg/kg SC', '1 mg/kg SC c/12h', '0.75 mg/kg SC c/12h (>75a o I.Renal)'],
+                defaultRoute: 'IV + SC',
+                instructions: '< 75 años SIN insuficiencia renal (Cr <2.5 mg/dl o <2 mg/dl en mujeres):\n✓ Bolo 30 mg IV\n✓ Seguido a los 15 min: 1 mg/kg SC (máx 100 mg 1ª dosis)\n\n≥ 75 años Y/O insuficiencia renal:\n✓ NO bolo IV inicial\n✓ 0.75 mg/kg SC c/12h (máx 75 mg)\n\n✓ SC en abdomen, alternar lados\n⚠️ Ajustar si FG <30 ml/min: considerar HNF'
+            },
+            { 
+                id: 'morfina', 
+                name: 'Morfina', 
+                doseOptions: ['2-3 mg IV', '3-5 mg IV', '5-10 mg IV'],
+                defaultRoute: 'IV',
+                instructions: '✓ Diluir 10 mg en 9 ml de suero (1 ml = 1 mg)\n✓ Administrar lentamente en 2-3 min\n✓ Puede repetir cada 5-10 min si precisa\n⚠️ NO administrar si TAS <90 mmHg\n⚠️ Vigilar depresión respiratoria'
+            },
+            { 
+                id: 'nitroglicerina', 
+                name: 'Nitroglicerina', 
+                doseOptions: ['0.4 mg SL', '0.4 mg SL (repetir x3)', '5-10 mcg/min IV'],
+                defaultRoute: 'SL / IV',
+                instructions: '✓ Sublingual: 0.4 mg (1 comp), puede repetir cada 5 min (máx 3 dosis)\n✓ IV: Iniciar 5-10 mcg/min, titular según TA\n⚠️ CONTRAINDICADO: TAS <90, IAM VD, sildenafil últimas 24h\n✓ Paciente sentado o semisentado'
+            }
+        ];
+
+        // Renderizar lista de medicamentos
+        function renderMedicationList() {
+            const container = document.getElementById('medicationList');
+            container.innerHTML = medications.map(med => {
+                const doseOptionsHTML = med.doseOptions.map(opt => 
+                    `<option value="${opt}">${opt}</option>`
+                ).join('');
+                
+                return `
+                <div class="med-item not-given" id="med-${med.id}">
+                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                        <input type="checkbox" id="check-${med.id}" 
+                               onchange="toggleMedication('${med.id}')"
+                               style="width: 20px; height: 20px; cursor: pointer;">
+                        <span style="font-weight: 700; font-size: 15px;">${med.name}</span>
+                    </label>
+                    <div id="inputs-${med.id}" style="display: none;">
+                        <div class="med-inputs" style="margin-top: 8px;">
+                            <select id="dose-${med.id}" style="grid-column: 1 / 3;">
+                                ${doseOptionsHTML}
+                            </select>
+                            <input type="time" id="time-${med.id}">
+                        </div>
+                        <div id="instructions-${med.id}" style="background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%); padding: 14px; border-radius: 8px; margin-top: 10px; border-left: 4px solid #3b82f6; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="font-weight: 700; color: #075985; font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                                <span style="font-size: 16px;">💉</span>
+                                <span>Vía: ${med.defaultRoute}</span>
+                            </div>
+                            <div style="color: #0c4a6e; font-size: 12px; white-space: pre-line; line-height: 1.6; background: white; padding: 10px; border-radius: 6px;">
+                                ${med.instructions}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        function toggleMedication(medId) {
+            const checkbox = document.getElementById(`check-${medId}`);
+            const medItem = document.getElementById(`med-${medId}`);
+            const inputs = document.getElementById(`inputs-${medId}`);
+            const timeInput = document.getElementById(`time-${medId}`);
+            
+            if (checkbox.checked) {
+                medItem.classList.remove('not-given');
+                medItem.classList.add('given');
+                inputs.style.display = 'block';
+                if (!timeInput.value) {
+                    timeInput.value = new Date().toTimeString().slice(0, 5);
+                }
+                
+                // Alertas contextuales específicas
+                showMedicationAlerts(medId);
+            } else {
+                medItem.classList.remove('given');
+                medItem.classList.add('not-given');
+                inputs.style.display = 'none';
+            }
+            
+            // Actualizar recomendaciones si es aspirina o nitroglicerina
+            if (medId === 'aspirina' || medId === 'nitroglicerina') {
+                updateRecomendaciones();
+            }
+        }
+        
+        function showMedicationAlerts(medId) {
+            const tas = parseFloat(document.getElementById('tas').value);
+            const infartoVD = document.getElementById('infartoVD').checked;
+            const edad = parseInt(document.getElementById('edad').value);
+            const peso = parseFloat(document.getElementById('peso').value);
+            const ictusAit = document.getElementById('ictusAit').checked;
+            
+            // Aspirina - medicamento prioritario
+            if (medId === 'aspirina') {
+                alert('✓ ASPIRINA - Medicamento PRIORITARIO\n\n• Administrar lo ANTES posible\n• MASTICAR y tragar (mejor absorción)\n• Beneficio probado en reducir mortalidad\n\n⏱️ Objetivo: <10 min desde primer contacto');
+            }
+            
+            // Morfina con hipotensión
+            if (medId === 'morfina' && tas && tas < 90) {
+                alert('⚠️ PRECAUCIÓN: TAS <90 mmHg\n\nLa morfina está CONTRAINDICADA en hipotensión.\nPuede empeorar el shock.\n\nValorar riesgo/beneficio cuidadosamente.');
+            }
+            
+            // Nitroglicerina con hipotensión
+            if (medId === 'nitroglicerina' && tas && tas < 90) {
+                alert('🚫 CONTRAINDICACIÓN ABSOLUTA\n\nNitroglicerina con TAS <90 mmHg puede causar:\n• Colapso cardiovascular\n• Empeoramiento del shock\n\nNO ADMINISTRAR');
+                document.getElementById(`check-${medId}`).checked = false;
+                toggleMedication(medId);
+                return;
+            }
+            
+            // Nitroglicerina con infarto VD
+            if (medId === 'nitroglicerina' && infartoVD) {
+                if (tas && tas < 100) {
+                    alert('🚫 CONTRAINDICACIÓN ABSOLUTA\n\nInfarto VD + TAS <100 mmHg:\nLa nitroglicerina puede causar hipotensión severa y colapso.\n\nNO ADMINISTRAR');
+                    document.getElementById(`check-${medId}`).checked = false;
+                    toggleMedication(medId);
+                    return;
+                } else {
+                    alert('⚠️ EXTREMA PRECAUCIÓN\n\nInfarto de ventrículo derecho detectado.\n\nLa nitroglicerina puede causar hipotensión severa.\n\nSolo administrar si TAS >100 mmHg y con monitorización continua.');
+                }
+            }
+            
+            // Prasugrel con contraindicaciones
+            if (medId === 'prasugrel') {
+                let warnings = [];
+                if (edad > 75) warnings.push('• Edad >75 años');
+                if (peso < 60) warnings.push('• Peso <60 kg');
+                if (ictusAit) warnings.push('• Antecedente de AIT/ictus');
+                
+                if (warnings.length > 0) {
+                    alert('🚫 CONTRAINDICACIÓN para Prasugrel:\n\n' + warnings.join('\n') + '\n\nUsar TICAGRELOR en su lugar.');
+                    document.getElementById(`check-${medId}`).checked = false;
+                    toggleMedication(medId);
+                    return;
+                }
+            }
+            
+            // Clopidogrel - sugerencia de dosis según edad
+            if (medId === 'clopidogrel' && edad > 75) {
+                const doseSelect = document.getElementById('dose-clopidogrel');
+                doseSelect.value = '300 mg';
+                alert('💡 SUGERENCIA\n\nEdad >75 años: Se ha seleccionado automáticamente dosis de 300 mg (en lugar de 600 mg) por seguridad.\n\nPuedes cambiarla si lo consideras necesario.');
+            }
+            
+            // Enoxaparina - sugerencia según edad
+            if (medId === 'enoxaparina' && edad >= 75) {
+                const doseSelect = document.getElementById('dose-enoxaparina');
+                doseSelect.value = '0.75 mg/kg SC c/12h (>75a o I.Renal)';
+                alert('💡 AJUSTE POR EDAD\n\nEdad ≥75 años:\n• Dosis: 0.75 mg/kg SC c/12h (máx 75 mg)\n• SIN bolo IV de 30 mg\n\n⚠️ También usar esta dosis si hay insuficiencia renal\n(Creatinina >2.5 mg/dl o >2 mg/dl en mujeres)');
+            }
+            
+            // TNK - recordar usar calculadora
+            if (medId === 'tenecteplasa') {
+                const peso = parseFloat(document.getElementById('peso').value);
+                const edad = parseInt(document.getElementById('edad').value);
+                
+                if (!peso) {
+                    alert('💡 RECORDATORIO\n\nPara calcular la dosis de TNK:\n\n1. Ingresa el PESO del paciente arriba\n2. Selecciona "Fibrinólisis" en Estrategia de Reperfusión\n3. La dosis se calculará automáticamente\n\n⚠️ Verifica TODAS las contraindicaciones antes de administrar.');
+                } else {
+                    // Calcular dosis
+                    const mayor75 = edad > 75;
+                    let dose;
+                    if (peso < 60) dose = mayor75 ? 15 : 30;
+                    else if (peso <= 70) dose = mayor75 ? 17.5 : 35;
+                    else if (peso <= 80) dose = mayor75 ? 20 : 40;
+                    else if (peso <= 90) dose = mayor75 ? 22.5 : 45;
+                    else dose = mayor75 ? 25 : 50;
+                    
+                    const volume = (dose / 5).toFixed(1);
+                    alert(`✓ DOSIS CALCULADA\n\nPeso: ${peso} kg\nEdad: ${edad > 75 ? '>75 años (dosis reducida)' : '≤75 años'}\n\nDOSIS TNK: ${dose} mg\nVOLUMEN: ${volume} ml\n\n📋 Preparación:\n• Reconstituir con 10 ml de agua estéril\n• Administrar en bolo IV (5-10 seg)\n• Verificar contraindicaciones`);
+                }
+            }
+        }
+
+        // Actualizar reloj
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = 
+                now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('currentDate').textContent = 
+                now.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function markTime(fieldId) {
+            const now = new Date();
+            document.getElementById(fieldId).value = now.toTimeString().slice(0, 5);
+        }
+
+        function toggleCheck(checkId) {
+            const checkbox = document.getElementById(checkId);
+            checkbox.checked = !checkbox.checked;
+            checkActivation();
+        }
+
+        function checkActivation() {
+            const hasSTEMI = document.getElementById('elevacionST').checked ||
+                            document.getElementById('patronWinter').checked ||
+                            document.getElementById('depresionSTconAVR').checked ||
+                            document.getElementById('infartoPosterior').checked ||
+                            document.getElementById('infartoVD').checked ||
+                            document.getElementById('bbefh').checked ||
+                            document.getElementById('bbdfh').checked ||
+                            document.getElementById('marcapassos').checked;
+            
+            // Detectar shock automáticamente por TAS o Killip IV
+            const tas = parseFloat(document.getElementById('tas').value);
+            const killip = document.getElementById('killip').value;
+            const hasShockCardiogenico = (tas && tas < 90) || killip === '4';
+            
+            // Mostrar/ocultar alerta de shock
+            const alertaShock = document.getElementById('alertaShock');
+            if (hasShockCardiogenico) {
+                alertaShock.style.display = 'block';
+                if (killip === '4') {
+                    alertaShock.querySelector('div:last-child').textContent = 'Killip IV = Shock cardiogénico. Activación URGENTE.';
+                } else {
+                    alertaShock.querySelector('div:last-child').textContent = 'TAS <90 mmHg sugiere shock. Valorar clínica completa.';
+                }
+            } else {
+                alertaShock.style.display = 'none';
+            }
+            
+            // Detectar HTA refractaria automáticamente
+            const tad = parseFloat(document.getElementById('tad').value);
+            const htaRefractariaCheckbox = document.getElementById('htaRefractaria');
+            if (tas && tad && tas > 180 && tad > 110) {
+                htaRefractariaCheckbox.checked = true;
+            } else if (tas && tad && (tas <= 180 || tad <= 110)) {
+                // Solo desmarcar si AMBOS valores están por debajo del umbral
+                htaRefractariaCheckbox.checked = false;
+            }
+            
+            const hasVeryHighRisk = hasShockCardiogenico ||
+                                   document.getElementById('dolorRefractario').checked;
+            
+            const clinicaTipica = document.getElementById('clinicaSi') && document.getElementById('clinicaSi').checked;
+            const clinicaAtipica = document.getElementById('clinicaNo') && document.getElementById('clinicaNo').checked;
+            const ecgControl = document.getElementById('ecgControl').value;
+            const alertBox = document.getElementById('alertaActivacion');
+            const alertTexto = document.getElementById('alertaTexto');
+            const alertTitulo = alertBox.querySelector('.text');
+            
+            // DECISIÓN DE ACTIVACIÓN
+            let shouldActivate = false;
+            let alertType = '';
+            
+            // CASO 1: MUY ALTO RIESGO - Activar SIEMPRE inmediatamente
+            if (hasVeryHighRisk) {
+                shouldActivate = true;
+                alertType = 'inmediato';
+                alertTitulo.textContent = '¡ACTIVAR CÓDIGO IAM INMEDIATAMENTE!';
+                alertTexto.textContent = 'Paciente de MUY ALTO RIESGO (shock/dolor refractario). Activación URGENTE - llamar 061/112 AHORA.';
+            }
+            // CASO 2: CLÍNICA TÍPICA + ECG compatible - Activar inmediatamente
+            else if (hasSTEMI && clinicaTipica) {
+                shouldActivate = true;
+                alertType = 'inmediato';
+                alertTitulo.textContent = '¡ACTIVAR CÓDIGO IAM AHORA!';
+                alertTexto.textContent = 'Clínica TÍPICA + ECG compatible. NO esperar ECG control. Llamar 061/112 inmediatamente.';
+            }
+            // CASO 3: ECG control confirma elevación persistente
+            else if (hasSTEMI && ecgControl) {
+                shouldActivate = true;
+                alertType = 'inmediato';
+                alertTitulo.textContent = '¡ACTIVAR CÓDIGO IAM AHORA!';
+                alertTexto.textContent = 'Elevación del ST CONFIRMADA como persistente en ECG de control. Llamar 061/112 inmediatamente.';
+            }
+            // CASO 4: CLÍNICA ATÍPICA o SIN DEFINIR + ECG compatible - Sugerir ECG control
+            else if (hasSTEMI && (clinicaAtipica || (!clinicaTipica && !clinicaAtipica))) {
+                shouldActivate = true;
+                alertType = 'control';
+                alertTitulo.textContent = '⚠️ Elevación del ST con clínica atípica/dudosa';
+                
+                // NO sugerir NTG si hay infarto de VD
+                const infartoVD = document.getElementById('infartoVD').checked;
+                if (infartoVD) {
+                    alertTexto.textContent = '⚠️ INFARTO VD: NO administrar NTG (riesgo de hipotensión). ECG de control a los 15 min para valorar persistencia. Si persiste → Activar.';
+                } else {
+                    alertTexto.textContent = 'Considerar: 1) NTG sublingual, 2) ECG de control a los 15 min para descartar espasmo coronario (Prinzmetal). Si persiste → Activar.';
+                }
+            }
+            // CASO 5: ECG positivo pero sin valorar clínica aún
+            else if (hasSTEMI && !clinicaTipica && !clinicaAtipica) {
+                shouldActivate = true;
+                alertType = 'evaluar';
+                alertTitulo.textContent = '📊 ECG con elevación del ST detectada';
+                alertTexto.textContent = 'Valorar CLÍNICA arriba: Si típica → ACTIVAR YA. Si atípica/dudosa → considerar ECG de control.';
+            }
+            
+            // Aplicar estilos según tipo de alerta
+            if (shouldActivate) {
+                alertBox.style.display = 'flex';
+                if (alertType === 'inmediato') {
+                    alertBox.style.background = '#dc2626';
+                    alertBox.style.borderColor = '#7f1d1d';
+                    alertTexto.style.color = 'white';
+                    alertTitulo.style.color = 'white';
+                } else if (alertType === 'control') {
+                    alertBox.style.background = '#fef3c7';
+                    alertBox.style.borderColor = '#fde047';
+                    alertTexto.style.color = '#854d0e';
+                    alertTitulo.style.color = '#854d0e';
+                } else {
+                    alertBox.style.background = '#dbeafe';
+                    alertBox.style.borderColor = '#93c5fd';
+                    alertTexto.style.color = '#1e40af';
+                    alertTitulo.style.color = '#1e40af';
+                }
+            } else {
+                alertBox.style.display = 'none';
+            }
+            
+            // Actualizar recomendaciones
+            updateRecomendaciones();
+        }
+        
+        function updateRecomendaciones() {
+            const recomendaciones = [];
+            const recordatorios = [];
+            
+            // === RECOMENDACIONES BASADAS EN DATOS CLÍNICOS ===
+            
+            // Valoración de clínica pendiente con ECG positivo
+            const hasSTEMI = document.getElementById('elevacionST').checked ||
+                            document.getElementById('patronWinter').checked ||
+                            document.getElementById('depresionSTconAVR').checked;
+            const clinicaTipica = document.getElementById('clinicaSi') && document.getElementById('clinicaSi').checked;
+            const clinicaAtipica = document.getElementById('clinicaNo') && document.getElementById('clinicaNo').checked;
+            
+            if (hasSTEMI && !clinicaTipica && !clinicaAtipica) {
+                recomendaciones.push({
+                    tipo: 'advertencia',
+                    icon: '👨‍⚕️',
+                    texto: 'Valorar CLÍNICA del paciente',
+                    detalle: 'ECG positivo detectado. CRÍTICO: Valorar si la clínica es TÍPICA (activar ya) o ATÍPICA (considerar ECG control). Ver sección "Datos Clínicos" arriba.'
+                });
+            }
+            
+            // SpO2
+            const spo2 = parseFloat(document.getElementById('spo2').value);
+            if (spo2 && spo2 < 90) {
+                recomendaciones.push({
+                    tipo: 'critico',
+                    icon: '🫁',
+                    texto: 'SpO₂ <90%: Administrar oxigenoterapia',
+                    detalle: 'Objetivo: mantener SpO₂ ≥94%. Usar cánula nasal o mascarilla según necesidad.'
+                });
+            } else if (spo2 && spo2 >= 90 && spo2 < 94) {
+                recomendaciones.push({
+                    tipo: 'advertencia',
+                    icon: '🫁',
+                    texto: 'SpO₂ 90-94%: Considerar oxigenoterapia',
+                    detalle: 'Monitorizar estrechamente. Oxígeno si tendencia descendente.'
+                });
+            }
+            
+            // Shock cardiogénico (detectado automáticamente por TAS o Killip IV)
+            const tas = parseFloat(document.getElementById('tas').value);
+            const killip = document.getElementById('killip').value;
+            const shockDetectado = (tas && tas < 90) || killip === '4';
+            
+            if (shockDetectado) {
+                let causaShock = '';
+                if (killip === '4') causaShock = 'Killip IV';
+                else if (tas < 90) causaShock = 'TAS <90 mmHg';
+                
+                recomendaciones.push({
+                    tipo: 'critico',
+                    icon: '💉',
+                    texto: `¡SHOCK CARDIOGÉNICO! (${causaShock})`,
+                    detalle: '• Vía venosa de gran calibre (14-16G)\n• Considerar segunda vía\n• Monitorización hemodinámica continua\n• Avisar a UCI/Hemodinámica URGENTE\n• NO administrar betabloqueantes ni nitratos'
+                });
+                
+                recomendaciones.push({
+                    tipo: 'info',
+                    icon: '💊',
+                    texto: 'Considerar soporte inotrópico',
+                    detalle: 'Valorar dopamina o dobutamina según protocolo. Traslado prioritario.'
+                });
+            }
+            
+            // Presión arterial - Solo hipotensión (HTA se maneja más abajo con tad)
+            if (tas && tas < 90) {
+                recomendaciones.push({
+                    tipo: 'critico',
+                    icon: '⚠️',
+                    texto: 'Hipotensión severa (TAS <90 mmHg)',
+                    detalle: 'CONTRAINDICACIÓN para nitratos y morfina. Asegurar vía venosa. Considerar expansión con cristaloides (250-500ml).'
+                });
+            }
+            
+            // Infarto de VD + nitratos
+            if (document.getElementById('infartoVD').checked) {
+                if (tas && tas < 100) {
+                    recomendaciones.push({
+                        tipo: 'critico',
+                        icon: '❌',
+                        texto: 'Infarto VD con TAS <100: CONTRAINDICADO nitratos',
+                        detalle: '¡PELIGRO! NO administrar nitroglicerina. Riesgo de hipotensión severa y colapso cardiovascular. Expansión con volumen si hipotensión.'
+                    });
+                } else {
+                    recomendaciones.push({
+                        tipo: 'advertencia',
+                        icon: '⚠️',
+                        texto: 'Infarto VD: EXTREMA PRECAUCIÓN con nitratos',
+                        detalle: 'Los nitratos pueden causar hipotensión severa en IAM de VD. Evitar completamente si TAS <100 mmHg. Usar con extrema precaución si TAS ≥100.'
+                    });
+                }
+                
+                recomendaciones.push({
+                    tipo: 'info',
+                    icon: '💧',
+                    texto: 'Infarto VD: Expansión de volumen si hipotensión',
+                    detalle: 'Si hipotensión: cristaloides 250-500ml en bolo. Repetir según respuesta. NO usar diuréticos.'
+                });
+            }
+            
+            // Frecuencia cardíaca
+            const fc = parseFloat(document.getElementById('fc').value);
+            if (fc && fc < 50) {
+                recomendaciones.push({
+                    tipo: 'advertencia',
+                    icon: '💓',
+                    texto: 'Bradicardia (FC <50 lpm)',
+                    detalle: 'Monitorizar estrechamente. Tener atropina disponible. Si compromiso hemodinámico: atropina 0.5mg IV.'
+                });
+            } else if (fc && fc > 120) {
+                recomendaciones.push({
+                    tipo: 'advertencia',
+                    icon: '💓',
+                    texto: 'Taquicardia (FC >120 lpm)',
+                    detalle: 'Descartar arritmias en monitor. Si taquicardia sinusal: puede indicar dolor, ansiedad o compromiso hemodinámico.'
+                });
+            }
+            
+            // Killip
+            if (killip === '3') {
+                recomendaciones.push({
+                    tipo: 'critico',
+                    icon: '🫁',
+                    texto: 'Killip III: Edema agudo de pulmón',
+                    detalle: 'Posición semisentada, oxígeno, furosemida 40-80mg IV, nitratos IV (si TAS >100), morfina. Traslado urgente.'
+                });
+            } else if (killip === '4') {
+                recomendaciones.push({
+                    tipo: 'critico',
+                    icon: '🚨',
+                    texto: 'Killip IV: Shock cardiogénico',
+                    detalle: 'Máxima prioridad. Ver recomendaciones de shock cardiogénico arriba.'
+                });
+            }
+            
+            // HTA refractaria (detectada automáticamente)
+            const tad = parseFloat(document.getElementById('tad').value);
+            if (tas && tad && tas > 180 && tad > 110) {
+                recomendaciones.push({
+                    tipo: 'critico',
+                    icon: '⚠️',
+                    texto: 'HTA REFRACTARIA (>180/110) - CONTRAINDICACIÓN para fibrinólisis',
+                    detalle: 'Contraindicación ABSOLUTA para fibrinólisis. Intentar control tensional urgente con nitratos IV. Si no se controla → ICP aunque tiempo >120 min.'
+                });
+            } else if (tas && tas > 180) {
+                recomendaciones.push({
+                    tipo: 'advertencia',
+                    icon: '⚠️',
+                    texto: 'HTA severa (TAS >180 mmHg)',
+                    detalle: 'Puede contraindicar fibrinólisis si TAD >110. Considerar nitratos para control tensional. Valorar ICP.'
+                });
+            }
+            
+            // Anticoagulación oral + Fibrinólisis
+            const decision = document.getElementById('decision').value;
+            const anticoagulacion = document.getElementById('anticoagulacion').checked;
+            if (anticoagulacion && decision === 'fibrinolisis') {
+                recomendaciones.push({
+                    tipo: 'critico',
+                    icon: '⚠️',
+                    texto: '¡ALTO RIESGO! Anticoagulación + Fibrinólisis',
+                    detalle: 'Paciente en anticoagulación oral activa. ALTO riesgo hemorrágico con fibrinólisis. Considerar fuertemente ICP en su lugar. Si fibrinólisis es única opción: monitorización muy estrecha.'
+                });
+            }
+            
+            // Gestación
+            if (document.getElementById('gestacion').checked) {
+                recomendaciones.push({
+                    tipo: 'critico',
+                    icon: '🤰',
+                    texto: 'GESTACIÓN - Contraindicación ABSOLUTA para fibrinólisis',
+                    detalle: 'ICP es la estrategia preferida independientemente del tiempo. Coordinar con obstetricia. NO administrar fibrinolíticos.'
+                });
+            }
+            
+            // Detección de contraindicaciones para fibrinólisis
+            const contraFibrinolisis = document.getElementById('hemorragiaCerebral').checked ||
+                                      document.getElementById('avcReciente').checked ||
+                                      document.getElementById('traumaCirugia').checked ||
+                                      document.getElementById('sangradoActivo').checked ||
+                                      document.getElementById('htaRefractaria').checked ||
+                                      document.getElementById('gestacion').checked;
+            
+            if (contraFibrinolisis && decision === 'fibrinolisis') {
+                recomendaciones.push({
+                    tipo: 'critico',
+                    icon: '🚫',
+                    texto: '¡CONTRAINDICACIÓN ABSOLUTA PARA FIBRINÓLISIS!',
+                    detalle: 'Has seleccionado fibrinólisis pero existen contraindicaciones absolutas. CAMBIAR a ICP urgente (traslado prioritario aunque >120 min).'
+                });
+            }
+            
+            // Dolor refractario
+            if (document.getElementById('dolorRefractario').checked) {
+                recomendaciones.push({
+                    tipo: 'advertencia',
+                    icon: '💊',
+                    texto: 'Dolor refractario al tratamiento',
+                    detalle: 'Considerar: Morfina 3-5mg IV (si TAS >90), nitroglicerina IV (si TAS >100). Indica isquemia persistente - reperfusión URGENTE.'
+                });
+            }
+            
+            // Patrón de De Winter
+            if (document.getElementById('patronWinter').checked) {
+                recomendaciones.push({
+                    tipo: 'critico',
+                    icon: '📊',
+                    texto: 'Patrón De Winter detectado',
+                    detalle: 'EQUIVALENTE A STEMI. Indica oclusión proximal de LAD. Activación INMEDIATA aunque no haya elevación ST típica.'
+                });
+            }
+            
+            // === RECORDATORIOS BASADOS EN TIEMPO ===
+            
+            const ahora = new Date();
+            const primerContacto = document.getElementById('primerContacto').value;
+            const ecgRealizado = document.getElementById('ecgRealizado').value;
+            const ecgControl = document.getElementById('ecgControl').value;
+            const activacionCodigo = document.getElementById('activacionCodigo').value;
+            const aspirinaAdmin = document.getElementById('check-aspirina').checked;
+            const ntgAdmin = document.getElementById('check-nitroglicerina').checked;
+            
+            // Convertir tiempos
+            if (primerContacto) {
+                const [h1, m1] = primerContacto.split(':').map(Number);
+                const tiempoPrimerContacto = new Date(ahora);
+                tiempoPrimerContacto.setHours(h1, m1, 0, 0);
+                const minutosDesde = Math.floor((ahora - tiempoPrimerContacto) / 60000);
+                
+                // ECG no realizado después de 10 min
+                if (!ecgRealizado && minutosDesde > 10) {
+                    recordatorios.push({
+                        tipo: 'critico',
+                        icon: '📊',
+                        texto: `Han pasado ${minutosDesde} minutos sin ECG inicial`,
+                        detalle: 'OBJETIVO: ECG en <10 minutos desde primer contacto. Realizar inmediatamente.'
+                    });
+                } else if (!ecgRealizado && minutosDesde > 5) {
+                    recordatorios.push({
+                        tipo: 'advertencia',
+                        icon: '📊',
+                        texto: `${minutosDesde} minutos desde primer contacto`,
+                        detalle: 'Pendiente ECG de 12 derivaciones.'
+                    });
+                }
+                
+                // Aspirina no administrada
+                if (!aspirinaAdmin && minutosDesde > 15) {
+                    recordatorios.push({
+                        tipo: 'advertencia',
+                        icon: '💊',
+                        texto: 'Aspirina no registrada',
+                        detalle: 'Si no hay contraindicaciones: AAS 300mg VO (masticar).'
+                    });
+                }
+            }
+            
+            // Recordatorio de ECG de control tras ECG inicial con hallazgos
+            if (ecgRealizado && !ecgControl) {
+                const hasSTEMIFindings = document.getElementById('elevacionST').checked ||
+                                        document.getElementById('patronWinter').checked ||
+                                        document.getElementById('depresionSTconAVR').checked;
+                
+                const clinicaTipica = document.getElementById('clinicaSi') && document.getElementById('clinicaSi').checked;
+                const clinicaAtipica = document.getElementById('clinicaNo') && document.getElementById('clinicaNo').checked;
+                
+                if (hasSTEMIFindings) {
+                    const [h2, m2] = ecgRealizado.split(':').map(Number);
+                    const tiempoECG = new Date(ahora);
+                    tiempoECG.setHours(h2, m2, 0, 0);
+                    const minutosDesdeECG = Math.floor((ahora - tiempoECG) / 60000);
+                    
+                    // Si clínica TÍPICA, no sugerir ECG control, sugerir activación directa
+                    if (clinicaTipica && minutosDesdeECG > 2) {
+                        recordatorios.push({
+                            tipo: 'critico',
+                            icon: '📞',
+                            texto: `Clínica típica + ECG compatible - ${minutosDesdeECG} min sin activar`,
+                            detalle: '¡NO ESPERAR ECG de control! Con clínica típica + ECG compatible → ACTIVAR CÓDIGO IAM YA. Llamar 061/112.'
+                        });
+                    }
+                    // Si clínica ATÍPICA o sin definir, sugerir ECG control
+                    else if ((clinicaAtipica || (!clinicaTipica && !clinicaAtipica))) {
+                        const infartoVD = document.getElementById('infartoVD').checked;
+                        
+                        if (!ntgAdmin && minutosDesdeECG > 2 && !infartoVD) {
+                            // Solo sugerir NTG si NO hay infarto VD
+                            recordatorios.push({
+                                tipo: 'advertencia',
+                                icon: '💊',
+                                texto: 'Clínica atípica - Pendiente nitroglicerina y ECG control',
+                                detalle: 'Administrar NTG sublingual (si no contraindicado) y repetir ECG a los 15 minutos para descartar espasmo coronario.'
+                            });
+                        } else if (!ntgAdmin && minutosDesdeECG > 2 && infartoVD) {
+                            // Si hay infarto VD, NO sugerir NTG
+                            recordatorios.push({
+                                tipo: 'advertencia',
+                                icon: '⚠️',
+                                texto: 'Infarto VD - NO administrar NTG',
+                                detalle: '⚠️ CONTRAINDICADO NTG en infarto VD (riesgo hipotensión). Realizar ECG de control a los 15 minutos sin NTG.'
+                            });
+                        } else if (ntgAdmin && minutosDesdeECG >= 15) {
+                            recordatorios.push({
+                                tipo: 'critico',
+                                icon: '📊',
+                                texto: `${minutosDesdeECG} min desde ECG inicial - Realizar ECG de control`,
+                                detalle: 'ECG de control para confirmar si elevación persiste (STEMI) o ha desaparecido (posible espasmo).'
+                            });
+                        } else if (ntgAdmin && minutosDesdeECG >= 12 && minutosDesdeECG < 15) {
+                            recordatorios.push({
+                                tipo: 'advertencia',
+                                icon: '📊',
+                                texto: 'Próximo ECG de control (15 min post-NTG)',
+                                detalle: 'Preparar ECG de control para verificar persistencia de elevación del ST.'
+                            });
+                        }
+                    }
+                }
+            }
+            
+            // Código no activado pero tiene ECG de control con criterios persistentes
+            if (ecgControl && !activacionCodigo) {
+                const hasSTEMI = document.getElementById('elevacionST').checked ||
+                                document.getElementById('patronWinter').checked ||
+                                document.getElementById('depresionSTconAVR').checked ||
+                                document.getElementById('infartoPosterior').checked ||
+                                document.getElementById('infartoVD').checked ||
+                                document.getElementById('bbefh').checked ||
+                                document.getElementById('bbdfh').checked ||
+                                document.getElementById('marcapassos').checked;
+                
+                const tas = parseFloat(document.getElementById('tas').value);
+                const killip = document.getElementById('killip').value;
+                const hasVeryHighRisk = (tas && tas < 90) || killip === '4' ||
+                                       document.getElementById('dolorRefractario').checked;
+                
+                if (hasSTEMI || hasVeryHighRisk) {
+                    const [h3, m3] = ecgControl.split(':').map(Number);
+                    const tiempoControl = new Date(ahora);
+                    tiempoControl.setHours(h3, m3, 0, 0);
+                    const minutosDesdeControl = Math.floor((ahora - tiempoControl) / 60000);
+                    
+                    if (minutosDesdeControl > 3) {
+                        recordatorios.push({
+                            tipo: 'critico',
+                            icon: '📞',
+                            texto: `ECG de control con elevación PERSISTENTE - ${minutosDesdeControl} min sin activar`,
+                            detalle: '¡Elevación del ST CONFIRMADA como persistente! Llamar al 061/112 AHORA para activación del Código IAM.'
+                        });
+                    }
+                }
+            }
+            
+            // Objetivo ECG-Balón
+            if (activacionCodigo) {
+                const [h3, m3] = activacionCodigo.split(':').map(Number);
+                const tiempoActivacion = new Date(ahora);
+                tiempoActivacion.setHours(h3, m3, 0, 0);
+                const minutosDesdeActivacion = Math.floor((ahora - tiempoActivacion) / 60000);
+                
+                if (minutosDesdeActivacion > 90) {
+                    recordatorios.push({
+                        tipo: 'advertencia',
+                        icon: '⏱️',
+                        texto: `${minutosDesdeActivacion} minutos desde activación`,
+                        detalle: 'Objetivo ECG-Balón: <120 min. Coordinar traslado urgente.'
+                    });
+                }
+            }
+            
+            // Renderizar recomendaciones
+            renderRecomendaciones(recomendaciones, recordatorios);
+        }
+        
+        function renderRecomendaciones(recomendaciones, recordatorios) {
+            const panelRec = document.getElementById('recomendacionesPanel');
+            const listRec = document.getElementById('recomendacionesList');
+            const panelRecordatorios = document.getElementById('recordatoriosPanel');
+            const listRecordatorios = document.getElementById('recordatoriosList');
+            
+            // Recomendaciones clínicas
+            if (recomendaciones.length > 0) {
+                panelRec.style.display = 'block';
+                listRec.innerHTML = recomendaciones.map(rec => {
+                    const bgColor = rec.tipo === 'critico' ? '#fee2e2' : 
+                                   rec.tipo === 'advertencia' ? '#fef3c7' : '#e0f2fe';
+                    const borderColor = rec.tipo === 'critico' ? '#fca5a5' : 
+                                       rec.tipo === 'advertencia' ? '#fde047' : '#93c5fd';
+                    const textColor = rec.tipo === 'critico' ? '#991b1b' : 
+                                     rec.tipo === 'advertencia' ? '#854d0e' : '#075985';
+                    
+                    return `
+                        <div style="background: ${bgColor}; padding: 15px; border-radius: 8px; border-left: 4px solid ${borderColor};">
+                            <div style="font-weight: 700; color: ${textColor}; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                                <span style="font-size: 20px;">${rec.icon}</span>
+                                <span>${rec.texto}</span>
+                            </div>
+                            <div style="color: ${textColor}; font-size: 13px; white-space: pre-line; opacity: 0.9;">
+                                ${rec.detalle}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                panelRec.style.display = 'none';
+            }
+            
+            // Recordatorios de tiempo
+            if (recordatorios.length > 0) {
+                panelRecordatorios.style.display = 'block';
+                listRecordatorios.innerHTML = recordatorios.map(rec => {
+                    const bgColor = rec.tipo === 'critico' ? '#fee2e2' : '#fef3c7';
+                    const borderColor = rec.tipo === 'critico' ? '#fca5a5' : '#fde047';
+                    const textColor = rec.tipo === 'critico' ? '#991b1b' : '#854d0e';
+                    
+                    return `
+                        <div style="background: ${bgColor}; padding: 15px; border-radius: 8px; border-left: 4px solid ${borderColor};">
+                            <div style="font-weight: 700; color: ${textColor}; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                                <span style="font-size: 20px;">${rec.icon}</span>
+                                <span>${rec.texto}</span>
+                            </div>
+                            <div style="color: ${textColor}; font-size: 13px; white-space: pre-line; opacity: 0.9;">
+                                ${rec.detalle}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                panelRecordatorios.style.display = 'none';
+            }
+        }
+
+        function updateContraindications() {
+            const edad = parseInt(document.getElementById('edad').value);
+            const peso = parseFloat(document.getElementById('peso').value);
+            
+            // Auto-marcar contraindicaciones según edad/peso si aplica
+            // (opcional, puedes implementar más lógica aquí)
+        }
+
+        function updateStrategy() {
+            const decision = document.getElementById('decision').value;
+            document.getElementById('motivoFibrinolisis').style.display = 
+                decision === 'fibrinolisis' ? 'block' : 'none';
+            document.getElementById('tnkCalculator').style.display = 
+                decision === 'fibrinolisis' ? 'block' : 'none';
+            calculateTNK();
+            updateRecomendaciones();
+        }
+
+        function calculateTNK() {
+            const peso = parseFloat(document.getElementById('peso').value);
+            const edad = parseInt(document.getElementById('edad').value);
+            const decision = document.getElementById('decision').value;
+            
+            if (!peso || decision !== 'fibrinolisis') return;
+            
+            const mayor75 = edad > 75;
+            let dose;
+            
+            if (peso < 60) dose = mayor75 ? 15 : 30;
+            else if (peso <= 70) dose = mayor75 ? 17.5 : 35;
+            else if (peso <= 80) dose = mayor75 ? 20 : 40;
+            else if (peso <= 90) dose = mayor75 ? 22.5 : 45;
+            else dose = mayor75 ? 25 : 50;
+            
+            const volume = (dose / 5).toFixed(1);
+            
+            document.getElementById('tnkDose').textContent = dose + ' mg';
+            document.getElementById('tnkVolume').textContent = 
+                'Volumen: ' + volume + ' ml' + (mayor75 ? ' (dosis reducida >75 años)' : '');
+        }
+
+        function calculateAntiplatelet() {
+            const altoRiesgo = document.getElementById('hemorragiaCerebral').checked ||
+                              document.getElementById('sangradoActivo').checked ||
+                              document.getElementById('anticoagulacion').checked;
+            
+            const edad = parseInt(document.getElementById('edad').value);
+            const peso = parseFloat(document.getElementById('peso').value);
+            
+            const contraPrasugrel = document.getElementById('ictusAit').checked ||
+                                   edad > 75 ||
+                                   peso < 60;
+            
+            let recommendation;
+            if (altoRiesgo) {
+                recommendation = 'CLOPIDOGREL (Alto riesgo hemorrágico)';
+            } else if (contraPrasugrel) {
+                recommendation = 'TICAGRELOR (Sin contraindicaciones)';
+            } else {
+                recommendation = 'TICAGRELOR o PRASUGREL';
+            }
+            
+            const resultDiv = document.getElementById('antiplateletResult');
+            resultDiv.textContent = recommendation;
+            resultDiv.style.display = 'block';
+        }
+
+        function generateReport() {
+            const edad = document.getElementById('edad').value || 'No especificada';
+            const sexo = document.getElementById('sexo').value === 'M' ? 'Masculino' : 'Femenino';
+            const peso = document.getElementById('peso').value || 'No especificado';
+            const alergias = document.getElementById('alergias').value || 'No conocidas';
+            
+            // Hallazgos ECG
+            let hallazgosECG = '';
+            if (document.getElementById('elevacionST').checked) hallazgosECG += '✓ Elevación del segmento ST\n';
+            if (document.getElementById('patronWinter').checked) hallazgosECG += '✓ Patrón de De Winter (⚠️ Equivalente STEMI)\n';
+            if (document.getElementById('depresionSTconAVR').checked) hallazgosECG += '✓ Depresión ST difusa + elevación aVR\n';
+            if (document.getElementById('infartoPosterior').checked) hallazgosECG += '✓ Infarto posterior\n';
+            if (document.getElementById('infartoVD').checked) hallazgosECG += '✓ Infarto ventrículo derecho\n';
+            if (document.getElementById('bbefh').checked) hallazgosECG += '✓ BBEFH de nueva aparición\n';
+            if (document.getElementById('bbdfh').checked) hallazgosECG += '✓ BBDFH de nueva aparición\n';
+            if (document.getElementById('marcapassos').checked) hallazgosECG += '✓ Ritmo de marcapassos\n';
+            if (document.getElementById('otrosECG').value) hallazgosECG += 'Otros hallazgos: ' + document.getElementById('otrosECG').value + '\n';
+            
+            if (hallazgosECG === '') hallazgosECG = 'No se registraron hallazgos específicos\n';
+            
+            // Datos clínicos adicionales
+            let datosAdicionales = '';
+            const tas = parseFloat(document.getElementById('tas').value);
+            const killip = document.getElementById('killip').value;
+            if ((tas && tas < 90) || killip === '4') {
+                let causa = killip === '4' ? 'Killip IV' : 'TAS <90 mmHg';
+                datosAdicionales += `⚠️ SHOCK CARDIOGÉNICO (${causa})\n`;
+            }
+            if (document.getElementById('dolorRefractario').checked) datosAdicionales += '⚠️ DOLOR REFRACTARIO\n';
+            
+            let report = '';
+            report += '═══════════════════════════════════════════════════════════════\n';
+            report += '                    INFORME CÓDIGO IAM - ATENCIÓN PRIMARIA\n';
+            report += '═══════════════════════════════════════════════════════════════\n\n';
+            
+            report += 'DATOS DEL PACIENTE\n';
+            report += '──────────────────────────────────────────────────────────────\n';
+            report += 'Edad: ' + edad + ' años\n';
+            report += 'Sexo: ' + sexo + '\n';
+            report += 'Peso: ' + peso + ' kg\n';
+            report += 'Alergias: ' + alergias + '\n';
+            
+            // Valoración de clínica
+            const clinicaTipica = document.getElementById('clinicaSi') && document.getElementById('clinicaSi').checked;
+            const clinicaAtipica = document.getElementById('clinicaNo') && document.getElementById('clinicaNo').checked;
+            if (clinicaTipica) {
+                report += 'Clínica: TÍPICA de IAM\n';
+            } else if (clinicaAtipica) {
+                report += 'Clínica: ATÍPICA o DUDOSA\n';
+            }
+            report += '\n';
+            
+            report += 'CRONOLOGÍA\n';
+            report += '──────────────────────────────────────────────────────────────\n';
+            report += 'Inicio de síntomas: ' + (document.getElementById('inicioSintomas').value || 'No registrado') + '\n';
+            report += 'Primer contacto médico: ' + (document.getElementById('primerContacto').value || 'No registrado') + '\n';
+            report += 'ECG inicial realizado: ' + (document.getElementById('ecgRealizado').value || 'No registrado') + '\n';
+            report += 'ECG de control (15 min post-NTG): ' + (document.getElementById('ecgControl').value || 'No registrado') + '\n';
+            report += 'Activación Código IAM: ' + (document.getElementById('activacionCodigo').value || 'No registrado') + '\n\n';
+            
+            report += 'HALLAZGOS ELECTROCARDIOGRÁFICOS\n';
+            report += '──────────────────────────────────────────────────────────────\n';
+            report += hallazgosECG + '\n';
+            
+            report += 'DATOS CLÍNICOS\n';
+            report += '──────────────────────────────────────────────────────────────\n';
+            report += 'TA: ' + (document.getElementById('tas').value || '---') + '/' + (document.getElementById('tad').value || '---') + ' mmHg\n';
+            report += 'FC: ' + (document.getElementById('fc').value || '---') + ' lpm\n';
+            report += 'SpO2: ' + (document.getElementById('spo2').value || '---') + '%\n';
+            report += 'Clasificación Killip: ' + document.getElementById('killip').value + '\n';
+            if (datosAdicionales) report += datosAdicionales;
+            report += '\n';
+            
+            report += 'ESTRATEGIA DE REPERFUSIÓN\n';
+            report += '──────────────────────────────────────────────────────────────\n';
+            const decisionValue = document.getElementById('decision').value;
+            report += 'Decisión: ';
+            if (decisionValue === 'icp') {
+                report += 'ANGIOPLASTIA PRIMARIA\n';
+            } else if (decisionValue === 'fibrinolisis') {
+                report += 'FIBRINÓLISIS IN SITU\n';
+            } else {
+                report += 'No decidida\n';
+            }
+            report += 'Hospital destino: ' + (document.getElementById('hospitalDestino').value || 'No especificado') + '\n\n';
+            
+            report += 'MEDICACIÓN ADMINISTRADA\n';
+            report += '──────────────────────────────────────────────────────────────\n';
+
+            medications.forEach(med => {
+                const checked = document.getElementById('check-' + med.id).checked;
+                if (checked) {
+                    const dose = document.getElementById('dose-' + med.id).value;
+                    const time = document.getElementById('time-' + med.id).value;
+                    report += '✓ ' + med.name + ': ' + dose + ' ' + med.defaultRoute + ' - ' + time + '\n';
+                }
+            });
+
+            report += '\n';
+            report += '═══════════════════════════════════════════════════════════════\n';
+            report += 'Informe generado: ' + new Date().toLocaleString('es-ES') + '\n';
+            report += 'Médico responsable: ____________________________________\n';
+            report += 'Firma: ____________________________________\n';
+            report += '═══════════════════════════════════════════════════════════════';
+
+            return report;
+        }
+
+        function copyReport() {
+            try {
+                const report = generateReport();
+                
+                // Intentar usar la API moderna del portapapeles
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(report).then(function() {
+                        alert('✅ Informe copiado al portapapeles!\n\nPuedes pegarlo en WhatsApp, email, notas, etc.');
+                    }).catch(function(err) {
+                        // Si falla, usar método alternativo
+                        fallbackCopy(report);
+                    });
+                } else {
+                    // Método alternativo para navegadores antiguos
+                    fallbackCopy(report);
+                }
+            } catch (error) {
+                alert('Error al copiar el informe: ' + error.message);
+                console.error(error);
+            }
+        }
+        
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                alert('✅ Informe copiado al portapapeles!\n\nPuedes pegarlo en WhatsApp, email, notas, etc.');
+            } catch (err) {
+                alert('No se pudo copiar automáticamente. Usa el botón de compartir en su lugar.');
+            }
+            
+            document.body.removeChild(textarea);
+        }
+
+        // Inicialización
+        updateClock();
+        setInterval(updateClock, 1000);
+        renderMedicationList();
+        
+        // Actualizar recomendaciones cada 30 segundos (para recordatorios de tiempo)
+        setInterval(updateRecomendaciones, 30000);
+        
+        // Actualizar recomendaciones cuando cambien datos clínicos
+        document.getElementById('spo2').addEventListener('input', updateRecomendaciones);
+        document.getElementById('tas').addEventListener('input', function() {
+            checkActivation(); // Detectar shock automáticamente
+            updateRecomendaciones();
+        });
+        document.getElementById('tad').addEventListener('input', updateRecomendaciones);
+        document.getElementById('fc').addEventListener('input', updateRecomendaciones);
+        document.getElementById('killip').addEventListener('change', function() {
+            checkActivation(); // Detectar Killip IV como shock
+            updateRecomendaciones();
+        });
+        document.getElementById('decision').addEventListener('change', updateRecomendaciones);
+        document.getElementById('anticoagulacion').addEventListener('change', updateRecomendaciones);
+        document.getElementById('gestacion').addEventListener('change', updateRecomendaciones);
+        
+        // Listeners para contraindicaciones
+        ['hemorragiaCerebral', 'avcReciente', 'traumaCirugia', 'sangradoActivo', 'htaRefractaria', 'ictusAit'].forEach(id => {
+            document.getElementById(id).addEventListener('change', updateRecomendaciones);
+        });
+        
+        // Listeners para edad y peso (afectan antiagregantes y TNK)
+        document.getElementById('edad').addEventListener('input', function() {
+            calculateTNK();
+            updateRecomendaciones();
+        });
+        document.getElementById('peso').addEventListener('input', function() {
+            calculateTNK();
+            updateRecomendaciones();
+        });
+        document.getElementById('primerContacto').addEventListener('change', updateRecomendaciones);
+        document.getElementById('ecgRealizado').addEventListener('change', updateRecomendaciones);
+        document.getElementById('ecgControl').addEventListener('change', updateRecomendaciones);
+        document.getElementById('activacionCodigo').addEventListener('change', updateRecomendaciones);
+        document.getElementById('check-aspirina').addEventListener('change', updateRecomendaciones);
+        document.getElementById('check-nitroglicerina').addEventListener('change', updateRecomendaciones);
+
+        // Manejo de errores global
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            console.error('Error: ' + msg + '\nURL: ' + url + '\nLine: ' + lineNo + '\nColumn: ' + columnNo + '\nError object: ' + JSON.stringify(error));
+            return false;
+        };
+
+        // Funciones del modal de ayuda
+        function toggleHelp() {
+            const modal = document.getElementById('helpModal');
+            modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
+            if (modal.style.display === 'block') {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function showHelpTab(tabName) {
+            // Ocultar todos los contenidos
+            document.querySelectorAll('.help-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Desactivar todos los tabs
+            document.querySelectorAll('.help-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostrar el contenido seleccionado
+            document.getElementById('tab-' + tabName).style.display = 'block';
+            
+            // Activar el tab seleccionado
+            document.querySelector(`.help-tab[data-tab="${tabName}"]`).classList.add('active');
+        }
+
+        // Cerrar modal con ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('helpModal');
+                if (modal.style.display === 'block') {
+                    toggleHelp();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
