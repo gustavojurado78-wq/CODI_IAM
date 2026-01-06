@@ -465,7 +465,7 @@ Found a bug or have an idea? Please open an issue with:
 
 - **Issues**: [GitHub Issues](https://github.com/yourusername/ami-code-dashboard/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/yourusername/ami-code-dashboard/discussions)
-- **Email**: your.email@example.com
+- **Email**: dr_jurado@yahoo.com
 
 ---
 
