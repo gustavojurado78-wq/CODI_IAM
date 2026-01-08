@@ -692,7 +692,8 @@ class I18n {
                         element.value = translation;
                     }
                 } else {
-                    element.textContent = translation;
+                    // Usar innerHTML para soportar HTML en las traducciones
+                    element.innerHTML = translation;
                 }
             }
         });
@@ -714,6 +715,9 @@ class I18n {
                 element.textContent = translation;
             }
         });
+
+        // Actualizar título del documento
+        document.title = this.t('app.title') + ' - ' + this.t('app.subtitle');
     }
 
     updateFlagSelection() {
