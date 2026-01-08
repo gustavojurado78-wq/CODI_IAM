@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -706,18 +706,75 @@
             font-weight: 600;
             margin: 12px 0 8px 0;
         }
+
+        /* Language Switcher */
+        .language-switcher {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .language-flag {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .language-flag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .language-flag.active {
+            border-color: white;
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+        }
+
+        .language-flag:active {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <div>
-                <h1>Dashboard Código IAM</h1>
-                <p>Atención Primaria - Protocolo actualizado 2023</p>
+                <h1 data-i18n="app.title">Dashboard Código IAM</h1>
+                <p data-i18n="app.subtitle">Atención Primaria - Protocolo actualizado 2023</p>
             </div>
             <div style="display: flex; align-items: center; gap: 20px;">
+                <!-- Language Switcher -->
+                <div class="language-switcher">
+                    <div class="language-flag active" data-lang="ca" onclick="i18n.changeLanguage('ca')" title="Català">
+                        🏴
+                    </div>
+                    <div class="language-flag" data-lang="es" onclick="i18n.changeLanguage('es')" title="Español">
+                        🇪🇸
+                    </div>
+                    <div class="language-flag" data-lang="fr" onclick="i18n.changeLanguage('fr')" title="Français">
+                        🇫🇷
+                    </div>
+                    <div class="language-flag" data-lang="en" onclick="i18n.changeLanguage('en')" title="English">
+                        🇬🇧
+                    </div>
+                </div>
                 <button onclick="toggleHelp()" style="padding: 12px 24px; background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
-                    📚 Guía de Ayuda
+                    <span data-i18n="btn.help">📚 Guía de Ayuda</span>
                 </button>
                 <div class="clock">
                     <div class="time" id="currentTime"></div>
@@ -1121,7 +1178,7 @@
             <div>
                 <!-- Datos del Paciente -->
                 <div class="section section-patient">
-                    <h2>👤 Datos del Paciente</h2>
+                    <h2 data-i18n="section.patient">👤 Datos del Paciente</h2>
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Edad (años)</label>
@@ -1153,7 +1210,7 @@
 
                 <!-- Cronología -->
                 <div class="section section-timeline" style="margin-top: 20px;">
-                    <h2>🕐 Cronología</h2>
+                    <h2 data-i18n="section.timeline">🕐 Cronología</h2>
                     
                     <div style="background: #dcfce7; padding: 12px; border-radius: 8px; border-left: 4px solid #22c55e; margin-bottom: 15px; font-size: 13px; color: #166534;">
                         <strong>💡 Criterio pragmático:</strong> Si clínica TÍPICA + ECG compatible → ACTIVAR YA (no esperar ECG control). ECG control solo en casos DUDOSOS.
@@ -1188,7 +1245,7 @@
 
                 <!-- Hallazgos ECG -->
                 <div class="section section-ecg" style="margin-top: 20px;">
-                    <h2>📊 Hallazgos Electrocardiográficos</h2>
+                    <h2 data-i18n="section.ecg">📊 Hallazgos Electrocardiográficos</h2>
                     
                     <div class="checkbox-item" style="border-color: #fde047;" onclick="toggleCheck('elevacionST')">
                         <input type="checkbox" id="elevacionST" onclick="event.stopPropagation(); checkActivation()">
@@ -1249,7 +1306,7 @@
             <div>
                 <!-- Datos Clínicos -->
                 <div class="section section-clinical">
-                    <h2>🏥 Datos Clínicos</h2>
+                    <h2 data-i18n="section.clinical">🏥 Datos Clínicos</h2>
                     
                     <div style="background: #fef3c7; padding: 16px; border-radius: 8px; border: 2px solid #fde047; margin-bottom: 20px;">
                         <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #854d0e; font-size: 15px;">
@@ -1338,7 +1395,7 @@
 
                 <!-- Contraindicaciones -->
                 <div class="section section-contra" style="margin-top: 20px;">
-                    <h2>⚠️ Contraindicaciones para Fibrinólisis</h2>
+                    <h2 data-i18n="section.contraindications">⚠️ Contraindicaciones para Fibrinólisis</h2>
                     
                     <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('hemorragiaCerebral')">
                         <input type="checkbox" id="hemorragiaCerebral" onclick="event.stopPropagation()">
@@ -1378,7 +1435,7 @@
 
                 <!-- Estrategia -->
                 <div class="section section-strategy" style="margin-top: 20px;">
-                    <h2>💉 Estrategia de Reperfusión</h2>
+                    <h2 data-i18n="section.strategy">💉 Estrategia de Reperfusión</h2>
                     
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label>Decisión</label>
@@ -1423,7 +1480,7 @@
 
                 <!-- Medicación -->
                 <div class="section section-meds" style="margin-top: 20px;">
-                    <h2>💊 Medicación Administrada</h2>
+                    <h2 data-i18n="section.medication">💊 Medicación Administrada</h2>
                     
                     <div id="medicationList"></div>
                 </div>
@@ -2532,5 +2589,8 @@
             }
         });
     </script>
+
+    <!-- Translations Script -->
+    <script src="translations.js"></script>
 </body>
 </html>
