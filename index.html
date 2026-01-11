@@ -772,11 +772,11 @@
                     <div class="language-flag" data-lang="es" onclick="i18n.changeLanguage('es')" title="Español">
                         🇪🇸
                     </div>
-                    <div class="language-flag" data-lang="fr" onclick="i18n.changeLanguage('fr')" title="Français">
-                        🇫🇷
-                    </div>
                     <div class="language-flag" data-lang="en" onclick="i18n.changeLanguage('en')" title="English">
                         🇬🇧
+                    </div>
+                    <div class="language-flag" data-lang="fr" onclick="i18n.changeLanguage('fr')" title="Français">
+                        🇫🇷
                     </div>
                 </div>
                 <button onclick="toggleHelp()" style="padding: 12px 24px; background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
@@ -794,93 +794,93 @@
             <div style="max-width: 1200px; margin: 0 auto; background: white; border-radius: 16px; padding: 30px; position: relative;">
                 <button onclick="toggleHelp()" style="position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: #ef4444; color: white; border: none; font-size: 20px; cursor: pointer; font-weight: bold;">×</button>
                 
-                <h1 style="color: #1e3c72; margin-bottom: 30px; font-size: 28px;">📚 Guía de Ayuda - Código IAM</h1>
+                <h1 style="color: #1e3c72; margin-bottom: 30px; font-size: 28px;" data-i18n="help.title">📚 Guía de Ayuda - Código IAM</h1>
 
                 <!-- Tabs -->
                 <div style="display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 2px solid #e2e8f0;">
-                    <button class="help-tab active" onclick="showHelpTab('patrones')" data-tab="patrones">Patrones ECG</button>
-                    <button class="help-tab" onclick="showHelpTab('algoritmo')" data-tab="algoritmo">Algoritmo Decisión</button>
-                    <button class="help-tab" onclick="showHelpTab('sgarbossa')" data-tab="sgarbossa">Criterios Sgarbossa</button>
-                    <button class="help-tab" onclick="showHelpTab('protocolo')" data-tab="protocolo">Protocolo Codi IAM</button>
+                    <button class="help-tab active" onclick="showHelpTab('patrones')" data-tab="patrones" data-i18n="help.tab.patterns">Patrones ECG</button>
+                    <button class="help-tab" onclick="showHelpTab('algoritmo')" data-tab="algoritmo" data-i18n="help.tab.algorithm">Algoritmo Decisión</button>
+                    <button class="help-tab" onclick="showHelpTab('sgarbossa')" data-tab="sgarbossa" data-i18n="help.tab.sgarbossa">Criterios Sgarbossa</button>
+                    <button class="help-tab" onclick="showHelpTab('protocolo')" data-tab="protocolo" data-i18n="help.tab.protocol">Protocolo Codi IAM</button>
                 </div>
 
                 <!-- Tab: Patrones ECG -->
                 <div id="tab-patrones" class="help-content">
-                    <h2 style="color: #2a5298; margin-bottom: 20px;">🔍 Identificación de Patrones Electrocardiográficos</h2>
-                    
+                    <h2 style="color: #2a5298; margin-bottom: 20px;" data-i18n="help.patterns.title">🔍 Identificación de Patrones Electrocardiográficos</h2>
+
                     <div class="ecg-pattern">
-                        <h3>⚠️ Patrón de De Winter (NUEVO 2023)</h3>
+                        <h3 data-i18n="help.patterns.winter.title">⚠️ Patrón de De Winter (NUEVO 2023)</h3>
                         <div class="pattern-box critical">
-                            <div style="font-weight: 700; font-size: 18px; color: #dc2626; margin-bottom: 10px;">
+                            <div style="font-weight: 700; font-size: 18px; color: #dc2626; margin-bottom: 10px;" data-i18n="help.patterns.winter.alert">
                                 ¡EQUIVALENTE A STEMI! - Requiere activación inmediata
                             </div>
-                            <p><strong>Hallazgos clave:</strong></p>
+                            <p><strong data-i18n="help.patterns.key.findings">Hallazgos clave:</strong></p>
                             <ul>
-                                <li>Depresión del ST de 1-3 mm en derivaciones precordiales (V2-V6)</li>
-                                <li>Ondas T altas, simétricas y prominentes</li>
-                                <li>Elevación del ST pequeña (0.5-1 mm) en aVR</li>
-                                <li><strong>NO hay elevación del ST en precordiales</strong></li>
+                                <li data-i18n="help.patterns.winter.finding1">Depresión del ST de 1-3 mm en derivaciones precordiales (V2-V6)</li>
+                                <li data-i18n="help.patterns.winter.finding2">Ondas T altas, simétricas y prominentes</li>
+                                <li data-i18n="help.patterns.winter.finding3">Elevación del ST pequeña (0.5-1 mm) en aVR</li>
+                                <li data-i18n="help.patterns.winter.finding4"><strong>NO hay elevación del ST en precordiales</strong></li>
                             </ul>
-                            <p><strong>Significado clínico:</strong></p>
-                            <p>Indica oclusión proximal de la arteria descendente anterior izquierda (LAD). Es un patrón DINÁMICO que puede evolucionar rápidamente a STEMI clásico.</p>
-                            <p style="background: #fef2f2; padding: 10px; border-radius: 6px; border-left: 4px solid #dc2626; margin-top: 10px;">
+                            <p><strong data-i18n="help.patterns.clinical.meaning">Significado clínico:</strong></p>
+                            <p data-i18n="help.patterns.winter.meaning">Indica oclusión proximal de la arteria descendente anterior izquierda (LAD). Es un patrón DINÁMICO que puede evolucionar rápidamente a STEMI clásico.</p>
+                            <p style="background: #fef2f2; padding: 10px; border-radius: 6px; border-left: 4px solid #dc2626; margin-top: 10px;" data-i18n="help.patterns.winter.action">
                                 <strong>⚠️ ACCIÓN:</strong> Activar Código IAM inmediatamente aunque NO haya elevación del ST típica.
                             </p>
                         </div>
                     </div>
 
                     <div class="ecg-pattern">
-                        <h3>📊 Depresión ST difusa + Elevación aVR</h3>
+                        <h3 data-i18n="help.patterns.diffuse.title">📊 Depresión ST difusa + Elevación aVR</h3>
                         <div class="pattern-box warning">
-                            <p><strong>Hallazgos clave:</strong></p>
+                            <p><strong data-i18n="help.patterns.key.findings">Hallazgos clave:</strong></p>
                             <ul>
-                                <li>Depresión del ST ≥1 mm en ≥8 derivaciones</li>
-                                <li>Elevación del ST en aVR (≥1 mm)</li>
-                                <li>Puede haber elevación en V1</li>
+                                <li data-i18n="help.patterns.diffuse.finding1">Depresión del ST ≥1 mm en ≥8 derivaciones</li>
+                                <li data-i18n="help.patterns.diffuse.finding2">Elevación del ST en aVR (≥1 mm)</li>
+                                <li data-i18n="help.patterns.diffuse.finding3">Puede haber elevación en V1</li>
                             </ul>
-                            <p><strong>Significado clínico:</strong></p>
-                            <p>Sugiere enfermedad del tronco coronario izquierdo o enfermedad multivaso grave. Pronóstico muy grave.</p>
+                            <p><strong data-i18n="help.patterns.clinical.meaning">Significado clínico:</strong></p>
+                            <p data-i18n="help.patterns.diffuse.meaning">Sugiere enfermedad del tronco coronario izquierdo o enfermedad multivaso grave. Pronóstico muy grave.</p>
                         </div>
                     </div>
 
                     <div class="ecg-pattern">
-                        <h3>🔄 Infarto Posterior</h3>
+                        <h3 data-i18n="help.patterns.posterior.title">🔄 Infarto Posterior</h3>
                         <div class="pattern-box info">
-                            <p><strong>Hallazgos clave:</strong></p>
+                            <p><strong data-i18n="help.patterns.key.findings">Hallazgos clave:</strong></p>
                             <ul>
-                                <li>Onda R alta en V1-V2 (imagen especular de onda Q)</li>
-                                <li>Depresión del ST en V1-V3 (imagen especular de elevación)</li>
-                                <li>Onda T positiva alta en V1-V2</li>
-                                <li><strong>Confirmación:</strong> Elevación del ST >0.5 mm en V7-V9</li>
+                                <li data-i18n="help.patterns.posterior.finding1">Onda R alta en V1-V2 (imagen especular de onda Q)</li>
+                                <li data-i18n="help.patterns.posterior.finding2">Depresión del ST en V1-V3 (imagen especular de elevación)</li>
+                                <li data-i18n="help.patterns.posterior.finding3">Onda T positiva alta en V1-V2</li>
+                                <li data-i18n="help.patterns.posterior.finding4"><strong>Confirmación:</strong> Elevación del ST >0.5 mm en V7-V9</li>
                             </ul>
-                            <p><strong>Acción:</strong> Realizar derivaciones posteriores (V7, V8, V9) para confirmar.</p>
+                            <p data-i18n="help.patterns.posterior.action"><strong>Acción:</strong> Realizar derivaciones posteriores (V7, V8, V9) para confirmar.</p>
                         </div>
                     </div>
 
                     <div class="ecg-pattern">
-                        <h3>➡️ Infarto de Ventrículo Derecho</h3>
+                        <h3 data-i18n="help.patterns.rv.title">➡️ Infarto de Ventrículo Derecho</h3>
                         <div class="pattern-box info">
-                            <p><strong>Hallazgos clave:</strong></p>
+                            <p><strong data-i18n="help.patterns.key.findings">Hallazgos clave:</strong></p>
                             <ul>
-                                <li>Elevación del ST en derivaciones inferiores (II, III, aVF)</li>
-                                <li>Elevación del ST en V1 y derivaciones derechas (V3R, V4R)</li>
-                                <li>V4R es la más sensible y específica</li>
+                                <li data-i18n="help.patterns.rv.finding1">Elevación del ST en derivaciones inferiores (II, III, aVF)</li>
+                                <li data-i18n="help.patterns.rv.finding2">Elevación del ST en V1 y derivaciones derechas (V3R, V4R)</li>
+                                <li data-i18n="help.patterns.rv.finding3">V4R es la más sensible y específica</li>
                             </ul>
-                            <p><strong>Importancia clínica:</strong></p>
-                            <p>Asociado a IAM inferior. Mayor riesgo de hipotensión, bradiarritmias y shock. <strong>Contraindicación relativa para nitratos.</strong></p>
+                            <p><strong data-i18n="help.patterns.clinical.importance">Importancia clínica:</strong></p>
+                            <p data-i18n="help.patterns.rv.importance">Asociado a IAM inferior. Mayor riesgo de hipotensión, bradiarritmias y shock. <strong>Contraindicación relativa para nitratos.</strong></p>
                         </div>
                     </div>
 
                     <div class="ecg-pattern">
-                        <h3>🔀 STEMI con Bloqueo de Rama</h3>
+                        <h3 data-i18n="help.patterns.bundle.title">🔀 STEMI con Bloqueo de Rama</h3>
                         <div class="pattern-box warning">
-                            <p><strong>Desafío diagnóstico:</strong></p>
-                            <p>El bloqueo de rama (especialmente BRIHH) dificulta la interpretación del ST. Usar criterios de Sgarbossa-Smith (ver pestaña específica).</p>
-                            <p><strong>Puntos clave:</strong></p>
+                            <p><strong data-i18n="help.patterns.bundle.challenge">Desafío diagnóstico:</strong></p>
+                            <p data-i18n="help.patterns.bundle.description">El bloqueo de rama (especialmente BRIHH) dificulta la interpretación del ST. Usar criterios de Sgarbossa-Smith (ver pestaña específica).</p>
+                            <p><strong data-i18n="help.patterns.key.points">Puntos clave:</strong></p>
                             <ul>
-                                <li>BRIHH de nueva aparición = considerar equivalente a STEMI</li>
-                                <li>BRDHH: menos interferencia, más fácil de interpretar</li>
-                                <li>Aplicar score de Sgarbossa (≥3 puntos = probable IAM)</li>
+                                <li data-i18n="help.patterns.bundle.point1">BRIHH de nueva aparición = considerar equivalente a STEMI</li>
+                                <li data-i18n="help.patterns.bundle.point2">BRDHH: menos interferencia, más fácil de interpretar</li>
+                                <li data-i18n="help.patterns.bundle.point3">Aplicar score de Sgarbossa (≥3 puntos = probable IAM)</li>
                             </ul>
                         </div>
                     </div>
@@ -888,33 +888,33 @@
 
                 <!-- Tab: Algoritmo -->
                 <div id="tab-algoritmo" class="help-content" style="display: none;">
-                    <h2 style="color: #2a5298; margin-bottom: 20px;">🎯 Algoritmo de Decisión de Estrategia de Reperfusión</h2>
-                    
+                    <h2 style="color: #2a5298; margin-bottom: 20px;" data-i18n="help.algorithm.title">🎯 Algoritmo de Decisión de Estrategia de Reperfusión</h2>
+
                     <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-                        <h3 style="margin-bottom: 15px; font-size: 20px;">¿El paciente cumple criterios de Código IAM?</h3>
+                        <h3 style="margin-bottom: 15px; font-size: 20px;" data-i18n="help.algorithm.criteria.question">¿El paciente cumple criterios de Código IAM?</h3>
                         <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 8px;">
-                            <p style="margin-bottom: 10px;"><strong>✓ STEMI:</strong> Elevación ST, De Winter, depresión difusa+aVR, posterior, VD, BRIHH nuevo</p>
-                            <p><strong>✓ NSTEMI muy alto riesgo:</strong> Shock (TAS &lt;90), dolor refractario</p>
+                            <p style="margin-bottom: 10px;" data-i18n="help.algorithm.criteria.stemi"><strong>✓ STEMI:</strong> Elevación ST, De Winter, depresión difusa+aVR, posterior, VD, BRIHH nuevo</p>
+                            <p data-i18n="help.algorithm.criteria.nstemi"><strong>✓ NSTEMI muy alto riesgo:</strong> Shock (TAS &lt;90), dolor refractario</p>
                         </div>
                     </div>
 
                     <div class="flowchart">
                         <div class="flow-step decision">
-                            <strong>¿Código IAM Activado?</strong>
+                            <strong data-i18n="help.algorithm.flow.activated">¿Código IAM Activado?</strong>
                         </div>
-                        <div class="flow-arrow">↓ SÍ</div>
-                        
+                        <div class="flow-arrow" data-i18n="help.algorithm.flow.yes">↓ SÍ</div>
+
                         <div class="flow-step decision">
-                            <strong>¿Tiempo esperado de traslado + tiempo puerta-balón &lt;120 min?</strong>
+                            <strong data-i18n="help.algorithm.flow.time.question">¿Tiempo esperado de traslado + tiempo puerta-balón &lt;120 min?</strong>
                         </div>
-                        
+
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
                             <div>
-                                <div class="flow-arrow">↓ SÍ</div>
+                                <div class="flow-arrow" data-i18n="help.algorithm.flow.yes">↓ SÍ</div>
                                 <div class="flow-step action-primary">
-                                    <strong>ANGIOPLASTIA PRIMARIA</strong>
+                                    <strong data-i18n="help.algorithm.flow.pci.title">ANGIOPLASTIA PRIMARIA</strong>
                                     <hr style="margin: 10px 0; border: none; border-top: 1px solid rgba(255,255,255,0.3);">
-                                    <p style="font-size: 13px; margin: 0;">
+                                    <p style="font-size: 13px; margin: 0;" data-i18n="help.algorithm.flow.pci.steps">
                                         • Aspirina 300 mg VO<br>
                                         • Segundo antiagregante según algoritmo<br>
                                         • Heparina no fraccionada o enoxaparina<br>
@@ -923,19 +923,19 @@
                                     </p>
                                 </div>
                             </div>
-                            
+
                             <div>
-                                <div class="flow-arrow">↓ NO</div>
+                                <div class="flow-arrow" data-i18n="help.algorithm.flow.no">↓ NO</div>
                                 <div class="flow-step decision">
-                                    <strong>¿Contraindicaciones para fibrinólisis?</strong>
+                                    <strong data-i18n="help.algorithm.flow.contraindications">¿Contraindicaciones para fibrinólisis?</strong>
                                 </div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
                                     <div>
-                                        <div class="flow-arrow-small">↓ NO</div>
+                                        <div class="flow-arrow-small" data-i18n="help.algorithm.flow.no">↓ NO</div>
                                         <div class="flow-step action-fibrinolysis">
-                                            <strong>FIBRINÓLISIS</strong>
+                                            <strong data-i18n="help.algorithm.flow.fibrinolysis.title">FIBRINÓLISIS</strong>
                                             <hr style="margin: 10px 0;">
-                                            <p style="font-size: 12px; margin: 0;">
+                                            <p style="font-size: 12px; margin: 0;" data-i18n="help.algorithm.flow.fibrinolysis.steps">
                                                 • Aspirina 300 mg<br>
                                                 • Clopidogrel 300 mg<br>
                                                 • TNK según peso<br>
@@ -945,11 +945,11 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="flow-arrow-small">↓ SÍ</div>
+                                        <div class="flow-arrow-small" data-i18n="help.algorithm.flow.yes">↓ SÍ</div>
                                         <div class="flow-step action-primary">
-                                            <strong>ICP</strong>
+                                            <strong data-i18n="help.algorithm.flow.icp.title">ICP</strong>
                                             <hr style="margin: 10px 0;">
-                                            <p style="font-size: 12px; margin: 0;">
+                                            <p style="font-size: 12px; margin: 0;" data-i18n="help.algorithm.flow.icp.description">
                                                 Traslado urgente para angioplastia aunque &gt;120 min
                                             </p>
                                         </div>
@@ -960,105 +960,105 @@
                     </div>
 
                     <div style="background: #fef3c7; padding: 20px; border-radius: 12px; border: 2px solid #fde047; margin-top: 30px;">
-                        <h3 style="color: #854d0e; margin-bottom: 15px;">📋 Contraindicaciones ABSOLUTAS para Fibrinólisis:</h3>
+                        <h3 style="color: #854d0e; margin-bottom: 15px;" data-i18n="help.algorithm.contraindications.title">📋 Contraindicaciones ABSOLUTAS para Fibrinólisis:</h3>
                         <ul style="color: #854d0e; line-height: 1.8;">
-                            <li>Hemorragia cerebral previa (cualquier momento)</li>
-                            <li>AVC isquémico &lt;6 meses</li>
-                            <li>Lesión/neoplasia del SNC</li>
-                            <li>Traumatismo mayor/cirugía/trauma craneal &lt;3 meses</li>
-                            <li>Sangrado activo o diátesis hemorrágica</li>
-                            <li>Sospecha disección aórtica</li>
-                            <li>HTA refractaria (&gt;180/110 mmHg)</li>
+                            <li data-i18n="help.algorithm.contraindications.1">Hemorragia cerebral previa (cualquier momento)</li>
+                            <li data-i18n="help.algorithm.contraindications.2">AVC isquémico &lt;6 meses</li>
+                            <li data-i18n="help.algorithm.contraindications.3">Lesión/neoplasia del SNC</li>
+                            <li data-i18n="help.algorithm.contraindications.4">Traumatismo mayor/cirugía/trauma craneal &lt;3 meses</li>
+                            <li data-i18n="help.algorithm.contraindications.5">Sangrado activo o diátesis hemorrágica</li>
+                            <li data-i18n="help.algorithm.contraindications.6">Sospecha disección aórtica</li>
+                            <li data-i18n="help.algorithm.contraindications.7">HTA refractaria (&gt;180/110 mmHg)</li>
                         </ul>
                     </div>
                 </div>
 
                 <!-- Tab: Sgarbossa -->
                 <div id="tab-sgarbossa" class="help-content" style="display: none;">
-                    <h2 style="color: #2a5298; margin-bottom: 20px;">🔬 Criterios de Sgarbossa-Smith</h2>
-                    
+                    <h2 style="color: #2a5298; margin-bottom: 20px;" data-i18n="help.sgarbossa.title">🔬 Criterios de Sgarbossa-Smith</h2>
+
                     <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-                        <h3 style="margin-bottom: 10px;">Para diagnóstico de IAM en presencia de BRIHH o ritmo de marcapasos</h3>
-                        <p style="font-size: 14px; opacity: 0.9;">Desarrollado porque el BRIHH dificulta la interpretación del segmento ST</p>
+                        <h3 style="margin-bottom: 10px;" data-i18n="help.sgarbossa.for">Para diagnóstico de IAM en presencia de BRIHH o ritmo de marcapasos</h3>
+                        <p style="font-size: 14px; opacity: 0.9;" data-i18n="help.sgarbossa.reason">Desarrollado porque el BRIHH dificulta la interpretación del segmento ST</p>
                     </div>
 
                     <div class="sgarbossa-criteria">
                         <div class="criteria-item">
-                            <div class="criteria-points">5 puntos</div>
+                            <div class="criteria-points" data-i18n="help.sgarbossa.points.5">5 puntos</div>
                             <div class="criteria-content">
-                                <h4>Elevación del ST concordante ≥1 mm</h4>
-                                <p>Elevación del ST en la misma dirección (concordante) que el complejo QRS.</p>
-                                <p><strong>Ejemplo:</strong> En derivación con QRS positivo (hacia arriba), el ST también está elevado hacia arriba.</p>
-                                <div class="criteria-note">Altamente específico para IAM</div>
+                                <h4 data-i18n="help.sgarbossa.criteria1.title">Elevación del ST concordante ≥1 mm</h4>
+                                <p data-i18n="help.sgarbossa.criteria1.description">Elevación del ST en la misma dirección (concordante) que el complejo QRS.</p>
+                                <p data-i18n="help.sgarbossa.criteria1.example"><strong>Ejemplo:</strong> En derivación con QRS positivo (hacia arriba), el ST también está elevado hacia arriba.</p>
+                                <div class="criteria-note" data-i18n="help.sgarbossa.criteria1.note">Altamente específico para IAM</div>
                             </div>
                         </div>
 
                         <div class="criteria-item">
-                            <div class="criteria-points">3 puntos</div>
+                            <div class="criteria-points" data-i18n="help.sgarbossa.points.3">3 puntos</div>
                             <div class="criteria-content">
-                                <h4>Depresión del ST concordante ≥1 mm en V1-V3</h4>
-                                <p>Depresión del ST en V1, V2 o V3, concordante con el QRS.</p>
-                                <div class="criteria-note">Muy específico - indica IAM posterior o lateral</div>
+                                <h4 data-i18n="help.sgarbossa.criteria2.title">Depresión del ST concordante ≥1 mm en V1-V3</h4>
+                                <p data-i18n="help.sgarbossa.criteria2.description">Depresión del ST en V1, V2 o V3, concordante con el QRS.</p>
+                                <div class="criteria-note" data-i18n="help.sgarbossa.criteria2.note">Muy específico - indica IAM posterior o lateral</div>
                             </div>
                         </div>
 
                         <div class="criteria-item">
-                            <div class="criteria-points">2 puntos</div>
+                            <div class="criteria-points" data-i18n="help.sgarbossa.points.2">2 puntos</div>
                             <div class="criteria-content">
-                                <h4>Elevación del ST discordante ≥5 mm (Criterio original)</h4>
-                                <p>Elevación del ST en dirección opuesta al QRS, pero de gran magnitud.</p>
-                                <div class="criteria-note warning">⚠️ Criterio original modificado por Smith</div>
+                                <h4 data-i18n="help.sgarbossa.criteria3.title">Elevación del ST discordante ≥5 mm (Criterio original)</h4>
+                                <p data-i18n="help.sgarbossa.criteria3.description">Elevación del ST en dirección opuesta al QRS, pero de gran magnitud.</p>
+                                <div class="criteria-note warning" data-i18n="help.sgarbossa.criteria3.note">⚠️ Criterio original modificado por Smith</div>
                             </div>
                         </div>
 
                         <div class="criteria-item modified">
-                            <div class="criteria-points">≥25%</div>
+                            <div class="criteria-points" data-i18n="help.sgarbossa.points.percent">≥25%</div>
                             <div class="criteria-content">
-                                <h4>Criterio Modificado de Smith (2012)</h4>
-                                <p><strong>Elevación del ST ≥25% de la amplitud del QRS</strong></p>
-                                <p>Más sensible que el criterio de Sgarbossa original.</p>
-                                <p><strong>Cálculo:</strong> (Elevación ST / Amplitud S) × 100 ≥ 25%</p>
-                                <div class="criteria-note success">✓ Recomendado usar este criterio en lugar del original de 5mm</div>
+                                <h4 data-i18n="help.sgarbossa.smith.title">Criterio Modificado de Smith (2012)</h4>
+                                <p data-i18n="help.sgarbossa.smith.rule"><strong>Elevación del ST ≥25% de la amplitud del QRS</strong></p>
+                                <p data-i18n="help.sgarbossa.smith.sensitivity">Más sensible que el criterio de Sgarbossa original.</p>
+                                <p data-i18n="help.sgarbossa.smith.calculation"><strong>Cálculo:</strong> (Elevación ST / Amplitud S) × 100 ≥ 25%</p>
+                                <div class="criteria-note success" data-i18n="help.sgarbossa.smith.note">✓ Recomendado usar este criterio en lugar del original de 5mm</div>
                             </div>
                         </div>
                     </div>
 
                     <div style="background: #e0f2fe; padding: 20px; border-radius: 12px; border: 2px solid #7dd3fc; margin-top: 30px;">
-                        <h3 style="color: #0369a1; margin-bottom: 15px;">📊 Interpretación del Score:</h3>
+                        <h3 style="color: #0369a1; margin-bottom: 15px;" data-i18n="help.sgarbossa.interpretation.title">📊 Interpretación del Score:</h3>
                         <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
-                            <p style="color: #0c4a6e; margin: 0;"><strong>≥3 puntos:</strong> Alta probabilidad de IAM agudo → Activar Código IAM</p>
+                            <p style="color: #0c4a6e; margin: 0;" data-i18n="help.sgarbossa.interpretation.high"><strong>≥3 puntos:</strong> Alta probabilidad de IAM agudo → Activar Código IAM</p>
                         </div>
                         <div style="background: white; padding: 15px; border-radius: 8px;">
-                            <p style="color: #0c4a6e; margin: 0;"><strong>&lt;3 puntos:</strong> Probabilidad baja (pero no excluye) → Valorar clínica, biomarcadores, ecocardiografía</p>
+                            <p style="color: #0c4a6e; margin: 0;" data-i18n="help.sgarbossa.interpretation.low"><strong>&lt;3 puntos:</strong> Probabilidad baja (pero no excluye) → Valorar clínica, biomarcadores, ecocardiografía</p>
                         </div>
                     </div>
 
                     <div style="background: #fef2f2; padding: 20px; border-radius: 12px; border: 2px solid #fecaca; margin-top: 20px;">
-                        <h3 style="color: #991b1b; margin-bottom: 15px;">⚠️ Importante:</h3>
+                        <h3 style="color: #991b1b; margin-bottom: 15px;" data-i18n="help.sgarbossa.important.title">⚠️ Importante:</h3>
                         <ul style="color: #991b1b; line-height: 1.8;">
-                            <li>Los criterios de Sgarbossa son MUY ESPECÍFICOS pero poco SENSIBLES</li>
-                            <li>Un score bajo NO excluye IAM - considerar siempre el contexto clínico</li>
-                            <li>BRIHH de nueva aparición = considerar equivalente a STEMI</li>
-                            <li>En caso de duda con BRIHH: comparar con ECG previos si disponibles</li>
+                            <li data-i18n="help.sgarbossa.important.1">Los criterios de Sgarbossa son MUY ESPECÍFICOS pero poco SENSIBLES</li>
+                            <li data-i18n="help.sgarbossa.important.2">Un score bajo NO excluye IAM - considerar siempre el contexto clínico</li>
+                            <li data-i18n="help.sgarbossa.important.3">BRIHH de nueva aparición = considerar equivalente a STEMI</li>
+                            <li data-i18n="help.sgarbossa.important.4">En caso de duda con BRIHH: comparar con ECG previos si disponibles</li>
                         </ul>
                     </div>
                 </div>
 
                 <!-- Tab: Protocolo -->
                 <div id="tab-protocolo" class="help-content" style="display: none;">
-                    <h2 style="color: #2a5298; margin-bottom: 20px;">📋 Protocolo Codi IAM - Actuación en Atención Primaria</h2>
-                    
+                    <h2 style="color: #2a5298; margin-bottom: 20px;" data-i18n="help.protocol.title">📋 Protocolo Codi IAM - Actuación en Atención Primaria</h2>
+
                     <div class="protocol-timeline">
                         <div class="timeline-item">
                             <div class="timeline-number">1</div>
                             <div class="timeline-content">
-                                <h4>Primer Contacto (&lt;10 min)</h4>
+                                <h4 data-i18n="help.protocol.step1.title">Primer Contacto (&lt;10 min)</h4>
                                 <ul>
-                                    <li>Evaluación rápida: dolor torácico, disnea, síncope</li>
-                                    <li>Constantes vitales: TA, FC, SpO₂</li>
-                                    <li>Monitorización continua</li>
-                                    <li>Acceso venoso periférico</li>
-                                    <li><strong>ECG de 12 derivaciones inmediato</strong></li>
+                                    <li data-i18n="help.protocol.step1.item1">Evaluación rápida: dolor torácico, disnea, síncope</li>
+                                    <li data-i18n="help.protocol.step1.item2">Constantes vitales: TA, FC, SpO₂</li>
+                                    <li data-i18n="help.protocol.step1.item3">Monitorización continua</li>
+                                    <li data-i18n="help.protocol.step1.item4">Acceso venoso periférico</li>
+                                    <li data-i18n="help.protocol.step1.item5"><strong>ECG de 12 derivaciones inmediato</strong></li>
                                 </ul>
                             </div>
                         </div>
@@ -1066,50 +1066,50 @@
                         <div class="timeline-item">
                             <div class="timeline-number">2</div>
                             <div class="timeline-content">
-                                <h4>Interpretación ECG y Decisión según Clínica</h4>
-                                
+                                <h4 data-i18n="help.protocol.step2.title">Interpretación ECG y Decisión según Clínica</h4>
+
                                 <div style="background: #dcfce7; padding: 15px; border-radius: 8px; border-left: 4px solid #22c55e; margin-bottom: 15px;">
-                                    <h5 style="color: #166534; margin: 0 0 10px 0; font-size: 16px;">✅ CLÍNICA TÍPICA + ECG compatible</h5>
+                                    <h5 style="color: #166534; margin: 0 0 10px 0; font-size: 16px;" data-i18n="help.protocol.step2.typical.title">✅ CLÍNICA TÍPICA + ECG compatible</h5>
                                     <ul style="margin: 0; padding-left: 20px; color: #166534;">
-                                        <li>Dolor opresivo >20 minutos</li>
-                                        <li>Irradiación a brazo izquierdo/mandíbula</li>
-                                        <li>Cortejo vegetativo (sudoración, náuseas)</li>
-                                        <li>No responde a NTG</li>
+                                        <li data-i18n="help.protocol.step2.typical.item1">Dolor opresivo >20 minutos</li>
+                                        <li data-i18n="help.protocol.step2.typical.item2">Irradiación a brazo izquierdo/mandíbula</li>
+                                        <li data-i18n="help.protocol.step2.typical.item3">Cortejo vegetativo (sudoración, náuseas)</li>
+                                        <li data-i18n="help.protocol.step2.typical.item4">No responde a NTG</li>
                                     </ul>
-                                    <div style="background: #22c55e; color: white; padding: 12px; border-radius: 6px; margin-top: 10px; font-weight: 700; text-align: center;">
+                                    <div style="background: #22c55e; color: white; padding: 12px; border-radius: 6px; margin-top: 10px; font-weight: 700; text-align: center;" data-i18n="help.protocol.step2.typical.action">
                                         → ACTIVAR CÓDIGO IAM INMEDIATAMENTE
                                     </div>
-                                    <p style="margin: 10px 0 0 0; font-size: 13px; color: #166534;">
+                                    <p style="margin: 10px 0 0 0; font-size: 13px; color: #166534;" data-i18n="help.protocol.step2.typical.note">
                                         <strong>NO ESPERAR ECG de control.</strong> El tiempo es músculo.
                                     </p>
                                 </div>
-                                
+
                                 <div style="background: #fef3c7; padding: 15px; border-radius: 8px; border-left: 4px solid #eab308; margin-bottom: 15px;">
-                                    <h5 style="color: #854d0e; margin: 0 0 10px 0; font-size: 16px;">⚠️ CLÍNICA ATÍPICA o DUDOSA + ECG</h5>
+                                    <h5 style="color: #854d0e; margin: 0 0 10px 0; font-size: 16px;" data-i18n="help.protocol.step2.atypical.title">⚠️ CLÍNICA ATÍPICA o DUDOSA + ECG</h5>
                                     <ul style="margin: 0; padding-left: 20px; color: #854d0e;">
-                                        <li>Dolor atípico (breve, punzante, localizado)</li>
-                                        <li>Paciente muy joven sin factores de riesgo</li>
-                                        <li>Dolor nocturno en reposo (sospecha espasmo)</li>
-                                        <li>Cambios ECG borderline o dudosos</li>
+                                        <li data-i18n="help.protocol.step2.atypical.item1">Dolor atípico (breve, punzante, localizado)</li>
+                                        <li data-i18n="help.protocol.step2.atypical.item2">Paciente muy joven sin factores de riesgo</li>
+                                        <li data-i18n="help.protocol.step2.atypical.item3">Dolor nocturno en reposo (sospecha espasmo)</li>
+                                        <li data-i18n="help.protocol.step2.atypical.item4">Cambios ECG borderline o dudosos</li>
                                     </ul>
                                     <div style="background: white; padding: 12px; border-radius: 6px; margin-top: 10px; border: 2px solid #eab308;">
-                                        <p style="margin: 0; color: #854d0e; font-weight: 600;">
+                                        <p style="margin: 0; color: #854d0e; font-weight: 600;" data-i18n="help.protocol.step2.atypical.steps">
                                             1. Administrar NTG sublingual<br>
                                             2. ECG de control a los 15 minutos<br>
                                             3. Si persiste elevación → Activar código
                                         </p>
                                     </div>
                                 </div>
-                                
+
                                 <div style="background: #fee2e2; padding: 15px; border-radius: 8px; border-left: 4px solid #dc2626;">
-                                    <h5 style="color: #991b1b; margin: 0 0 10px 0; font-size: 16px;">🚨 MUY ALTO RIESGO</h5>
-                                    <p style="margin: 0 0 10px 0; color: #991b1b;">
+                                    <h5 style="color: #991b1b; margin: 0 0 10px 0; font-size: 16px;" data-i18n="help.protocol.step2.highrisk.title">🚨 MUY ALTO RIESGO</h5>
+                                    <p style="margin: 0 0 10px 0; color: #991b1b;" data-i18n="help.protocol.step2.highrisk.description">
                                         <strong>Activación INMEDIATA independientemente de ECG o clínica:</strong>
                                     </p>
                                     <ul style="margin: 0; padding-left: 20px; color: #991b1b;">
-                                        <li>Shock cardiogénico (detectado automáticamente si TAS &lt;90 mmHg)</li>
-                                        <li>Dolor refractario a tratamiento</li>
-                                        <li>Insuficiencia cardíaca aguda</li>
+                                        <li data-i18n="help.protocol.step2.highrisk.item1">Shock cardiogénico (detectado automáticamente si TAS &lt;90 mmHg)</li>
+                                        <li data-i18n="help.protocol.step2.highrisk.item2">Dolor refractario a tratamiento</li>
+                                        <li data-i18n="help.protocol.step2.highrisk.item3">Insuficiencia cardíaca aguda</li>
                                     </ul>
                                 </div>
                             </div>
@@ -1118,13 +1118,13 @@
                         <div class="timeline-item">
                             <div class="timeline-number">3</div>
                             <div class="timeline-content">
-                                <h4>Tratamiento Inicial (Antes del Traslado)</h4>
+                                <h4 data-i18n="help.protocol.step3.title">Tratamiento Inicial (Antes del Traslado)</h4>
                                 <ul>
-                                    <li><strong>AAS 300 mg VO</strong> (masticar) - Lo antes posible</li>
-                                    <li><strong>Nitroglicerina sublingual</strong> (si TA adecuada, no en IAM VD) - Para valorar respuesta</li>
-                                    <li><strong>Segundo antiagregante</strong> según algoritmo (tras confirmar elevación persistente)</li>
-                                    <li>Morfina 3-5 mg IV si dolor persistente (y TAS >90)</li>
-                                    <li>Oxígeno solo si SpO₂ &lt;90%</li>
+                                    <li data-i18n="help.protocol.step3.item1"><strong>AAS 300 mg VO</strong> (masticar) - Lo antes posible</li>
+                                    <li data-i18n="help.protocol.step3.item2"><strong>Nitroglicerina sublingual</strong> (si TA adecuada, no en IAM VD) - Para valorar respuesta</li>
+                                    <li data-i18n="help.protocol.step3.item3"><strong>Segundo antiagregante</strong> según algoritmo (tras confirmar elevación persistente)</li>
+                                    <li data-i18n="help.protocol.step3.item4">Morfina 3-5 mg IV si dolor persistente (y TAS >90)</li>
+                                    <li data-i18n="help.protocol.step3.item5">Oxígeno solo si SpO₂ &lt;90%</li>
                                 </ul>
                             </div>
                         </div>
@@ -1132,17 +1132,17 @@
                         <div class="timeline-item">
                             <div class="timeline-number">4</div>
                             <div class="timeline-content">
-                                <h4>Estrategia según Distancia y Contraindicaciones</h4>
-                                <p><strong>Centro con Hemodinámica &lt;120 min:</strong></p>
+                                <h4 data-i18n="help.protocol.step4.title">Estrategia según Distancia y Contraindicaciones</h4>
+                                <p data-i18n="help.protocol.step4.near.title"><strong>Centro con Hemodinámica &lt;120 min:</strong></p>
                                 <ul>
-                                    <li>Traslado para angioplastia primaria</li>
-                                    <li>SEM se hace cargo del paciente</li>
+                                    <li data-i18n="help.protocol.step4.near.item1">Traslado para angioplastia primaria</li>
+                                    <li data-i18n="help.protocol.step4.near.item2">SEM se hace cargo del paciente</li>
                                 </ul>
-                                <p><strong>Centro con Hemodinámica &gt;120 min y sin contraindicaciones:</strong></p>
+                                <p data-i18n="help.protocol.step4.far.title"><strong>Centro con Hemodinámica &gt;120 min y sin contraindicaciones:</strong></p>
                                 <ul>
-                                    <li>Valorar fibrinólisis in situ</li>
-                                    <li>TNK según peso, clopidogrel 300 mg, enoxaparina</li>
-                                    <li>Traslado post-fibrinólisis para angiografía</li>
+                                    <li data-i18n="help.protocol.step4.far.item1">Valorar fibrinólisis in situ</li>
+                                    <li data-i18n="help.protocol.step4.far.item2">TNK según peso, clopidogrel 300 mg, enoxaparina</li>
+                                    <li data-i18n="help.protocol.step4.far.item3">Traslado post-fibrinólisis para angiografía</li>
                                 </ul>
                             </div>
                         </div>
@@ -1150,30 +1150,30 @@
                         <div class="timeline-item">
                             <div class="timeline-number">5</div>
                             <div class="timeline-content">
-                                <h4>Durante el Traslado</h4>
+                                <h4 data-i18n="help.protocol.step5.title">Durante el Traslado</h4>
                                 <ul>
-                                    <li>Monitorización continua</li>
-                                    <li>Mantener vía venosa permeable</li>
-                                    <li>ECG seriados si disponible</li>
-                                    <li>Anticipar complicaciones (arritmias, shock)</li>
+                                    <li data-i18n="help.protocol.step5.item1">Monitorización continua</li>
+                                    <li data-i18n="help.protocol.step5.item2">Mantener vía venosa permeable</li>
+                                    <li data-i18n="help.protocol.step5.item3">ECG seriados si disponible</li>
+                                    <li data-i18n="help.protocol.step5.item4">Anticipar complicaciones (arritmias, shock)</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
                     <div style="background: #dcfce7; padding: 20px; border-radius: 12px; border: 2px solid #86efac; margin-top: 30px;">
-                        <h3 style="color: #166534; margin-bottom: 15px;">✅ Objetivos del Código IAM:</h3>
+                        <h3 style="color: #166534; margin-bottom: 15px;" data-i18n="help.protocol.goals.title">✅ Objetivos del Código IAM:</h3>
                         <ul style="color: #166534; line-height: 1.8;">
-                            <li><strong>ECG-Balón &lt;120 minutos</strong> (objetivo &lt;90 min)</li>
-                            <li><strong>Puerta-TNK &lt;30 minutos</strong> si fibrinólisis</li>
-                            <li>Reperfusión universal (100% pacientes con indicación)</li>
-                            <li>Reducción de mortalidad y complicaciones</li>
+                            <li data-i18n="help.protocol.goals.item1"><strong>ECG-Balón &lt;120 minutos</strong> (objetivo &lt;90 min)</li>
+                            <li data-i18n="help.protocol.goals.item2"><strong>Puerta-TNK &lt;30 minutos</strong> si fibrinólisis</li>
+                            <li data-i18n="help.protocol.goals.item3">Reperfusión universal (100% pacientes con indicación)</li>
+                            <li data-i18n="help.protocol.goals.item4">Reducción de mortalidad y complicaciones</li>
                         </ul>
                     </div>
 
                     <div style="background: #fff7ed; padding: 20px; border-radius: 12px; border: 2px solid #fed7aa; margin-top: 20px;">
-                        <h3 style="color: #9a3412; margin-bottom: 15px;">📞 Hospitales de Referencia en Cataluña:</h3>
-                        <p style="color: #9a3412;">La región está dividida en 10 áreas, cada una con un hospital de referencia con sala de hemodinámica 24/7. El SEM (061) coordinará el traslado al hospital correspondiente según zona geográfica y disponibilidad.</p>
+                        <h3 style="color: #9a3412; margin-bottom: 15px;" data-i18n="help.protocol.hospitals.title">📞 Hospitales de Referencia en Cataluña:</h3>
+                        <p style="color: #9a3412;" data-i18n="help.protocol.hospitals.description">La región está dividida en 10 áreas, cada una con un hospital de referencia con sala de hemodinámica 24/7. El SEM (061) coordinará el traslado al hospital correspondiente según zona geográfica y disponibilidad.</p>
                     </div>
                 </div>
             </div>
