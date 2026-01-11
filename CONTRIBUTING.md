@@ -104,9 +104,11 @@ We welcome translations to make this tool accessible worldwide!
 **Translation priorities:**
 1. English (high priority)
 2. French
-3. Portuguese
-4. Italian
-5. German
+3. Spanish
+4. Catalan
+5. Portuguese
+6. Italian
+7. German
 
 ### 📚 Improving Documentation
 
