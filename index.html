@@ -2358,92 +2358,92 @@
         }
 
         function generateReport() {
-            const edad = document.getElementById('edad').value || 'No especificada';
-            const sexo = document.getElementById('sexo').value === 'M' ? 'Masculino' : 'Femenino';
-            const peso = document.getElementById('peso').value || 'No especificado';
-            const alergias = document.getElementById('alergias').value || 'No conocidas';
+            const edad = document.getElementById('edad').value || i18n.t('report.not.specified.fem');
+            const sexo = document.getElementById('sexo').value === 'M' ? i18n.t('patient.gender.male') : i18n.t('patient.gender.female');
+            const peso = document.getElementById('peso').value || i18n.t('report.not.specified');
+            const alergias = document.getElementById('alergias').value || i18n.t('report.not.known');
             
             // Hallazgos ECG
             let hallazgosECG = '';
-            if (document.getElementById('elevacionST').checked) hallazgosECG += '✓ Elevación del segmento ST\n';
-            if (document.getElementById('patronWinter').checked) hallazgosECG += '✓ Patrón de De Winter (⚠️ Equivalente STEMI)\n';
-            if (document.getElementById('depresionSTconAVR').checked) hallazgosECG += '✓ Depresión ST difusa + elevación aVR\n';
-            if (document.getElementById('infartoPosterior').checked) hallazgosECG += '✓ Infarto posterior\n';
-            if (document.getElementById('infartoVD').checked) hallazgosECG += '✓ Infarto ventrículo derecho\n';
-            if (document.getElementById('bbefh').checked) hallazgosECG += '✓ BBEFH de nueva aparición\n';
-            if (document.getElementById('bbdfh').checked) hallazgosECG += '✓ BBDFH de nueva aparición\n';
-            if (document.getElementById('marcapassos').checked) hallazgosECG += '✓ Ritmo de marcapassos\n';
-            if (document.getElementById('otrosECG').value) hallazgosECG += 'Otros hallazgos: ' + document.getElementById('otrosECG').value + '\n';
-            
-            if (hallazgosECG === '') hallazgosECG = 'No se registraron hallazgos específicos\n';
+            if (document.getElementById('elevacionST').checked) hallazgosECG += '✓ ' + i18n.t('ecg.st.elevation') + '\n';
+            if (document.getElementById('patronWinter').checked) hallazgosECG += '✓ ' + i18n.t('ecg.winter.pattern') + '\n';
+            if (document.getElementById('depresionSTconAVR').checked) hallazgosECG += '✓ ' + i18n.t('ecg.st.depression.avr') + '\n';
+            if (document.getElementById('infartoPosterior').checked) hallazgosECG += '✓ ' + i18n.t('ecg.posterior.infarction') + '\n';
+            if (document.getElementById('infartoVD').checked) hallazgosECG += '✓ ' + i18n.t('ecg.right.ventricle') + '\n';
+            if (document.getElementById('bbefh').checked) hallazgosECG += '✓ ' + i18n.t('ecg.new.lbbb') + '\n';
+            if (document.getElementById('bbdfh').checked) hallazgosECG += '✓ ' + i18n.t('ecg.new.rbbb') + '\n';
+            if (document.getElementById('marcapassos').checked) hallazgosECG += '✓ ' + i18n.t('ecg.pacemaker') + '\n';
+            if (document.getElementById('otrosECG').value) hallazgosECG += i18n.t('report.other.findings') + ': ' + document.getElementById('otrosECG').value + '\n';
+
+            if (hallazgosECG === '') hallazgosECG = i18n.t('report.no.findings') + '\n';
             
             // Datos clínicos adicionales
             let datosAdicionales = '';
             const tas = parseFloat(document.getElementById('tas').value);
             const killip = document.getElementById('killip').value;
             if ((tas && tas < 90) || killip === '4') {
-                let causa = killip === '4' ? 'Killip IV' : 'TAS <90 mmHg';
-                datosAdicionales += `⚠️ SHOCK CARDIOGÉNICO (${causa})\n`;
+                let causa = killip === '4' ? 'Killip IV' : i18n.t('clinical.sbp') + ' <90 mmHg';
+                datosAdicionales += `⚠️ ${i18n.t('report.cardiogenic.shock')} (${causa})\n`;
             }
-            if (document.getElementById('dolorRefractario').checked) datosAdicionales += '⚠️ DOLOR REFRACTARIO\n';
+            if (document.getElementById('dolorRefractario').checked) datosAdicionales += '⚠️ ' + i18n.t('report.refractory.pain') + '\n';
             
             let report = '';
             report += '═══════════════════════════════════════════════════════════════\n';
-            report += '                    INFORME CÓDIGO IAM - ATENCIÓN PRIMARIA\n';
+            report += '                    ' + i18n.t('report.title') + '\n';
             report += '═══════════════════════════════════════════════════════════════\n\n';
-            
-            report += 'DATOS DEL PACIENTE\n';
+
+            report += i18n.t('report.patient.data') + '\n';
             report += '──────────────────────────────────────────────────────────────\n';
-            report += 'Edad: ' + edad + ' años\n';
-            report += 'Sexo: ' + sexo + '\n';
-            report += 'Peso: ' + peso + ' kg\n';
-            report += 'Alergias: ' + alergias + '\n';
+            report += i18n.t('report.age') + ': ' + edad + ' ' + i18n.t('report.years') + '\n';
+            report += i18n.t('report.sex') + ': ' + sexo + '\n';
+            report += i18n.t('report.weight') + ': ' + peso + ' ' + i18n.t('report.kg') + '\n';
+            report += i18n.t('report.allergies') + ': ' + alergias + '\n';
             
             // Valoración de clínica
             const clinicaTipica = document.getElementById('clinicaSi') && document.getElementById('clinicaSi').checked;
             const clinicaAtipica = document.getElementById('clinicaNo') && document.getElementById('clinicaNo').checked;
             if (clinicaTipica) {
-                report += 'Clínica: TÍPICA de IAM\n';
+                report += i18n.t('report.clinical.typical') + '\n';
             } else if (clinicaAtipica) {
-                report += 'Clínica: ATÍPICA o DUDOSA\n';
+                report += i18n.t('report.clinical.atypical') + '\n';
             }
             report += '\n';
             
-            report += 'CRONOLOGÍA\n';
+            report += i18n.t('report.timeline') + '\n';
             report += '──────────────────────────────────────────────────────────────\n';
-            report += 'Inicio de síntomas: ' + (document.getElementById('inicioSintomas').value || 'No registrado') + '\n';
-            report += 'Primer contacto médico: ' + (document.getElementById('primerContacto').value || 'No registrado') + '\n';
-            report += 'ECG inicial realizado: ' + (document.getElementById('ecgRealizado').value || 'No registrado') + '\n';
-            report += 'ECG de control (15 min post-NTG): ' + (document.getElementById('ecgControl').value || 'No registrado') + '\n';
-            report += 'Activación Código IAM: ' + (document.getElementById('activacionCodigo').value || 'No registrado') + '\n\n';
+            report += i18n.t('timeline.symptom.onset') + ': ' + (document.getElementById('inicioSintomas').value || i18n.t('report.not.registered')) + '\n';
+            report += i18n.t('timeline.first.contact') + ': ' + (document.getElementById('primerContacto').value || i18n.t('report.not.registered')) + '\n';
+            report += i18n.t('timeline.ecg.initial') + ': ' + (document.getElementById('ecgRealizado').value || i18n.t('report.not.registered')) + '\n';
+            report += i18n.t('timeline.ecg.control') + ': ' + (document.getElementById('ecgControl').value || i18n.t('report.not.registered')) + '\n';
+            report += i18n.t('timeline.activation') + ': ' + (document.getElementById('activacionCodigo').value || i18n.t('report.not.registered')) + '\n\n';
             
-            report += 'HALLAZGOS ELECTROCARDIOGRÁFICOS\n';
+            report += i18n.t('report.ecg.findings') + '\n';
             report += '──────────────────────────────────────────────────────────────\n';
             report += hallazgosECG + '\n';
-            
-            report += 'DATOS CLÍNICOS\n';
+
+            report += i18n.t('report.clinical.data') + '\n';
             report += '──────────────────────────────────────────────────────────────\n';
-            report += 'TA: ' + (document.getElementById('tas').value || '---') + '/' + (document.getElementById('tad').value || '---') + ' mmHg\n';
-            report += 'FC: ' + (document.getElementById('fc').value || '---') + ' lpm\n';
-            report += 'SpO2: ' + (document.getElementById('spo2').value || '---') + '%\n';
-            report += 'Clasificación Killip: ' + document.getElementById('killip').value + '\n';
+            report += i18n.t('clinical.bp') + ': ' + (document.getElementById('tas').value || '---') + '/' + (document.getElementById('tad').value || '---') + ' mmHg\n';
+            report += i18n.t('clinical.hr') + ': ' + (document.getElementById('fc').value || '---') + ' lpm\n';
+            report += i18n.t('clinical.o2sat') + ': ' + (document.getElementById('spo2').value || '---') + '%\n';
+            report += i18n.t('report.killip.class') + ': ' + document.getElementById('killip').value + '\n';
             if (datosAdicionales) report += datosAdicionales;
             report += '\n';
             
-            report += 'ESTRATEGIA DE REPERFUSIÓN\n';
+            report += i18n.t('report.strategy') + '\n';
             report += '──────────────────────────────────────────────────────────────\n';
             const decisionValue = document.getElementById('decision').value;
-            report += 'Decisión: ';
+            report += i18n.t('report.decision') + ': ';
             if (decisionValue === 'icp') {
-                report += 'ANGIOPLASTIA PRIMARIA\n';
+                report += i18n.t('report.primary.angioplasty') + '\n';
             } else if (decisionValue === 'fibrinolisis') {
-                report += 'FIBRINÓLISIS IN SITU\n';
+                report += i18n.t('report.fibrinolysis.in.situ') + '\n';
             } else {
-                report += 'No decidida\n';
+                report += i18n.t('report.not.decided') + '\n';
             }
-            report += 'Hospital destino: ' + (document.getElementById('hospitalDestino').value || 'No especificado') + '\n\n';
+            report += i18n.t('report.destination.hospital') + ': ' + (document.getElementById('hospitalDestino').value || i18n.t('report.not.specified')) + '\n\n';
             
-            report += 'MEDICACIÓN ADMINISTRADA\n';
+            report += i18n.t('report.medication.administered') + '\n';
             report += '──────────────────────────────────────────────────────────────\n';
 
             medications.forEach(med => {
@@ -2457,7 +2457,8 @@
 
             report += '\n';
             report += '═══════════════════════════════════════════════════════════════\n';
-            report += 'Informe generado: ' + new Date().toLocaleString('es-ES') + '\n';
+            const locale = i18n.currentLang === 'ca' ? 'ca-ES' : i18n.currentLang === 'es' ? 'es-ES' : i18n.currentLang === 'fr' ? 'fr-FR' : 'en-US';
+            report += i18n.t('report.generated') + ': ' + new Date().toLocaleString(locale) + '\n';
             report += 'Médico responsable: ____________________________________\n';
             report += 'Firma: ____________________________________\n';
             report += '═══════════════════════════════════════════════════════════════';
@@ -2468,11 +2469,11 @@
         function copyReport() {
             try {
                 const report = generateReport();
-                
+
                 // Intentar usar la API moderna del portapapeles
                 if (navigator.clipboard && navigator.clipboard.writeText) {
                     navigator.clipboard.writeText(report).then(function() {
-                        alert('✅ Informe copiado al portapapeles!\n\nPuedes pegarlo en WhatsApp, email, notas, etc.');
+                        alert(i18n.t('report.copy.success'));
                     }).catch(function(err) {
                         // Si falla, usar método alternativo
                         fallbackCopy(report);
@@ -2482,7 +2483,7 @@
                     fallbackCopy(report);
                 }
             } catch (error) {
-                alert('Error al copiar el informe: ' + error.message);
+                alert(i18n.t('report.copy.error') + ': ' + error.message);
                 console.error(error);
             }
         }
@@ -2494,14 +2495,14 @@
             textarea.style.opacity = '0';
             document.body.appendChild(textarea);
             textarea.select();
-            
+
             try {
                 document.execCommand('copy');
-                alert('✅ Informe copiado al portapapeles!\n\nPuedes pegarlo en WhatsApp, email, notas, etc.');
+                alert(i18n.t('report.copy.success'));
             } catch (err) {
-                alert('No se pudo copiar automáticamente. Usa el botón de compartir en su lugar.');
+                alert(i18n.t('report.copy.fallback'));
             }
-            
+
             document.body.removeChild(textarea);
         }
 
