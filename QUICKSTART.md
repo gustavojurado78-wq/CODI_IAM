@@ -38,14 +38,17 @@ Mark critical times:
 └─ Use "Ahora" (Now) buttons for instant timestamps
 ```
 
-### Step 3: ECG Findings
+### Step 3: ECG Findings (Physician Interpretation)
 ```
-Check all that apply:
+After interpreting the ECG, select all patterns found:
 ├─ ST elevation
 ├─ De Winter pattern (⚠️ STEMI equivalent!)
 ├─ RV infarction
 ├─ LBBB/RBBB
-└─ Review help guide if unsure (📚 button)
+└─ Review help guide for pattern criteria (📚 button)
+
+Note: The system provides reference guides - the physician
+interprets the ECG and manually selects the findings.
 ```
 
 ### Step 4: Clinical Data
@@ -190,15 +193,16 @@ Action:
 ## 📚 When to Use Help Guide
 
 Click **📚 Guía de Ayuda** when you need to:
-- ✓ Identify ECG patterns (De Winter, Sgarbossa, etc.)
+- ✓ Review ECG pattern criteria (De Winter, Sgarbossa, etc.)
+- ✓ Remember what patterns to look for during interpretation
 - ✓ Understand the decision algorithm
-- ✓ Review Sgarbossa-Smith criteria
+- ✓ Review Sgarbossa-Smith scoring criteria
 - ✓ Check complete AMI Code protocol
 
 **4 tabs available:**
-1. **Patrones ECG** - Pattern recognition
-2. **Algoritmo Decisión** - Reperfusion strategy
-3. **Criterios Sgarbossa** - LBBB/pacemaker MI diagnosis
+1. **Patrones ECG** - Reference guide for pattern criteria (physician interprets)
+2. **Algoritmo Decisión** - Reperfusion strategy flowchart
+3. **Criterios Sgarbossa** - Scoring guide for LBBB/pacemaker MI diagnosis
 4. **Protocolo Codi IAM** - Step-by-step protocol
 
 ---
@@ -321,9 +325,10 @@ You're now ready to use the AMI Code Dashboard in clinical practice.
 
 **Remember:**
 - ✅ This tool assists, doesn't replace clinical judgment
+- ✅ The physician interprets the ECG - the system provides reference guides
 - ✅ Always verify doses independently
 - ✅ Follow your local protocols
-- ✅ Trust the safety blocks
+- ✅ Trust the safety blocks for contraindications
 
 **Questions?** Check the full README.md or open a GitHub issue.
 

@@ -294,7 +294,7 @@ Since this is a single-file application:
 2. **Test thoroughly** - Complete the testing checklist
 3. **Commit with clear messages**:
    ```
-   feat: Add Wellens' syndrome detection to ECG patterns
+   feat: Add Wellens' syndrome guide to ECG pattern references
    fix: Correct morphine dosing for renal impairment
    docs: Update README with new ECG patterns
    style: Improve mobile responsiveness for medication section
