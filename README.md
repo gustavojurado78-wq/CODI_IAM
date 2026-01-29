@@ -17,6 +17,25 @@ A comprehensive, single-page web application designed to guide primary care phys
 
 ---
 
+## ⚠️ Current Functionality vs. Future Development
+
+### 📋 Current Status
+**The system does NOT automatically identify electrocardiographic patterns.**
+
+The physician interprets the ECG and selects the findings in the interface. The application's value lies in:
+
+✅ **Systematizing the process** of AMI evaluation
+✅ **Reminding the professional** of complex patterns to look for (De Winter, Sgarbossa, etc.)
+✅ **Automatically calculating** precise medication doses
+✅ **Verifying contraindications** in real-time
+✅ **Generating dynamic recommendations** based on clinical data
+✅ **Producing complete reports** with time recording
+
+### 🚀 Future Development
+Integration of **automatic ECG image analysis using artificial intelligence** is planned, allowing the system to automatically identify electrocardiographic patterns.
+
+---
+
 ## ✨ Key Features
 
 ### 🎯 **Intelligent Decision Support**
@@ -25,14 +44,16 @@ A comprehensive, single-page web application designed to guide primary care phys
 - **Context-aware recommendations** that adapt to patient data in real-time
 - **Multi-layered safety system** preventing dangerous medication combinations
 
-### 📊 **ECG Pattern Recognition**
-Comprehensive guide covering:
-- ⚡ **De Winter pattern** detection (STEMI equivalent)
-- 🔄 **Posterior MI** identification with mirror image changes
-- ➡️ **Right ventricular infarction** with V4R assessment
-- 📈 **Diffuse ST depression + aVR elevation** (left main or multivessel disease)
-- 🔬 **Sgarbossa-Smith criteria** for LBBB/pacemaker rhythm
-- 🔀 **Bundle branch block** assessment
+### 📊 **ECG Pattern Reference Guide**
+Interface to record 8 ECG patterns with reminders for the professional:
+- ⚡ **De Winter pattern** - reminder and criteria (STEMI equivalent)
+- 🔄 **Posterior MI** - guidance for mirror image changes identification
+- ➡️ **Right ventricular infarction** - V4R assessment checklist
+- 📈 **Diffuse ST depression + aVR elevation** - criteria for left main/multivessel disease
+- 🔬 **Sgarbossa-Smith criteria** - scoring guide for LBBB/pacemaker rhythm
+- 🔀 **Bundle branch block** - assessment guidance
+
+*Note: The physician interprets the ECG and manually selects the patterns found.*
 
 ### 💊 **Smart Medication Management**
 - **Pre-populated dose options** based on clinical guidelines
@@ -72,7 +93,7 @@ Comprehensive guide covering:
 
 ### 📚 **Comprehensive Help System**
 Built-in interactive guide with 4 sections:
-1. **ECG Pattern Recognition** - Detailed explanations with clinical significance
+1. **ECG Pattern Reference** - Detailed criteria and explanations (physician interprets)
 2. **Decision Algorithm** - Step-by-step reperfusion strategy flowchart
 3. **Sgarbossa-Smith Criteria** - Scoring system for LBBB/pacemaker rhythms
 4. **AMI Code Protocol** - Complete workflow from presentation to transfer
@@ -270,11 +291,11 @@ start dashboard-iam.html
 - **Emergency Department Physicians** as quick reference tool
 
 ### Use Cases
-1. **Primary Care Center** - Patient presents with chest pain, tool guides ECG interpretation → activation decision → medication administration → transfer
-2. **Rural Clinic** - Limited cardiology backup, need for structured approach to AMI management
-3. **EMS Ambulance** - Tablet-based tool for pre-hospital decision support
-4. **Teaching Hospital** - Residents learning AMI protocols with real-time guidance
-5. **Telemedicine Consultation** - Structured data collection for remote specialist input
+1. **Primary Care Center** - Patient presents with chest pain, physician interprets ECG with reference guide support → records findings → system assists with activation decision → medication dosing → transfer documentation
+2. **Rural Clinic** - Limited cardiology backup, structured approach to AMI management with pattern reminders
+3. **EMS Ambulance** - Tablet-based tool for pre-hospital decision support and dose calculations
+4. **Teaching Hospital** - Residents learning AMI protocols with ECG pattern guides and real-time feedback
+5. **Telemedicine Consultation** - Structured data collection and documentation for remote specialist input
 
 ---
 
@@ -301,13 +322,14 @@ graph TD
 
 **Detailed Steps:**
 1. **Patient Presentation** - Chest pain/equivalent symptoms
-2. **ECG Interpretation** - Use pattern recognition guide
-3. **Clinical Assessment** - Typical vs atypical presentation decision
-4. **Automated Activation Criteria Check** - Real-time evaluation
-5. **Dynamic Recommendations Panel** - Updates based on vitals and findings
-6. **Reperfusion Strategy Selection** - ICP vs fibrinolysis algorithm
-7. **Medication Administration** - Safety-checked dosing
-8. **Report Generation** - Complete documentation
+2. **ECG Interpretation** - Physician interprets ECG using built-in reference guide
+3. **Record Findings** - Physician selects identified patterns in the interface
+4. **Clinical Assessment** - Typical vs atypical presentation decision
+5. **Automated Criteria Check** - System verifies contraindications in real-time
+6. **Dynamic Recommendations Panel** - Updates based on vitals and recorded findings
+7. **Reperfusion Strategy Selection** - ICP vs fibrinolysis algorithm
+8. **Medication Administration** - Safety-checked dosing with automatic calculations
+9. **Report Generation** - Complete documentation with timestamps
 
 ---
 
@@ -405,7 +427,8 @@ Contributions are welcome! Here are some areas where help is needed:
 
 ### High Priority
 - [ ] Translation to English (interface + help system)
-- [ ] Additional ECG pattern recognition (Wellens' syndrome, hyperacute T waves)
+- [ ] Additional ECG pattern guides (Wellens' syndrome, hyperacute T waves)
+- [ ] **Automatic ECG image analysis using AI** (future major feature)
 - [ ] EHR integration examples (HL7, FHIR)
 - [ ] Offline storage with IndexedDB
 
@@ -523,7 +546,8 @@ SOFTWARE.
 - [ ] Multi-language support (French, Portuguese, Italian)
 - [ ] EHR integration APIs
 - [ ] Mobile app (iOS/Android)
-- [ ] Real-time ECG integration
+- [ ] **Automatic ECG pattern recognition using AI/ML** (major feature)
+- [ ] Real-time ECG device integration
 - [ ] Telemedicine video consultation integration
 
 ---
@@ -542,7 +566,7 @@ SOFTWARE.
 ```
 Lines of Code: ~2,500
 Functions: 25+
-ECG Patterns: 8
+ECG Pattern Guides: 8 (physician-selected, not auto-detected)
 Medications: 8
 Safety Checks: 15+
 Languages: Spanish/Catalan (EN translation in progress)

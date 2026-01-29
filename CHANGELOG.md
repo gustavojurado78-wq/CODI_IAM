@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - IndexedDB persistent storage
 - QR code generation for reports
 - Voice input support
+- **Automatic ECG pattern recognition using AI** (future major feature)
 
 ---
 
@@ -22,17 +23,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Core Features
 - **Intelligent AMI Code Activation System**
-  - Automatic activation criteria based on ECG and clinical presentation
+  - Automatic activation criteria based on physician-entered ECG findings and clinical presentation
   - Real-time decision support for typical vs atypical presentations
   - ECG control recommendations (15 min post-NTG for atypical cases)
   
-- **Comprehensive ECG Pattern Recognition**
-  - De Winter pattern detection (STEMI equivalent)
-  - Posterior MI identification
-  - Right ventricular infarction detection
-  - Diffuse ST depression + aVR elevation
-  - Sgarbossa-Smith criteria for LBBB/pacemaker
-  - Bundle branch block assessment (LBBB, RBBB)
+- **Comprehensive ECG Pattern Reference Guide**
+  - De Winter pattern criteria and reminders (STEMI equivalent)
+  - Posterior MI identification guidance
+  - Right ventricular infarction assessment checklist
+  - Diffuse ST depression + aVR elevation criteria
+  - Sgarbossa-Smith criteria scoring guide for LBBB/pacemaker
+  - Bundle branch block assessment guidance (LBBB, RBBB)
+  - *Note: Physician interprets ECG and selects findings; system provides reference guides*
   
 - **Advanced Safety System**
   - Automatic nitroglycerin contraindication blocking (hypotension, RV infarct)
@@ -76,9 +78,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Time-based reminders and alerts
 
 - **Comprehensive Help System**
-  - ECG pattern recognition guide with clinical examples
+  - ECG pattern reference guide with clinical examples (physician interprets)
   - Reperfusion strategy decision algorithm
-  - Detailed Sgarbossa-Smith criteria explanation
+  - Detailed Sgarbossa-Smith criteria scoring explanation
   - Complete AMI Code protocol workflow
   - Interactive modal with 4 main sections
 
