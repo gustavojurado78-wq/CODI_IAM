@@ -1362,11 +1362,6 @@
                         </div>
                     </div>
                     
-                    <div class="checkbox-item" style="border-color: #fca5a5; background: #fee2e2;" onclick="toggleCheck('dolorRefractario')">
-                        <input type="checkbox" id="dolorRefractario" onclick="event.stopPropagation(); checkActivation()">
-                        <span style="color: #dc2626; font-weight: 600;" data-i18n="clinical.refractory.pain">Dolor refractario a tratamiento</span>
-                    </div>
-
                     <!-- Alerta automática de shock cardiogénico -->
                     <div id="alertaShock" style="display: none; background: #fee2e2; padding: 12px; border-radius: 8px; border: 2px solid #dc2626; margin-top: 10px;">
                         <div style="color: #dc2626; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 8px;">
@@ -1399,8 +1394,8 @@
                     </div>
                 </div>
 
-                <!-- Contraindicaciones -->
-                <div class="section section-contra" style="margin-top: 20px;">
+                <!-- Contraindicaciones - Solo visible si se selecciona fibrinólisis -->
+                <div id="contraSection" class="section section-contra" style="margin-top: 20px; display: none;">
                     <h2 data-i18n="section.contraindications">⚠️ Contraindicaciones para Fibrinólisis</h2>
                     
                     <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('hemorragiaCerebral')">
@@ -1545,19 +1540,47 @@
                 defaultRoute: 'IV + SC',
                 instructions: '< 75 años SIN insuficiencia renal (Cr <2.5 mg/dl o <2 mg/dl en mujeres):\n✓ Bolo 30 mg IV\n✓ Seguido a los 15 min: 1 mg/kg SC (máx 100 mg 1ª dosis)\n\n≥ 75 años Y/O insuficiencia renal:\n✓ NO bolo IV inicial\n✓ 0.75 mg/kg SC c/12h (máx 75 mg)\n\n✓ SC en abdomen, alternar lados\n⚠️ Ajustar si FG <30 ml/min: considerar HNF'
             },
-            { 
-                id: 'morfina', 
-                name: 'Morfina', 
+            {
+                id: 'morfina',
+                name: 'Morfina',
                 doseOptions: ['2-3 mg IV', '3-5 mg IV', '5-10 mg IV'],
                 defaultRoute: 'IV',
-                instructions: '✓ Diluir 10 mg en 9 ml de suero (1 ml = 1 mg)\n✓ Administrar lentamente en 2-3 min\n✓ Puede repetir cada 5-10 min si precisa\n⚠️ NO administrar si TAS <90 mmHg\n⚠️ Vigilar depresión respiratoria'
+                instructions: '✓ Diluir 10 mg en 9 ml de suero (1 ml = 1 mg)\n✓ Administrar lentamente en 2-3 min\n✓ Puede repetir cada 5-10 min si precisa\n⚠️ NO administrar si TAS <90 mmHg\n⚠️ Vigilar depresión respiratoria\n⚠️ Puede retrasar absorción de antiagregantes orales\n💡 Alternativa si hipotensión: FENTANILO (menor efecto hipotensor)'
             },
-            { 
-                id: 'nitroglicerina', 
-                name: 'Nitroglicerina', 
+            {
+                id: 'fentanilo',
+                name: 'Fentanilo',
+                doseOptions: ['25 mcg IV', '50 mcg IV', '25-50 mcg IV (repetir)'],
+                defaultRoute: 'IV',
+                instructions: '✓ Alternativa a morfina con MENOR efecto hipotensor\n✓ Administrar lentamente en 1-2 min\n✓ Puede repetir cada 5-10 min si precisa (máx 200 mcg)\n✓ Útil si TAS límite (90-100 mmHg)\n⚠️ Vigilar depresión respiratoria\n⚠️ También puede retrasar absorción de antiagregantes (efecto más corto que morfina)'
+            },
+            {
+                id: 'nitroglicerina',
+                name: 'Nitroglicerina',
                 doseOptions: ['0.4 mg SL', '0.4 mg SL (repetir x3)', '5-10 mcg/min IV'],
                 defaultRoute: 'SL / IV',
                 instructions: '✓ Sublingual: 0.4 mg (1 comp), puede repetir cada 5 min (máx 3 dosis)\n✓ IV: Iniciar 5-10 mcg/min, titular según TA\n⚠️ CONTRAINDICADO: TAS <90, IAM VD, sildenafil últimas 24h\n✓ Paciente sentado o semisentado'
+            },
+            {
+                id: 'metoclopramida',
+                name: 'Metoclopramida',
+                doseOptions: ['10 mg IV'],
+                defaultRoute: 'IV',
+                instructions: '✓ Antiemético de elección en IAM\n✓ Administrar lentamente en 1-2 min\n✓ Puede mejorar absorción de antiagregantes orales\n✓ También útil profilaxis antes de opioides\n⚠️ Evitar en Parkinson o discinesia tardía'
+            },
+            {
+                id: 'ondansetron',
+                name: 'Ondansetrón',
+                doseOptions: ['4 mg IV', '8 mg IV'],
+                defaultRoute: 'IV',
+                instructions: '✓ Antiemético alternativo si metoclopramida contraindicada\n✓ Administrar lentamente en 2-5 min\n⚠️ PRECAUCIÓN: prolonga intervalo QT\n⚠️ Evitar si QT prolongado o alteraciones electrolíticas\n⚠️ Monitorizar ECG en pacientes cardíacos'
+            },
+            {
+                id: 'atropina',
+                name: 'Atropina',
+                doseOptions: ['0.5 mg IV', '1 mg IV'],
+                defaultRoute: 'IV',
+                instructions: '✓ Indicada en BRADICARDIA sintomática\n✓ Especialmente útil en IAM INFERIOR (síntomas vagales)\n✓ Dosis: 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n⚠️ Dosis <0.5 mg pueden causar bradicardia paradójica\n⚠️ Usar con precaución: taquicardia puede aumentar demanda O2\n⚠️ Ineficaz en bloqueo AV infranodal (tipo II Mobitz, 3er grado)'
             }
         ];
 
@@ -1696,7 +1719,7 @@
             if (medId === 'tenecteplasa') {
                 const peso = parseFloat(document.getElementById('peso').value);
                 const edad = parseInt(document.getElementById('edad').value);
-                
+
                 if (!peso) {
                     alert('💡 RECORDATORIO\n\nPara calcular la dosis de TNK:\n\n1. Ingresa el PESO del paciente arriba\n2. Selecciona "Fibrinólisis" en Estrategia de Reperfusión\n3. La dosis se calculará automáticamente\n\n⚠️ Verifica TODAS las contraindicaciones antes de administrar.');
                 } else {
@@ -1708,9 +1731,42 @@
                     else if (peso <= 80) dose = mayor75 ? 20 : 40;
                     else if (peso <= 90) dose = mayor75 ? 22.5 : 45;
                     else dose = mayor75 ? 25 : 50;
-                    
+
                     const volume = (dose / 5).toFixed(1);
                     alert(`✓ DOSIS CALCULADA\n\nPeso: ${peso} kg\nEdad: ${edad > 75 ? '>75 años (dosis reducida)' : '≤75 años'}\n\nDOSIS TNK: ${dose} mg\nVOLUMEN: ${volume} ml\n\n📋 Preparación:\n• Reconstituir con 10 ml de agua estéril\n• Administrar en bolo IV (5-10 seg)\n• Verificar contraindicaciones`);
+                }
+            }
+
+            // Fentanilo - alternativa a morfina
+            if (medId === 'fentanilo') {
+                if (tas && tas < 90) {
+                    alert('⚠️ PRECAUCIÓN: TAS <90 mmHg\n\nAunque el fentanilo causa MENOS hipotensión que la morfina, usar con precaución en hipotensión.\n\nConsiderar dosis más bajas (25 mcg) y monitorizar estrechamente.');
+                } else {
+                    alert('💡 FENTANILO - Analgésico opiáceo\n\n✅ Ventajas sobre morfina:\n• Menor efecto hipotensor\n• Efecto más rápido y corto\n• Menor interferencia con absorción de antiagregantes\n\n📋 Dosis: 25-50 mcg IV, puede repetir cada 5-10 min');
+                }
+            }
+
+            // Metoclopramida - antiemético
+            if (medId === 'metoclopramida') {
+                alert('💡 METOCLOPRAMIDA - Antiemético\n\n✅ Indicaciones en IAM:\n• Náuseas/vómitos (frecuentes con opioides)\n• Puede mejorar absorción de antiagregantes orales\n• Profilaxis antes de administrar morfina/fentanilo\n\n⚠️ Evitar en Parkinson o antecedentes de discinesia');
+            }
+
+            // Ondansetrón - precaución QT
+            if (medId === 'ondansetron') {
+                alert('⚠️ ONDANSETRÓN - Usar con PRECAUCIÓN\n\nProlonga el intervalo QT, lo que puede aumentar riesgo de arritmias en pacientes cardíacos.\n\n✅ Usar solo si:\n• Metoclopramida contraindicada\n• Náuseas severas refractarias\n\n🚫 Evitar si:\n• QT prolongado conocido\n• Hipopotasemia/hipomagnesemia\n• Uso concomitante de otros fármacos que prolongan QT');
+            }
+
+            // Atropina - bradicardia
+            if (medId === 'atropina') {
+                const fc = parseFloat(document.getElementById('fc').value);
+                const inferiorMI = document.getElementById('inferiorMI') && document.getElementById('inferiorMI').checked;
+
+                if (fc && fc >= 60) {
+                    alert('⚠️ ATENCIÓN: FC ≥60 lpm\n\nLa atropina está indicada en BRADICARDIA SINTOMÁTICA.\n\n¿Está seguro de que el paciente tiene bradicardia con síntomas?\n\n⚠️ Aumentar FC puede incrementar demanda de O2 miocárdico');
+                } else if (inferiorMI || document.getElementById('infartoVD').checked) {
+                    alert('✓ ATROPINA en IAM INFERIOR\n\nLa bradicardia sinusal y el bloqueo AV son frecuentes en IAM inferior por tono vagal aumentado.\n\n📋 Dosis: 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n\n✅ Suele ser efectiva en bradicardia vagal\n⚠️ Ineficaz si bloqueo infranodal (Mobitz II, 3er grado) → considerar marcapasos');
+                } else {
+                    alert('💡 ATROPINA - Anticolinérgico\n\nIndicada en bradicardia sintomática.\n\n📋 Dosis: 1 mg IV cada 3-5 min (máx 3 mg)\n\n⚠️ Usar con precaución en IAM:\n• Taquicardia puede aumentar demanda O2\n• Evitar dosis <0.5 mg (bradicardia paradójica)');
                 }
             }
         }
@@ -1773,8 +1829,7 @@
                 htaRefractariaCheckbox.checked = false;
             }
             
-            const hasVeryHighRisk = hasShockCardiogenico ||
-                                   document.getElementById('dolorRefractario').checked;
+            const hasVeryHighRisk = hasShockCardiogenico;
             
             const clinicaTipica = document.getElementById('clinicaSi') && document.getElementById('clinicaSi').checked;
             const clinicaAtipica = document.getElementById('clinicaNo') && document.getElementById('clinicaNo').checked;
@@ -1792,7 +1847,7 @@
                 shouldActivate = true;
                 alertType = 'inmediato';
                 alertTitulo.textContent = '¡ACTIVAR CÓDIGO IAM INMEDIATAMENTE!';
-                alertTexto.textContent = 'Paciente de MUY ALTO RIESGO (shock/dolor refractario). Activación URGENTE - llamar 061/112 AHORA.';
+                alertTexto.textContent = 'Paciente de MUY ALTO RIESGO (shock cardiogénico). Activación URGENTE - llamar 061/112 AHORA.';
             }
             // CASO 2: CLÍNICA TÍPICA + ECG compatible - Activar inmediatamente
             else if (hasSTEMI && clinicaTipica) {
@@ -1960,13 +2015,23 @@
             
             // Frecuencia cardíaca
             const fc = parseFloat(document.getElementById('fc').value);
+            const isInferiorMI = document.getElementById('infartoVD') && document.getElementById('infartoVD').checked;
             if (fc && fc < 50) {
-                recomendaciones.push({
-                    tipo: 'advertencia',
-                    icon: '💓',
-                    texto: 'Bradicardia (FC <50 lpm)',
-                    detalle: 'Monitorizar estrechamente. Tener atropina disponible. Si compromiso hemodinámico: atropina 0.5mg IV.'
-                });
+                if (isInferiorMI) {
+                    recomendaciones.push({
+                        tipo: 'advertencia',
+                        icon: '💓',
+                        texto: 'Bradicardia en IAM INFERIOR (FC <50 lpm)',
+                        detalle: 'Frecuente por tono vagal aumentado en IAM inferior.\n\n💊 ATROPINA 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n\n✅ Efectiva en bradicardia vagal sinusal y bloqueo AV nodal\n⚠️ Si no responde: considerar bloqueo infranodal → marcapasos'
+                    });
+                } else {
+                    recomendaciones.push({
+                        tipo: 'advertencia',
+                        icon: '💓',
+                        texto: 'Bradicardia (FC <50 lpm)',
+                        detalle: 'Monitorizar estrechamente. Si síntomas (hipotensión, mareo, síncope):\n\n💊 ATROPINA 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n\n⚠️ Si no responde: considerar marcapasos transcutáneo'
+                    });
+                }
             } else if (fc && fc > 120) {
                 recomendaciones.push({
                     tipo: 'advertencia',
@@ -2047,16 +2112,6 @@
                     icon: '🚫',
                     texto: '¡CONTRAINDICACIÓN ABSOLUTA PARA FIBRINÓLISIS!',
                     detalle: 'Has seleccionado fibrinólisis pero existen contraindicaciones absolutas. CAMBIAR a ICP urgente (traslado prioritario aunque >120 min).'
-                });
-            }
-            
-            // Dolor refractario
-            if (document.getElementById('dolorRefractario').checked) {
-                recomendaciones.push({
-                    tipo: 'advertencia',
-                    icon: '💊',
-                    texto: 'Dolor refractario al tratamiento',
-                    detalle: 'Considerar: Morfina 3-5mg IV (si TAS >90), nitroglicerina IV (si TAS >100). Indica isquemia persistente - reperfusión URGENTE.'
                 });
             }
             
@@ -2191,8 +2246,7 @@
                 
                 const tas = parseFloat(document.getElementById('tas').value);
                 const killip = document.getElementById('killip').value;
-                const hasVeryHighRisk = (tas && tas < 90) || killip === '4' ||
-                                       document.getElementById('dolorRefractario').checked;
+                const hasVeryHighRisk = (tas && tas < 90) || killip === '4';
                 
                 if (hasSTEMI || hasVeryHighRisk) {
                     const [h3, m3] = ecgControl.split(':').map(Number);
@@ -2300,10 +2354,16 @@
 
         function updateStrategy() {
             const decision = document.getElementById('decision').value;
-            document.getElementById('motivoFibrinolisis').style.display = 
-                decision === 'fibrinolisis' ? 'block' : 'none';
-            document.getElementById('tnkCalculator').style.display = 
-                decision === 'fibrinolisis' ? 'block' : 'none';
+            const isFibrinolisis = decision === 'fibrinolisis';
+
+            document.getElementById('motivoFibrinolisis').style.display =
+                isFibrinolisis ? 'block' : 'none';
+            document.getElementById('tnkCalculator').style.display =
+                isFibrinolisis ? 'block' : 'none';
+            // Mostrar contraindicaciones SOLO si se selecciona fibrinólisis
+            document.getElementById('contraSection').style.display =
+                isFibrinolisis ? 'block' : 'none';
+
             calculateTNK();
             updateRecomendaciones();
         }
@@ -2385,7 +2445,6 @@
                 let causa = killip === '4' ? 'Killip IV' : i18n.t('clinical.sbp') + ' <90 mmHg';
                 datosAdicionales += `⚠️ ${i18n.t('report.cardiogenic.shock')} (${causa})\n`;
             }
-            if (document.getElementById('dolorRefractario').checked) datosAdicionales += '⚠️ ' + i18n.t('report.refractory.pain') + '\n';
             
             let report = '';
             report += '═══════════════════════════════════════════════════════════════\n';
