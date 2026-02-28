@@ -154,6 +154,16 @@ const translations = {
         "btn.copy.report": "📋 Copiar Informe al Portapapeles",
         "btn.reset": "🔄 Reiniciar Tot",
 
+        // Disclaimer
+        "disclaimer.title": "DESCÀRREC DE RESPONSABILITAT - AVÍS LEGAL",
+        "disclaimer.main": "Aquesta eina és un <strong>sistema de suport a la decisió clínica (CDSS)</strong> dissenyat per assistir, no per substituir, el judici clínic del professional sanitari.",
+        "disclaimer.item1": "El professional sanitari és l'<strong>únic responsable</strong> de les decisions clíniques preses.",
+        "disclaimer.item2": "Verifiqueu sempre les dosis, contraindicacions i protocols segons les <strong>guies locals vigents</strong> de la vostra institució.",
+        "disclaimer.item3": "Aquesta aplicació <strong>no identifica automàticament patrons ECG</strong>; el metge interpreta l'ECG i introdueix les troballes.",
+        "disclaimer.item4": "La informació proporcionada no substitueix la formació mèdica ni la consulta de fonts primàries.",
+        "disclaimer.item5": "Els desenvolupadors <strong>no assumeixen responsabilitat</strong> per errors derivats de l'ús d'aquesta eina.",
+        "disclaimer.footer": "Ús exclusivament professional. Versió educativa/assistencial. No apta per a diagnòstic automatitzat.",
+
         // Modal ayuda
         "help.title": "📚 Guia d'Ajuda - Codi IAM",
         "help.close": "×",
@@ -503,6 +513,16 @@ const translations = {
         "btn.print": "🖨️ Imprimir",
         "btn.copy.report": "📋 Copiar Informe al Portapapeles",
         "btn.reset": "🔄 Reiniciar Todo",
+
+        // Disclaimer
+        "disclaimer.title": "DESCARGO DE RESPONSABILIDAD - AVISO LEGAL",
+        "disclaimer.main": "Esta herramienta es un <strong>sistema de apoyo a la decisión clínica (CDSS)</strong> diseñado para asistir, no para sustituir, el juicio clínico del profesional sanitario.",
+        "disclaimer.item1": "El profesional sanitario es el <strong>único responsable</strong> de las decisiones clínicas tomadas.",
+        "disclaimer.item2": "Verifique siempre las dosis, contraindicaciones y protocolos según las <strong>guías locales vigentes</strong> de su institución.",
+        "disclaimer.item3": "Esta aplicación <strong>no identifica automáticamente patrones ECG</strong>; el médico interpreta el ECG e introduce los hallazgos.",
+        "disclaimer.item4": "La información proporcionada no sustituye la formación médica ni la consulta de fuentes primarias.",
+        "disclaimer.item5": "Los desarrolladores <strong>no asumen responsabilidad</strong> por errores derivados del uso de esta herramienta.",
+        "disclaimer.footer": "Uso exclusivamente profesional. Versión educativa/asistencial. No apta para diagnóstico automatizado.",
 
         // Modal ayuda
         "help.title": "📚 Guía de Ayuda - Código IAM",
@@ -854,6 +874,16 @@ const translations = {
         "btn.copy.report": "📋 Copier Rapport au Presse-papiers",
         "btn.reset": "🔄 Réinitialiser Tout",
 
+        // Disclaimer
+        "disclaimer.title": "CLAUSE DE NON-RESPONSABILITÉ - AVIS JURIDIQUE",
+        "disclaimer.main": "Cet outil est un <strong>système d'aide à la décision clinique (SADC)</strong> conçu pour assister, et non remplacer, le jugement clinique du professionnel de santé.",
+        "disclaimer.item1": "Le professionnel de santé est le <strong>seul responsable</strong> des décisions cliniques prises.",
+        "disclaimer.item2": "Vérifiez toujours les doses, contre-indications et protocoles selon les <strong>recommandations locales en vigueur</strong> de votre établissement.",
+        "disclaimer.item3": "Cette application <strong>n'identifie pas automatiquement les tracés ECG</strong> ; le médecin interprète l'ECG et saisit les résultats.",
+        "disclaimer.item4": "Les informations fournies ne remplacent pas la formation médicale ni la consultation des sources primaires.",
+        "disclaimer.item5": "Les développeurs <strong>déclinent toute responsabilité</strong> pour les erreurs résultant de l'utilisation de cet outil.",
+        "disclaimer.footer": "Usage exclusivement professionnel. Version éducative/d'assistance. Non adaptée au diagnostic automatisé.",
+
         // Modal ayuda
         "help.title": "📚 Guide d'Aide - Code IAM",
         "help.close": "×",
@@ -1203,6 +1233,16 @@ const translations = {
         "btn.print": "🖨️ Print",
         "btn.copy.report": "📋 Copy Report to Clipboard",
         "btn.reset": "🔄 Reset All",
+
+        // Disclaimer
+        "disclaimer.title": "DISCLAIMER - LEGAL NOTICE",
+        "disclaimer.main": "This tool is a <strong>clinical decision support system (CDSS)</strong> designed to assist, not replace, the clinical judgment of healthcare professionals.",
+        "disclaimer.item1": "The healthcare professional is <strong>solely responsible</strong> for clinical decisions made.",
+        "disclaimer.item2": "Always verify doses, contraindications, and protocols according to your institution's <strong>current local guidelines</strong>.",
+        "disclaimer.item3": "This application <strong>does not automatically identify ECG patterns</strong>; the physician interprets the ECG and enters the findings.",
+        "disclaimer.item4": "The information provided does not replace medical training or consultation of primary sources.",
+        "disclaimer.item5": "The developers <strong>assume no liability</strong> for errors arising from the use of this tool.",
+        "disclaimer.footer": "For professional use only. Educational/assistive version. Not suitable for automated diagnosis.",
 
         // Modal ayuda
         "help.title": "📚 Help Guide - AMI Code",
