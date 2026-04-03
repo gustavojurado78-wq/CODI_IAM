@@ -41,7 +41,7 @@ const translations = {
         "timeline.ecg": "Realització ECG",
         "timeline.ecg.initial": "ECG inicial realitzat",
         "timeline.ecg.control": "ECG control (15 min post-NTG)",
-        "timeline.activation": "Activació Codi IAM",
+        "timeline.activation": "Hora de trucada (061)",
         "timeline.diagnosis": "Diagnòstic IAM",
         "timeline.transfer.decision": "Decisió de trasllat",
         "timeline.reperfusion.start": "Inici reperfusió",
@@ -358,6 +358,51 @@ const translations = {
         "report.copy.success": "✅ Informe copiat al portapapers!\n\nPots enganxar-lo a WhatsApp, email, notes, etc.",
         "report.copy.error": "Error en copiar l'informe",
         "report.copy.fallback": "No s'ha pogut copiar automàticament. Utilitza el botó de compartir en el seu lloc.",
+
+        // DEA
+        "ecg.dea.label": "DEA (Desfibril·lador Extern Automàtic)",
+        "ecg.dea.available": "DEA disponible i verificat",
+
+        // Antecedents
+        "patient.antecedents.title": "Antecedents",
+        "patient.yn.yes": "Sí",
+        "patient.yn.no": "No",
+        "patient.ant.hta": "HTA",
+        "patient.ant.dm": "DM (Diabetis)",
+        "patient.ant.dl": "DL (Dislipèmia)",
+        "patient.ant.tabac": "Tabac",
+        "patient.ant.aco": "ACO / NACOs",
+        "patient.ant.al.aas": "Al·lèrgia AAS",
+        "patient.ant.al.iode": "Al·lèrgia iode",
+
+        // Criteris clínics (dins Dades Clíniques)
+        "clinical.symptoms.title": "Criteris Clínics",
+        "clinical.symptoms.typical.title": "Clínica TÍPICA:",
+        "clinical.symptoms.typical.1": "Dolor opressiu centrotorácic > 20 min",
+        "clinical.symptoms.typical.2": "Irradiació a braç esq., coll, mandíbula",
+        "clinical.symptoms.typical.3": "Cortège vegetatiu (suor, nàusees, vòmits)",
+        "clinical.symptoms.typical.4": "No respon a NTG sublingual",
+        "clinical.symptoms.atypical.title": "Clínica ATÍPICA:",
+        "clinical.symptoms.atypical.1": "Dolor epigàstric, dorsal o atípic",
+        "clinical.symptoms.atypical.2": "Dispnea, síncope o cansament excessiu",
+        "clinical.symptoms.atypical.3": "Pacient jove, dona, diabètic (presentació atípica freqüent)",
+
+        // Killip visual (descripcions curtes)
+        "clinical.killip.1.short": "Auscultació normal",
+        "clinical.killip.2.short": "Estertors / S3",
+        "clinical.killip.3.short": "Edema pulmonar agut",
+        "clinical.killip.4.short": "Xoc cardiogènic",
+
+        // Intervals cronologia
+        "timeline.interval.symptoms.1c": "Símptomes → 1r contacte",
+        "timeline.interval.1c.ecg": "1r contacte → ECG",
+        "timeline.interval.ecg.activation": "ECG → Activació",
+        "timeline.interval.min": "min",
+
+        // Medicació - etiquetes
+        "med.fet": "Fet",
+        "med.hora": "Hora",
+        "med.dosi": "Dosi",
     },
 
     es: {
@@ -401,7 +446,7 @@ const translations = {
         "timeline.ecg": "Realización ECG",
         "timeline.ecg.initial": "ECG inicial realizado",
         "timeline.ecg.control": "ECG control (15 min post-NTG)",
-        "timeline.activation": "Activación Código IAM",
+        "timeline.activation": "Hora de llamada (061)",
         "timeline.diagnosis": "Diagnóstico IAM",
         "timeline.transfer.decision": "Decisión de traslado",
         "timeline.reperfusion.start": "Inicio reperfusión",
@@ -718,6 +763,51 @@ const translations = {
         "report.copy.success": "✅ Informe copiado al portapapeles!\n\nPuedes pegarlo en WhatsApp, email, notas, etc.",
         "report.copy.error": "Error al copiar el informe",
         "report.copy.fallback": "No se pudo copiar automáticamente. Usa el botón de compartir en su lugar.",
+
+        // DEA
+        "ecg.dea.label": "DEA (Desfibrilador Externo Automático)",
+        "ecg.dea.available": "DEA disponible y verificado",
+
+        // Antecedentes
+        "patient.antecedents.title": "Antecedentes",
+        "patient.yn.yes": "Sí",
+        "patient.yn.no": "No",
+        "patient.ant.hta": "HTA",
+        "patient.ant.dm": "DM (Diabetes)",
+        "patient.ant.dl": "DL (Dislipidemia)",
+        "patient.ant.tabac": "Tabaco",
+        "patient.ant.aco": "ACO / NACOs",
+        "patient.ant.al.aas": "Alergia AAS",
+        "patient.ant.al.iode": "Alergia yodo",
+
+        // Criterios clínicos (dentro de Datos Clínicos)
+        "clinical.symptoms.title": "Criterios Clínicos",
+        "clinical.symptoms.typical.title": "Clínica TÍPICA:",
+        "clinical.symptoms.typical.1": "Dolor opresivo centrotorácico > 20 min",
+        "clinical.symptoms.typical.2": "Irradiación a brazo izq., cuello, mandíbula",
+        "clinical.symptoms.typical.3": "Cortejo vegetativo (sudoración, náuseas, vómitos)",
+        "clinical.symptoms.typical.4": "No responde a NTG sublingual",
+        "clinical.symptoms.atypical.title": "Clínica ATÍPICA:",
+        "clinical.symptoms.atypical.1": "Dolor epigástrico, dorsal o atípico",
+        "clinical.symptoms.atypical.2": "Disnea, síncope o cansancio excesivo",
+        "clinical.symptoms.atypical.3": "Paciente joven, mujer, diabético (presentación atípica frecuente)",
+
+        // Killip visual (descripciones cortas)
+        "clinical.killip.1.short": "Auscultación normal",
+        "clinical.killip.2.short": "Estertores / S3",
+        "clinical.killip.3.short": "Edema pulmonar agudo",
+        "clinical.killip.4.short": "Shock cardiogénico",
+
+        // Intervalos cronología
+        "timeline.interval.symptoms.1c": "Síntomas → 1er contacto",
+        "timeline.interval.1c.ecg": "1er contacto → ECG",
+        "timeline.interval.ecg.activation": "ECG → Activación",
+        "timeline.interval.min": "min",
+
+        // Medicación - etiquetas
+        "med.fet": "Hecho",
+        "med.hora": "Hora",
+        "med.dosi": "Dosis",
     },
 
     fr: {
@@ -761,7 +851,7 @@ const translations = {
         "timeline.ecg": "Réalisation ECG",
         "timeline.ecg.initial": "ECG initial réalisé",
         "timeline.ecg.control": "ECG contrôle (15 min post-NTG)",
-        "timeline.activation": "Activation Code IAM",
+        "timeline.activation": "Heure d'appel (061)",
         "timeline.diagnosis": "Diagnostic IAM",
         "timeline.transfer.decision": "Décision de transfert",
         "timeline.reperfusion.start": "Début reperfusion",
@@ -1078,6 +1168,51 @@ const translations = {
         "report.copy.success": "✅ Rapport copié dans le presse-papiers!\n\nVous pouvez le coller dans WhatsApp, email, notes, etc.",
         "report.copy.error": "Erreur lors de la copie du rapport",
         "report.copy.fallback": "Impossible de copier automatiquement. Utilisez le bouton de partage à la place.",
+
+        // DEA
+        "ecg.dea.label": "DEA (Défibrillateur Externe Automatique)",
+        "ecg.dea.available": "DEA disponible et vérifié",
+
+        // Antécédents
+        "patient.antecedents.title": "Antécédents",
+        "patient.yn.yes": "Oui",
+        "patient.yn.no": "Non",
+        "patient.ant.hta": "HTA",
+        "patient.ant.dm": "DM (Diabète)",
+        "patient.ant.dl": "DL (Dyslipidémie)",
+        "patient.ant.tabac": "Tabac",
+        "patient.ant.aco": "ACO / NACOs",
+        "patient.ant.al.aas": "Allergie AAS",
+        "patient.ant.al.iode": "Allergie iode",
+
+        // Critères cliniques (dans Données Cliniques)
+        "clinical.symptoms.title": "Critères Cliniques",
+        "clinical.symptoms.typical.title": "Clinique TYPIQUE:",
+        "clinical.symptoms.typical.1": "Douleur oppressive centrothoracique > 20 min",
+        "clinical.symptoms.typical.2": "Irradiation au bras g., cou, mâchoire",
+        "clinical.symptoms.typical.3": "Accompagnement végétatif (sueurs, nausées, vomissements)",
+        "clinical.symptoms.typical.4": "Ne répond pas à NTG sublinguale",
+        "clinical.symptoms.atypical.title": "Clinique ATYPIQUE:",
+        "clinical.symptoms.atypical.1": "Douleur épigastrique, dorsale ou atypique",
+        "clinical.symptoms.atypical.2": "Dyspnée, syncope ou fatigue excessive",
+        "clinical.symptoms.atypical.3": "Patient jeune, femme, diabétique (présentation atypique fréquente)",
+
+        // Killip visuel (descriptions courtes)
+        "clinical.killip.1.short": "Auscultation normale",
+        "clinical.killip.2.short": "Râles / S3",
+        "clinical.killip.3.short": "OAP",
+        "clinical.killip.4.short": "Choc cardiogénique",
+
+        // Intervalles chronologie
+        "timeline.interval.symptoms.1c": "Symptômes → 1er contact",
+        "timeline.interval.1c.ecg": "1er contact → ECG",
+        "timeline.interval.ecg.activation": "ECG → Activation",
+        "timeline.interval.min": "min",
+
+        // Médication - étiquettes
+        "med.fet": "Fait",
+        "med.hora": "Heure",
+        "med.dosi": "Dose",
     },
 
     en: {
@@ -1121,7 +1256,7 @@ const translations = {
         "timeline.ecg": "ECG performed",
         "timeline.ecg.initial": "Initial ECG performed",
         "timeline.ecg.control": "Control ECG (15 min post-NTG)",
-        "timeline.activation": "AMI Code Activation",
+        "timeline.activation": "Call time (061)",
         "timeline.diagnosis": "AMI diagnosis",
         "timeline.transfer.decision": "Transfer decision",
         "timeline.reperfusion.start": "Reperfusion start",
@@ -1438,6 +1573,51 @@ const translations = {
         "report.copy.success": "✅ Report copied to clipboard!\n\nYou can paste it in WhatsApp, email, notes, etc.",
         "report.copy.error": "Error copying report",
         "report.copy.fallback": "Could not copy automatically. Use the share button instead.",
+
+        // DEA
+        "ecg.dea.label": "AED (Automated External Defibrillator)",
+        "ecg.dea.available": "AED available and verified",
+
+        // Medical history
+        "patient.antecedents.title": "Medical History",
+        "patient.yn.yes": "Yes",
+        "patient.yn.no": "No",
+        "patient.ant.hta": "HTN",
+        "patient.ant.dm": "DM (Diabetes)",
+        "patient.ant.dl": "DL (Dyslipidemia)",
+        "patient.ant.tabac": "Smoking",
+        "patient.ant.aco": "OAC / NOACs",
+        "patient.ant.al.aas": "Aspirin allergy",
+        "patient.ant.al.iode": "Iodine allergy",
+
+        // Clinical criteria (inside Clinical Data)
+        "clinical.symptoms.title": "Clinical Criteria",
+        "clinical.symptoms.typical.title": "TYPICAL symptoms:",
+        "clinical.symptoms.typical.1": "Central oppressive chest pain > 20 min",
+        "clinical.symptoms.typical.2": "Radiation to left arm, neck, jaw",
+        "clinical.symptoms.typical.3": "Vegetative symptoms (sweating, nausea, vomiting)",
+        "clinical.symptoms.typical.4": "No response to sublingual NTG",
+        "clinical.symptoms.atypical.title": "ATYPICAL symptoms:",
+        "clinical.symptoms.atypical.1": "Epigastric, dorsal or atypical pain",
+        "clinical.symptoms.atypical.2": "Dyspnea, syncope or excessive fatigue",
+        "clinical.symptoms.atypical.3": "Young patient, female, diabetic (frequent atypical presentation)",
+
+        // Killip visual (short descriptions)
+        "clinical.killip.1.short": "Normal auscultation",
+        "clinical.killip.2.short": "Rales / S3",
+        "clinical.killip.3.short": "Acute pulm. edema",
+        "clinical.killip.4.short": "Cardiogenic shock",
+
+        // Timeline intervals
+        "timeline.interval.symptoms.1c": "Symptoms → 1st contact",
+        "timeline.interval.1c.ecg": "1st contact → ECG",
+        "timeline.interval.ecg.activation": "ECG → Activation",
+        "timeline.interval.min": "min",
+
+        // Medication labels
+        "med.fet": "Done",
+        "med.hora": "Time",
+        "med.dosi": "Dose",
     }
 };
 
