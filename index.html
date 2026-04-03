@@ -1715,8 +1715,14 @@
             const doseOptionsHTML = med.doseOptions.map(opt =>
                 `<option value="${opt}">${opt}</option>`
             ).join('');
+            const allergyBanner = med.id === 'aspirina' ? `
+                <div id="aspirina-allergy-banner" style="display:none; align-items:center; gap:8px; background:#fee2e2; border:2px solid #fca5a5; border-radius:8px; padding:8px 12px; margin-bottom:8px;">
+                    <span style="font-size:18px;">🚫</span>
+                    <span style="font-weight:700; color:#991b1b; font-size:13px;">AL·LÈRGIA A AAS documentada — No administrar</span>
+                </div>` : '';
             return `
                 <div class="med-item not-given" id="med-${med.id}">
+                    ${allergyBanner}
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; flex: 1;">
                             <input type="checkbox" id="check-${med.id}"
@@ -1811,8 +1817,14 @@
             const edad = parseInt(document.getElementById('edad').value);
             const peso = parseFloat(document.getElementById('peso').value);
             
-            // Aspirina - medicamento prioritario
+            // Aspirina — bloquear si alergia confirmada
             if (medId === 'aspirina') {
+                if (antecedentState['al-aas'] === true) {
+                    alert('🚫 CONTRAINDICACIÓN\n\nEl paciente tiene ALERGIA A AAS documentada en antecedentes.\n\nNO administrar aspirina.\n\nConsiderar antiagregante alternativo según protocolo (Clopidogrel 600 mg).');
+                    document.getElementById('check-aspirina').checked = false;
+                    toggleMedication('aspirina');
+                    return;
+                }
                 alert('✓ ASPIRINA - Medicamento PRIORITARIO\n\n• Administrar lo ANTES posible\n• MASTICAR y tragar (mejor absorción)\n• Beneficio probado en reducir mortalidad\n\n⏱️ Objetivo: <10 min desde primer contacto');
             }
             
@@ -1950,6 +1962,37 @@
             if (key === 'aco') {
                 document.getElementById('anticoagulacion').checked = value;
                 updateRecomendaciones();
+            }
+            // Alergia AAS → bloquear/desbloquear aspirina
+            if (key === 'al-aas') {
+                applyAspirinAllergyBlock(value);
+                updateRecomendaciones();
+            }
+        }
+
+        function applyAspirinAllergyBlock(blocked) {
+            const checkbox = document.getElementById('check-aspirina');
+            const medItem = document.getElementById('med-aspirina');
+            const allergyBanner = document.getElementById('aspirina-allergy-banner');
+            if (!checkbox || !medItem) return;
+
+            if (blocked) {
+                // Uncheck and hide inputs if already checked
+                if (checkbox.checked) {
+                    checkbox.checked = false;
+                    toggleMedication('aspirina');
+                }
+                checkbox.disabled = true;
+                checkbox.style.opacity = '0.3';
+                checkbox.style.cursor = 'not-allowed';
+                medItem.style.opacity = '0.6';
+                if (allergyBanner) allergyBanner.style.display = 'flex';
+            } else {
+                checkbox.disabled = false;
+                checkbox.style.opacity = '1';
+                checkbox.style.cursor = 'pointer';
+                medItem.style.opacity = '1';
+                if (allergyBanner) allergyBanner.style.display = 'none';
             }
         }
 
@@ -2310,6 +2353,16 @@
                     icon: '📊',
                     texto: 'Patrón De Winter detectado',
                     detalle: 'EQUIVALENTE A STEMI. Indica oclusión proximal de LAD. Activación INMEDIATA aunque no haya elevación ST típica.'
+                });
+            }
+
+            // Al·lèrgia AAS
+            if (antecedentState['al-aas'] === true) {
+                recomendaciones.push({
+                    tipo: 'critico', categoria: 'C',
+                    icon: '🚫',
+                    texto: 'ALERGIA A AAS — Aspirina CONTRAINDICADA',
+                    detalle: 'Documentada en antecedentes. NO administrar aspirina.\nAlternativa: CLOPIDOGREL 600 mg VO como antiagregante de carga.\nAvisar al hospital receptor de la alergia.'
                 });
             }
             
