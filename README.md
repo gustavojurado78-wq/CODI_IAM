@@ -55,23 +55,30 @@ Interface to record 8 ECG patterns with reminders for the professional:
 
 *Note: The physician interprets the ECG and manually selects the patterns found.*
 
+### 👤 **Structured Medical History (Antecedents)**
+- Sí/No toggle pairs for 7 risk factors: **HTA, DM, DL, Tabac, ACO/NACOs, Al·lèrgia AAS, Al·lèrgia iode**
+- Color-coded: orange for anticoagulation (ACO), red for drug allergies
+- Allergy flags feed directly into the medication safety system
+
 ### 💊 **Smart Medication Management**
 - **Pre-populated dose options** based on clinical guidelines
 - **Automatic contraindication checking** (e.g., blocks nitroglycerin in RV infarct + hypotension)
+- **Aspirin allergy block**: if Al·lèrgia AAS is marked in antecedents, the Aspirin checkbox is disabled, a red banner appears, and an alternative (Clopidogrel 600 mg) is suggested
 - **Age/weight-adjusted dosing** (enoxaparin, TNK, clopidogrel)
 - **Detailed preparation instructions** for each medication with visual guides
-- **Real-time alerts** for dangerous combinations
+- **Clear Fet / Hora / Dosi labeling** for administered medication tracking
 
 **Medications covered:**
-- Aspirin (AAS) with priority alerts
+- Aspirin (AAS) with priority alerts and allergy safety block
 - Clopidogrel / Ticagrelor / Prasugrel (with contraindication checking)
 - Tenecteplase (TNK) with automatic dose calculator
 - Enoxaparin (with renal function adjustments)
-- Morphine (with hypotension warnings)
+- Morphine / Fentanilo (with hypotension warnings)
 - Nitroglycerin (with multiple safety checks)
 
 ### ⏱️ **Time-Critical Management**
 - Automatic time tracking from symptom onset to intervention
+- **Real-time interval display**: Símptomes→1r contacte, 1r contacte→ECG, ECG→Activació (in minutes)
 - ECG timing reminders (goal: <10 minutes from first medical contact)
 - Aspirin administration tracking
 - ECG control recommendations (15 min post-NTG for atypical presentations)
@@ -84,10 +91,6 @@ Interface to record 8 ECG patterns with reminders for the professional:
   - Automatic dose reduction for patients >75 years
   - Weight-based dosing from 30-50 mg
   - Volume calculation for preparation
-- **Second antiplatelet recommendation** based on:
-  - Bleeding risk factors
-  - Age, weight, prior stroke/TIA
-  - Contraindications for prasugrel
 - **Blood pressure-based contraindication detection**
 - **Automatic Killip IV = shock detection**
 
@@ -117,7 +120,7 @@ Built-in interactive guide with 4 sections:
 - **Mobile-responsive** for use on tablets and smartphones
 - **Print-optimized** layout for physical records
 - **Real-time clock** with automatic timestamp marking
-- **Dynamic recommendations panel** that updates as you work
+- **ABCD structured recommendations panel** (ERC 2025) that updates as you work — grouped into Vía Aèria / Ventilació / Circulació / Decisió with alert count badges
 - **Collapsible sections** to reduce visual clutter
 
 ---
@@ -138,6 +141,15 @@ Blocks administration if:
 ```
 Alerts if:
 └─ TAS <90 mmHg (can worsen shock)
+```
+
+#### Aspirin (AAS) Allergy Block 🚫
+```
+If "Al·lèrgia AAS = Sí" in antecedents:
+├─ Aspirin checkbox disabled (cannot be checked)
+├─ Red allergy banner shown on medication item
+├─ Alert with alternative: Clopidogrel 600 mg
+└─ Critical recommendation in ABCD-C panel
 ```
 
 #### Prasugrel Contraindications 🚫
@@ -326,7 +338,7 @@ graph TD
 3. **Record Findings** - Physician selects identified patterns in the interface
 4. **Clinical Assessment** - Typical vs atypical presentation decision
 5. **Automated Criteria Check** - System verifies contraindications in real-time
-6. **Dynamic Recommendations Panel** - Updates based on vitals and recorded findings
+6. **ABCD Recommendations Panel** - Updates in real time; structured per ERC 2025 (A/B/C/D)
 7. **Reperfusion Strategy Selection** - ICP vs fibrinolysis algorithm
 8. **Medication Administration** - Safety-checked dosing with automatic calculations
 9. **Report Generation** - Complete documentation with timestamps
