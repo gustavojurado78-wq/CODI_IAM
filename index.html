@@ -1232,7 +1232,7 @@
                         </div>
                         <div class="form-group">
                             <label data-i18n="patient.weight">Peso (kg)</label>
-                            <input type="number" id="peso" data-i18n-placeholder="patient.weight.placeholder" placeholder="kg" onchange="calculateTNK()">
+                            <input type="number" id="peso" data-i18n-placeholder="patient.weight.placeholder" placeholder="kg">
                         </div>
                         <div class="form-group">
                             <label data-i18n="patient.gender">Sexo</label>
@@ -1240,10 +1240,6 @@
                                 <option value="M" data-i18n-value="patient.gender.male">Masculino</option>
                                 <option value="F" data-i18n-value="patient.gender.female">Femenino</option>
                             </select>
-                        </div>
-                        <div class="form-group full">
-                            <label data-i18n="clinical.allergies">Alergias conocidas</label>
-                            <input type="text" id="alergias" data-i18n-placeholder="clinical.allergies.placeholder" placeholder="Ninguna conocida">
                         </div>
                         <!-- Antecedents section -->
                         <div class="form-group full">
@@ -1565,46 +1561,6 @@
                     </div>
                 </div>
 
-                <!-- Contraindicaciones - Solo visible si se selecciona fibrinólisis -->
-                <div id="contraSection" class="section section-contra" style="margin-top: 20px; display: none;">
-                    <h2 data-i18n="section.contraindications">⚠️ Contraindicaciones para Fibrinólisis</h2>
-                    
-                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('hemorragiaCerebral')">
-                        <input type="checkbox" id="hemorragiaCerebral" onclick="event.stopPropagation()">
-                        <span style="font-size: 13px;" data-i18n="contra.cerebral.hemorrhage">Hemorragia cerebral previa</span>
-                    </div>
-
-                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('avcReciente')">
-                        <input type="checkbox" id="avcReciente" onclick="event.stopPropagation()">
-                        <span style="font-size: 13px;" data-i18n="contra.recent.stroke">AVC isquémico &lt;6 meses</span>
-                    </div>
-
-                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('traumaCirugia')">
-                        <input type="checkbox" id="traumaCirugia" onclick="event.stopPropagation()">
-                        <span style="font-size: 13px;" data-i18n="contra.recent.trauma.surgery">Trauma/cirugía reciente &lt;3 meses</span>
-                    </div>
-
-                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('sangradoActivo')">
-                        <input type="checkbox" id="sangradoActivo" onclick="event.stopPropagation()">
-                        <span style="font-size: 13px;" data-i18n="contra.active.bleeding">Sangrado activo</span>
-                    </div>
-
-                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('htaRefractaria')">
-                        <input type="checkbox" id="htaRefractaria" onclick="event.stopPropagation()">
-                        <span style="font-size: 13px;" data-i18n="contra.refractory.hypertension">HTA refractaria (&gt;180/110)</span>
-                    </div>
-
-                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('gestacion')">
-                        <input type="checkbox" id="gestacion" onclick="event.stopPropagation()">
-                        <span style="font-size: 13px;" data-i18n="contra.pregnancy">Gestación</span>
-                    </div>
-
-                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('ictusAit')">
-                        <input type="checkbox" id="ictusAit" onclick="event.stopPropagation()">
-                        <span style="font-size: 13px;" data-i18n="contra.previous.stroke">Ictus/AIT previo</span>
-                    </div>
-                </div>
-
                 <!-- Estrategia -->
                 <div class="section section-strategy" style="margin-top: 20px;">
                     <h2 data-i18n="section.strategy">💉 Estrategia de Reperfusión</h2>
@@ -1629,14 +1585,6 @@
                     </div>
 
 
-                    <!-- Calculadora TNK -->
-                    <div id="tnkCalculator" style="display: none;" class="info-box red">
-                        <div style="font-weight: 700; font-size: 15px; margin-bottom: 8px; color: #991b1b;" data-i18n="strategy.tnk.title">
-                            Dosis Tenecteplasa calculada:
-                        </div>
-                        <div class="dose-display" id="tnkDose"></div>
-                        <div style="font-size: 14px; color: #991b1b;" id="tnkVolume"></div>
-                    </div>
                 </div>
 
                 <!-- Medicación -->
@@ -1686,39 +1634,36 @@
                 defaultRoute: 'VO',
                 instructions: '✓ Masticar y tragar para mejor absorción\n✓ Dosis de carga en IAM\n✓ Administrar lo antes posible'
             },
-            { 
-                id: 'clopidogrel', 
-                name: 'Clopidogrel', 
+            {
+                id: 'clopidogrel',
+                name: 'Clopidogrel',
                 doseOptions: ['300 mg', '600 mg'],
                 defaultRoute: 'VO',
+                semOnly: true,
                 instructions: '✓ Dosis de carga: 600 mg (preferida)\n✓ 300 mg si edad >75 años\n✓ Tragar entero con agua'
             },
-            { 
-                id: 'ticagrelor', 
-                name: 'Ticagrelor', 
+            {
+                id: 'ticagrelor',
+                name: 'Ticagrelor',
                 doseOptions: ['180 mg'],
                 defaultRoute: 'VO',
+                semOnly: true,
                 instructions: '✓ Dosis de carga: 2 comprimidos de 90 mg\n✓ NO requiere ajuste por edad\n✓ Tragar entero con agua'
             },
-            { 
-                id: 'prasugrel', 
-                name: 'Prasugrel', 
+            {
+                id: 'prasugrel',
+                name: 'Prasugrel',
                 doseOptions: ['60 mg'],
                 defaultRoute: 'VO',
+                semOnly: true,
                 instructions: '✓ Dosis de carga: 60 mg (6 comprimidos de 10 mg)\n⚠️ Contraindicado si: edad >75 años, peso <60 kg, AIT/ictus previo\n✓ Tragar entero con agua'
             },
-            { 
-                id: 'tenecteplasa', 
-                name: 'Tenecteplasa (TNK)', 
-                doseOptions: ['Según peso (ver calculadora)'],
-                defaultRoute: 'IV',
-                instructions: '✓ Bolo único IV en 5-10 segundos\n✓ Usar calculadora automática arriba\n✓ Reconstituir con 10 ml de agua estéril\n⚠️ Verificar ausencia de contraindicaciones'
-            },
-            { 
-                id: 'enoxaparina', 
-                name: 'Enoxaparina', 
+            {
+                id: 'enoxaparina',
+                name: 'Enoxaparina',
                 doseOptions: ['30 mg IV + 1 mg/kg SC', '1 mg/kg SC c/12h', '0.75 mg/kg SC c/12h (>75a o I.Renal)'],
                 defaultRoute: 'IV + SC',
+                semOnly: true,
                 instructions: '< 75 años SIN insuficiencia renal (Cr <2.5 mg/dl o <2 mg/dl en mujeres):\n✓ Bolo 30 mg IV\n✓ Seguido a los 15 min: 1 mg/kg SC (máx 100 mg 1ª dosis)\n\n≥ 75 años Y/O insuficiencia renal:\n✓ NO bolo IV inicial\n✓ 0.75 mg/kg SC c/12h (máx 75 mg)\n\n✓ SC en abdomen, alternar lados\n⚠️ Ajustar si FG <30 ml/min: considerar HNF'
             },
             {
@@ -1766,14 +1711,11 @@
         ];
 
         // Renderizar lista de medicamentos
-        function renderMedicationList() {
-            const container = document.getElementById('medicationList');
-            container.innerHTML = medications.map(med => {
-                const doseOptionsHTML = med.doseOptions.map(opt => 
-                    `<option value="${opt}">${opt}</option>`
-                ).join('');
-                
-                return `
+        function renderMedItem(med) {
+            const doseOptionsHTML = med.doseOptions.map(opt =>
+                `<option value="${opt}">${opt}</option>`
+            ).join('');
+            return `
                 <div class="med-item not-given" id="med-${med.id}">
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; flex: 1;">
@@ -1809,7 +1751,27 @@
                         </div>
                     </div>
                 </div>
-            `}).join('');
+            `;
+        }
+
+        function renderMedicationList() {
+            const container = document.getElementById('medicationList');
+            const normalMeds = medications.filter(m => !m.semOnly);
+            const semMeds = medications.filter(m => m.semOnly);
+
+            const semHeader = `
+                <div style="margin: 16px 0 8px 0; padding: 10px 14px; background: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px;">
+                    <div style="font-weight: 700; font-size: 13px; color: #92400e; text-transform: uppercase; letter-spacing: 0.5px;">
+                        ⚠️ Solo si indicación del SEM
+                    </div>
+                    <div style="font-size: 11px; color: #a16207; margin-top: 3px;">Fármacos avanzados — no administrar en atención primaria sin indicación SEM</div>
+                </div>
+            `;
+
+            container.innerHTML =
+                normalMeds.map(renderMedItem).join('') +
+                semHeader +
+                semMeds.map(renderMedItem).join('');
         }
 
         function toggleMedication(medId) {
@@ -1848,7 +1810,6 @@
             const infartoVD = document.getElementById('infartoVD').checked;
             const edad = parseInt(document.getElementById('edad').value);
             const peso = parseFloat(document.getElementById('peso').value);
-            const ictusAit = document.getElementById('ictusAit').checked;
             
             // Aspirina - medicamento prioritario
             if (medId === 'aspirina') {
@@ -1885,8 +1846,7 @@
                 let warnings = [];
                 if (edad > 75) warnings.push('• Edad >75 años');
                 if (peso < 60) warnings.push('• Peso <60 kg');
-                if (ictusAit) warnings.push('• Antecedente de AIT/ictus');
-                
+
                 if (warnings.length > 0) {
                     alert('🚫 CONTRAINDICACIÓN para Prasugrel:\n\n' + warnings.join('\n') + '\n\nUsar TICAGRELOR en su lugar.');
                     document.getElementById(`check-${medId}`).checked = false;
@@ -1909,28 +1869,6 @@
                 alert('💡 AJUSTE POR EDAD\n\nEdad ≥75 años:\n• Dosis: 0.75 mg/kg SC c/12h (máx 75 mg)\n• SIN bolo IV de 30 mg\n\n⚠️ También usar esta dosis si hay insuficiencia renal\n(Creatinina >2.5 mg/dl o >2 mg/dl en mujeres)');
             }
             
-            // TNK - recordar usar calculadora
-            if (medId === 'tenecteplasa') {
-                const peso = parseFloat(document.getElementById('peso').value);
-                const edad = parseInt(document.getElementById('edad').value);
-
-                if (!peso) {
-                    alert('💡 RECORDATORIO\n\nPara calcular la dosis de TNK:\n\n1. Ingresa el PESO del paciente arriba\n2. Selecciona "Fibrinólisis" en Estrategia de Reperfusión\n3. La dosis se calculará automáticamente\n\n⚠️ Verifica TODAS las contraindicaciones antes de administrar.');
-                } else {
-                    // Calcular dosis
-                    const mayor75 = edad > 75;
-                    let dose;
-                    if (peso < 60) dose = mayor75 ? 15 : 30;
-                    else if (peso <= 70) dose = mayor75 ? 17.5 : 35;
-                    else if (peso <= 80) dose = mayor75 ? 20 : 40;
-                    else if (peso <= 90) dose = mayor75 ? 22.5 : 45;
-                    else dose = mayor75 ? 25 : 50;
-
-                    const volume = (dose / 5).toFixed(1);
-                    alert(`✓ DOSIS CALCULADA\n\nPeso: ${peso} kg\nEdad: ${edad > 75 ? '>75 años (dosis reducida)' : '≤75 años'}\n\nDOSIS TNK: ${dose} mg\nVOLUMEN: ${volume} ml\n\n📋 Preparación:\n• Reconstituir con 10 ml de agua estéril\n• Administrar en bolo IV (5-10 seg)\n• Verificar contraindicaciones`);
-                }
-            }
-
             // Fentanilo - alternativa a morfina
             if (medId === 'fentanilo') {
                 if (tas && tas < 90) {
@@ -2109,16 +2047,6 @@
                 }
             } else {
                 alertaShock.style.display = 'none';
-            }
-            
-            // Detectar HTA refractaria automáticamente
-            const tad = parseFloat(document.getElementById('tad').value);
-            const htaRefractariaCheckbox = document.getElementById('htaRefractaria');
-            if (tas && tad && tas > 180 && tad > 110) {
-                htaRefractariaCheckbox.checked = true;
-            } else if (tas && tad && (tas <= 180 || tad <= 110)) {
-                // Solo desmarcar si AMBOS valores están por debajo del umbral
-                htaRefractariaCheckbox.checked = false;
             }
             
             const hasVeryHighRisk = hasShockCardiogenico;
@@ -2374,34 +2302,7 @@
                     detalle: 'Paciente en anticoagulación oral activa. ALTO riesgo hemorrágico con fibrinólisis. Considerar fuertemente ICP en su lugar.'
                 });
             }
-
-            // Gestación
-            if (document.getElementById('gestacion').checked) {
-                recomendaciones.push({
-                    tipo: 'critico', categoria: 'D',
-                    icon: '🤰',
-                    texto: 'GESTACIÓN — Contraindicación ABSOLUTA fibrinólisis',
-                    detalle: 'ICP es la estrategia preferida independientemente del tiempo. Coordinar con obstetricia. NO administrar fibrinolíticos.'
-                });
-            }
-
-            // Contraindicaciones absolutas para fibrinólisis
-            const contraFibrinolisis = document.getElementById('hemorragiaCerebral').checked ||
-                                      document.getElementById('avcReciente').checked ||
-                                      document.getElementById('traumaCirugia').checked ||
-                                      document.getElementById('sangradoActivo').checked ||
-                                      document.getElementById('htaRefractaria').checked ||
-                                      document.getElementById('gestacion').checked;
-
-            if (contraFibrinolisis && decision === 'fibrinolisis') {
-                recomendaciones.push({
-                    tipo: 'critico', categoria: 'D',
-                    icon: '🚫',
-                    texto: '¡CONTRAINDICACIÓN ABSOLUTA PARA FIBRINÓLISIS!',
-                    detalle: 'Has seleccionado fibrinólisis pero existen contraindicaciones absolutas. CAMBIAR a ICP urgente (traslado prioritario aunque >120 min).'
-                });
-            }
-
+            
             // Patrón de De Winter
             if (document.getElementById('patronWinter').checked) {
                 recomendaciones.push({
@@ -2672,13 +2573,7 @@
 
             document.getElementById('motivoFibrinolisis').style.display =
                 isFibrinolisis ? 'block' : 'none';
-            document.getElementById('tnkCalculator').style.display =
-                isFibrinolisis ? 'block' : 'none';
-            // Mostrar contraindicaciones SOLO si se selecciona fibrinólisis
-            document.getElementById('contraSection').style.display =
-                isFibrinolisis ? 'block' : 'none';
 
-            calculateTNK();
             updateRecomendaciones();
         }
 
@@ -2705,13 +2600,31 @@
                 'Volumen: ' + volume + ' ml' + (mayor75 ? ' (dosis reducida >75 años)' : '');
         }
 
+        function calculateAntiplatelet() {
+            const anticoagulacion = document.getElementById('anticoagulacion').checked;
+            const edad = parseInt(document.getElementById('edad').value);
+            const peso = parseFloat(document.getElementById('peso').value);
+
+            const contraPrasugrel = edad > 75 || peso < 60;
+
+            let recommendation;
+            if (anticoagulacion) {
+                recommendation = 'CLOPIDOGREL (Alto riesgo hemorrágico)';
+            } else if (contraPrasugrel) {
+                recommendation = 'TICAGRELOR (Sin contraindicaciones)';
+            } else {
+                recommendation = 'TICAGRELOR o PRASUGREL';
+            }
+
+            const resultDiv = document.getElementById('antiplateletResult');
+            resultDiv.textContent = recommendation;
+            resultDiv.style.display = 'block';
+        }
 
         function generateReport() {
             const edad = document.getElementById('edad').value || i18n.t('report.not.specified.fem');
             const sexo = document.getElementById('sexo').value === 'M' ? i18n.t('patient.gender.male') : i18n.t('patient.gender.female');
             const peso = document.getElementById('peso').value || i18n.t('report.not.specified');
-            const alergias = document.getElementById('alergias').value || i18n.t('report.not.known');
-            
             // Hallazgos ECG
             let hallazgosECG = '';
             if (document.getElementById('elevacionST').checked) hallazgosECG += '✓ ' + i18n.t('ecg.st.elevation') + '\n';
@@ -2745,7 +2658,6 @@
             report += i18n.t('report.age') + ': ' + edad + ' ' + i18n.t('report.years') + '\n';
             report += i18n.t('report.sex') + ': ' + sexo + '\n';
             report += i18n.t('report.weight') + ': ' + peso + ' ' + i18n.t('report.kg') + '\n';
-            report += i18n.t('report.allergies') + ': ' + alergias + '\n';
             
             // Valoración de clínica
             const clinicaTipica = document.getElementById('clinicaSi') && document.getElementById('clinicaSi').checked;
@@ -2877,22 +2789,10 @@
         });
         document.getElementById('decision').addEventListener('change', updateRecomendaciones);
         document.getElementById('anticoagulacion').addEventListener('change', updateRecomendaciones);
-        document.getElementById('gestacion').addEventListener('change', updateRecomendaciones);
-        
-        // Listeners para contraindicaciones
-        ['hemorragiaCerebral', 'avcReciente', 'traumaCirugia', 'sangradoActivo', 'htaRefractaria', 'ictusAit'].forEach(id => {
-            document.getElementById(id).addEventListener('change', updateRecomendaciones);
-        });
-        
-        // Listeners para edad y peso (afectan antiagregantes y TNK)
-        document.getElementById('edad').addEventListener('input', function() {
-            calculateTNK();
-            updateRecomendaciones();
-        });
-        document.getElementById('peso').addEventListener('input', function() {
-            calculateTNK();
-            updateRecomendaciones();
-        });
+
+        // Listeners para edad y peso
+        document.getElementById('edad').addEventListener('input', updateRecomendaciones);
+        document.getElementById('peso').addEventListener('input', updateRecomendaciones);
         document.getElementById('primerContacto').addEventListener('change', updateRecomendaciones);
         document.getElementById('ecgRealizado').addEventListener('change', updateRecomendaciones);
         document.getElementById('ecgControl').addEventListener('change', updateRecomendaciones);
