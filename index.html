@@ -1584,17 +1584,6 @@
                         <input type="text" id="hospitalDestino" data-i18n-placeholder="strategy.hospital.placeholder" placeholder="Nombre del hospital">
                     </div>
 
-                    <!-- Recomendación segundo antiagregante -->
-                    <div class="info-box yellow">
-                        <div style="font-weight: 700; font-size: 15px; margin-bottom: 8px; color: #854d0e;" data-i18n="strategy.antiplatelet.title">
-                            Segundo antiagregante recomendado:
-                        </div>
-                        <button class="btn-warning" onclick="calculateAntiplatelet()" data-i18n="strategy.antiplatelet.calculate">
-                            Calcular recomendación
-                        </button>
-                        <div id="antiplateletResult" style="margin-top: 12px; padding: 12px; background: white; border-radius: 6px; font-weight: 700; font-size: 16px; color: #1e293b; text-transform: uppercase; text-align: center; display: none;">
-                        </div>
-                    </div>
 
                 </div>
 
@@ -2158,171 +2147,166 @@
             
             if (hasSTEMI && !clinicaTipica && !clinicaAtipica) {
                 recomendaciones.push({
-                    tipo: 'advertencia',
+                    tipo: 'advertencia', categoria: 'D',
                     icon: '👨‍⚕️',
                     texto: 'Valorar CLÍNICA del paciente',
                     detalle: 'ECG positivo detectado. CRÍTICO: Valorar si la clínica es TÍPICA (activar ya) o ATÍPICA (considerar ECG control). Ver sección "Datos Clínicos" arriba.'
                 });
             }
-            
+
             // SpO2
             const spo2 = parseFloat(document.getElementById('spo2').value);
             if (spo2 && spo2 < 90) {
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'B',
                     icon: '🫁',
                     texto: 'SpO₂ <90%: Administrar oxigenoterapia',
-                    detalle: 'Objetivo: mantener SpO₂ ≥94%. Usar cánula nasal o mascarilla según necesidad.'
+                    detalle: 'Objetivo: mantener SpO₂ ≥94%. Usar cánula nasal (2-4 L/min) o mascarilla Venturi/reservorio según necesidad.'
                 });
             } else if (spo2 && spo2 >= 90 && spo2 < 94) {
                 recomendaciones.push({
-                    tipo: 'advertencia',
+                    tipo: 'advertencia', categoria: 'B',
                     icon: '🫁',
                     texto: 'SpO₂ 90-94%: Considerar oxigenoterapia',
-                    detalle: 'Monitorizar estrechamente. Oxígeno si tendencia descendente.'
+                    detalle: 'Monitorizar estrechamente. Oxígeno si tendencia descendente. ERC 2025: O₂ solo si SpO₂ <90%.'
                 });
             }
-            
-            // Shock cardiogénico (detectado automáticamente por TAS o Killip IV)
+
+            // Shock cardiogénico
             const tas = parseFloat(document.getElementById('tas').value);
             const killip = document.getElementById('killip').value;
             const shockDetectado = (tas && tas < 90) || killip === '4';
-            
+
             if (shockDetectado) {
-                let causaShock = '';
-                if (killip === '4') causaShock = 'Killip IV';
-                else if (tas < 90) causaShock = 'TAS <90 mmHg';
-                
+                let causaShock = killip === '4' ? 'Killip IV' : 'TAS <90 mmHg';
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'C',
                     icon: '💉',
                     texto: `¡SHOCK CARDIOGÉNICO! (${causaShock})`,
-                    detalle: '• Vía venosa de gran calibre (14-16G)\n• Considerar segunda vía\n• Monitorización hemodinámica continua\n• Avisar a UCI/Hemodinámica URGENTE\n• NO administrar betabloqueantes ni nitratos'
+                    detalle: '• Vía venosa de gran calibre (14-16G)\n• Considerar segunda vía\n• Monitorización hemodinámica continua\n• Avisar UCI/Hemodinámica URGENTE\n• NO betabloqueantes ni nitratos'
                 });
-                
                 recomendaciones.push({
-                    tipo: 'info',
+                    tipo: 'info', categoria: 'C',
                     icon: '💊',
                     texto: 'Considerar soporte inotrópico',
                     detalle: 'Valorar dopamina o dobutamina según protocolo. Traslado prioritario.'
                 });
             }
-            
-            // Presión arterial - Solo hipotensión (HTA se maneja más abajo con tad)
+
+            // Hipotensión
             if (tas && tas < 90) {
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'C',
                     icon: '⚠️',
                     texto: 'Hipotensión severa (TAS <90 mmHg)',
-                    detalle: 'CONTRAINDICACIÓN para nitratos y morfina. Asegurar vía venosa. Considerar expansión con cristaloides (250-500ml).'
+                    detalle: 'CONTRAINDICACIÓN para nitratos y morfina. Asegurar vía venosa. Considerar expansión con cristaloides (250-500 ml).'
                 });
             }
-            
-            // Infarto de VD + nitratos
+
+            // Infarto de VD
             if (document.getElementById('infartoVD').checked) {
                 if (tas && tas < 100) {
                     recomendaciones.push({
-                        tipo: 'critico',
+                        tipo: 'critico', categoria: 'C',
                         icon: '❌',
                         texto: 'Infarto VD con TAS <100: CONTRAINDICADO nitratos',
                         detalle: '¡PELIGRO! NO administrar nitroglicerina. Riesgo de hipotensión severa y colapso cardiovascular. Expansión con volumen si hipotensión.'
                     });
                 } else {
                     recomendaciones.push({
-                        tipo: 'advertencia',
+                        tipo: 'advertencia', categoria: 'C',
                         icon: '⚠️',
                         texto: 'Infarto VD: EXTREMA PRECAUCIÓN con nitratos',
-                        detalle: 'Los nitratos pueden causar hipotensión severa en IAM de VD. Evitar completamente si TAS <100 mmHg. Usar con extrema precaución si TAS ≥100.'
+                        detalle: 'Los nitratos pueden causar hipotensión severa en IAM de VD. Evitar completamente si TAS <100 mmHg.'
                     });
                 }
-                
                 recomendaciones.push({
-                    tipo: 'info',
+                    tipo: 'info', categoria: 'C',
                     icon: '💧',
                     texto: 'Infarto VD: Expansión de volumen si hipotensión',
-                    detalle: 'Si hipotensión: cristaloides 250-500ml en bolo. Repetir según respuesta. NO usar diuréticos.'
+                    detalle: 'Cristaloides 250-500 ml en bolo. Repetir según respuesta. NO usar diuréticos.'
                 });
             }
-            
+
             // Frecuencia cardíaca
             const fc = parseFloat(document.getElementById('fc').value);
             const isInferiorMI = document.getElementById('infartoVD') && document.getElementById('infartoVD').checked;
             if (fc && fc < 50) {
                 if (isInferiorMI) {
                     recomendaciones.push({
-                        tipo: 'advertencia',
+                        tipo: 'advertencia', categoria: 'C',
                         icon: '💓',
                         texto: 'Bradicardia en IAM INFERIOR (FC <50 lpm)',
-                        detalle: 'Frecuente por tono vagal aumentado en IAM inferior.\n\n💊 ATROPINA 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n\n✅ Efectiva en bradicardia vagal sinusal y bloqueo AV nodal\n⚠️ Si no responde: considerar bloqueo infranodal → marcapasos'
+                        detalle: 'Frecuente por tono vagal aumentado en IAM inferior.\n💊 ATROPINA 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n⚠️ Si no responde → marcapasos'
                     });
                 } else {
                     recomendaciones.push({
-                        tipo: 'advertencia',
+                        tipo: 'advertencia', categoria: 'C',
                         icon: '💓',
                         texto: 'Bradicardia (FC <50 lpm)',
-                        detalle: 'Monitorizar estrechamente. Si síntomas (hipotensión, mareo, síncope):\n\n💊 ATROPINA 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n\n⚠️ Si no responde: considerar marcapasos transcutáneo'
+                        detalle: 'Si síntomas (hipotensión, mareo, síncope):\n💊 ATROPINA 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n⚠️ Si no responde: marcapasos transcutáneo'
                     });
                 }
             } else if (fc && fc > 120) {
                 recomendaciones.push({
-                    tipo: 'advertencia',
+                    tipo: 'advertencia', categoria: 'C',
                     icon: '💓',
                     texto: 'Taquicardia (FC >120 lpm)',
                     detalle: 'Descartar arritmias en monitor. Si taquicardia sinusal: puede indicar dolor, ansiedad o compromiso hemodinámico.'
                 });
             }
-            
-            // Killip
+
+            // Killip III → B (edema pulmonar = ventilación comprometida)
             if (killip === '3') {
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'B',
                     icon: '🫁',
                     texto: 'Killip III: Edema agudo de pulmón',
-                    detalle: 'Posición semisentada, oxígeno, furosemida 40-80mg IV, nitratos IV (si TAS >100), morfina. Traslado urgente.'
+                    detalle: 'Posición semisentada, O₂, furosemida 40-80 mg IV, nitratos IV (si TAS >100), morfina. Traslado urgente.'
                 });
             } else if (killip === '4') {
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'C',
                     icon: '🚨',
                     texto: 'Killip IV: Shock cardiogénico',
-                    detalle: 'Máxima prioridad. Ver recomendaciones de shock cardiogénico arriba.'
+                    detalle: 'Máxima prioridad. Ver recomendaciones de shock cardiogénico.'
                 });
             }
-            
-            // HTA refractaria (detectada automáticamente)
+
+            // HTA refractaria
             const tad = parseFloat(document.getElementById('tad').value);
             if (tas && tad && tas > 180 && tad > 110) {
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'C',
                     icon: '⚠️',
-                    texto: 'HTA REFRACTARIA (>180/110) - CONTRAINDICACIÓN para fibrinólisis',
+                    texto: 'HTA REFRACTARIA (>180/110) — CONTRAINDICACIÓN fibrinólisis',
                     detalle: 'Contraindicación ABSOLUTA para fibrinólisis. Intentar control tensional urgente con nitratos IV. Si no se controla → ICP aunque tiempo >120 min.'
                 });
             } else if (tas && tas > 180) {
                 recomendaciones.push({
-                    tipo: 'advertencia',
+                    tipo: 'advertencia', categoria: 'C',
                     icon: '⚠️',
                     texto: 'HTA severa (TAS >180 mmHg)',
                     detalle: 'Puede contraindicar fibrinólisis si TAD >110. Considerar nitratos para control tensional. Valorar ICP.'
                 });
             }
-            
+
             // Anticoagulación oral + Fibrinólisis
             const decision = document.getElementById('decision').value;
             const anticoagulacion = document.getElementById('anticoagulacion').checked;
             if (anticoagulacion && decision === 'fibrinolisis') {
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'D',
                     icon: '⚠️',
                     texto: '¡ALTO RIESGO! Anticoagulación + Fibrinólisis',
-                    detalle: 'Paciente en anticoagulación oral activa. ALTO riesgo hemorrágico con fibrinólisis. Considerar fuertemente ICP en su lugar. Si fibrinólisis es única opción: monitorización muy estrecha.'
+                    detalle: 'Paciente en anticoagulación oral activa. ALTO riesgo hemorrágico con fibrinólisis. Considerar fuertemente ICP en su lugar.'
                 });
             }
             
             // Patrón de De Winter
             if (document.getElementById('patronWinter').checked) {
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'D',
                     icon: '📊',
                     texto: 'Patrón De Winter detectado',
                     detalle: 'EQUIVALENTE A STEMI. Indica oclusión proximal de LAD. Activación INMEDIATA aunque no haya elevación ST típica.'
@@ -2495,53 +2479,80 @@
             const listRec = document.getElementById('recomendacionesList');
             const panelRecordatorios = document.getElementById('recordatoriosPanel');
             const listRecordatorios = document.getElementById('recordatoriosList');
-            
-            // Recomendaciones clínicas
+
+            // === ABCD groups (ERC 2025) ===
+            const abcd = {
+                A: { label: 'A — Vía Aérea', icon: '😮‍💨', headerBg: '#1e3a5f', items: [] },
+                B: { label: 'B — Ventilació / Respiració', icon: '🫁', headerBg: '#065f46', items: [] },
+                C: { label: 'C — Circulació', icon: '❤️', headerBg: '#7f1d1d', items: [] },
+                D: { label: 'D — Decisió / Discapacitat', icon: '🧠', headerBg: '#713f12', items: [] },
+            };
+
+            recomendaciones.forEach(rec => {
+                const cat = rec.categoria || 'C';
+                if (abcd[cat]) abcd[cat].items.push(rec);
+            });
+
+            function recCard(rec) {
+                const bgColor = rec.tipo === 'critico' ? '#fee2e2' :
+                               rec.tipo === 'advertencia' ? '#fef3c7' : '#e0f2fe';
+                const borderColor = rec.tipo === 'critico' ? '#fca5a5' :
+                                   rec.tipo === 'advertencia' ? '#fde047' : '#93c5fd';
+                const textColor = rec.tipo === 'critico' ? '#991b1b' :
+                                 rec.tipo === 'advertencia' ? '#854d0e' : '#075985';
+                return `
+                    <div style="background:${bgColor}; padding:12px 14px; border-radius:8px; border-left:4px solid ${borderColor}; margin-bottom:6px;">
+                        <div style="font-weight:700; color:${textColor}; margin-bottom:5px; display:flex; align-items:center; gap:8px;">
+                            <span style="font-size:18px;">${rec.icon}</span>
+                            <span>${rec.texto}</span>
+                        </div>
+                        <div style="color:${textColor}; font-size:12px; white-space:pre-line; opacity:0.9; line-height:1.5;">
+                            ${rec.detalle}
+                        </div>
+                    </div>`;
+            }
+
             if (recomendaciones.length > 0) {
                 panelRec.style.display = 'block';
-                listRec.innerHTML = recomendaciones.map(rec => {
-                    const bgColor = rec.tipo === 'critico' ? '#fee2e2' : 
-                                   rec.tipo === 'advertencia' ? '#fef3c7' : '#e0f2fe';
-                    const borderColor = rec.tipo === 'critico' ? '#fca5a5' : 
-                                       rec.tipo === 'advertencia' ? '#fde047' : '#93c5fd';
-                    const textColor = rec.tipo === 'critico' ? '#991b1b' : 
-                                     rec.tipo === 'advertencia' ? '#854d0e' : '#075985';
-                    
-                    return `
-                        <div style="background: ${bgColor}; padding: 15px; border-radius: 8px; border-left: 4px solid ${borderColor};">
-                            <div style="font-weight: 700; color: ${textColor}; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-                                <span style="font-size: 20px;">${rec.icon}</span>
-                                <span>${rec.texto}</span>
+                let html = '';
+                ['A','B','C','D'].forEach(key => {
+                    const group = abcd[key];
+                    const hasItems = group.items.length > 0;
+                    html += `
+                        <div style="margin-bottom:10px; border-radius:10px; overflow:hidden; border:1px solid #e5e7eb;">
+                            <div style="background:${group.headerBg}; padding:8px 14px; display:flex; align-items:center; gap:8px;">
+                                <span style="font-size:18px;">${group.icon}</span>
+                                <span style="font-weight:800; color:white; font-size:14px; letter-spacing:0.3px;">${group.label}</span>
+                                ${hasItems ? `<span style="margin-left:auto; background:rgba(255,255,255,0.25); color:white; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px;">${group.items.length}</span>` : '<span style="margin-left:auto; color:rgba(255,255,255,0.7); font-size:11px;">✓ OK</span>'}
                             </div>
-                            <div style="color: ${textColor}; font-size: 13px; white-space: pre-line; opacity: 0.9;">
-                                ${rec.detalle}
-                            </div>
-                        </div>
-                    `;
-                }).join('');
+                            ${hasItems
+                                ? `<div style="padding:10px 10px 4px;">${group.items.map(recCard).join('')}</div>`
+                                : '<div style="padding:8px 14px; font-size:12px; color:#6b7280; background:#f9fafb;">Sin incidencias</div>'
+                            }
+                        </div>`;
+                });
+                listRec.innerHTML = html;
             } else {
                 panelRec.style.display = 'none';
             }
-            
-            // Recordatorios de tiempo
+
+            // Recordatorios de tiempo (unchanged layout)
             if (recordatorios.length > 0) {
                 panelRecordatorios.style.display = 'block';
                 listRecordatorios.innerHTML = recordatorios.map(rec => {
                     const bgColor = rec.tipo === 'critico' ? '#fee2e2' : '#fef3c7';
                     const borderColor = rec.tipo === 'critico' ? '#fca5a5' : '#fde047';
                     const textColor = rec.tipo === 'critico' ? '#991b1b' : '#854d0e';
-                    
                     return `
-                        <div style="background: ${bgColor}; padding: 15px; border-radius: 8px; border-left: 4px solid ${borderColor};">
-                            <div style="font-weight: 700; color: ${textColor}; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-                                <span style="font-size: 20px;">${rec.icon}</span>
+                        <div style="background:${bgColor}; padding:12px; border-radius:8px; border-left:4px solid ${borderColor}; margin-bottom:6px;">
+                            <div style="font-weight:700; color:${textColor}; margin-bottom:5px; display:flex; align-items:center; gap:8px;">
+                                <span style="font-size:18px;">${rec.icon}</span>
                                 <span>${rec.texto}</span>
                             </div>
-                            <div style="color: ${textColor}; font-size: 13px; white-space: pre-line; opacity: 0.9;">
+                            <div style="color:${textColor}; font-size:12px; white-space:pre-line; opacity:0.9;">
                                 ${rec.detalle}
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                 }).join('');
             } else {
                 panelRecordatorios.style.display = 'none';
@@ -2564,6 +2575,29 @@
                 isFibrinolisis ? 'block' : 'none';
 
             updateRecomendaciones();
+        }
+
+        function calculateTNK() {
+            const peso = parseFloat(document.getElementById('peso').value);
+            const edad = parseInt(document.getElementById('edad').value);
+            const decision = document.getElementById('decision').value;
+            
+            if (!peso || decision !== 'fibrinolisis') return;
+            
+            const mayor75 = edad > 75;
+            let dose;
+            
+            if (peso < 60) dose = mayor75 ? 15 : 30;
+            else if (peso <= 70) dose = mayor75 ? 17.5 : 35;
+            else if (peso <= 80) dose = mayor75 ? 20 : 40;
+            else if (peso <= 90) dose = mayor75 ? 22.5 : 45;
+            else dose = mayor75 ? 25 : 50;
+            
+            const volume = (dose / 5).toFixed(1);
+            
+            document.getElementById('tnkDose').textContent = dose + ' mg';
+            document.getElementById('tnkVolume').textContent = 
+                'Volumen: ' + volume + ' ml' + (mayor75 ? ' (dosis reducida >75 años)' : '');
         }
 
         function calculateAntiplatelet() {
