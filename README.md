@@ -68,13 +68,17 @@ Interface to record 8 ECG patterns with reminders for the professional:
 - **Detailed preparation instructions** for each medication with visual guides
 - **Clear Fet / Hora / Dosi labeling** for administered medication tracking
 
-**Medications covered:**
-- Aspirin (AAS) with priority alerts and allergy safety block
-- Clopidogrel / Ticagrelor / Prasugrel (with contraindication checking)
-- Tenecteplase (TNK) with automatic dose calculator
-- Enoxaparin (with renal function adjustments)
-- Morphine / Fentanilo (with hypotension warnings)
-- Nitroglycerin (with multiple safety checks)
+**Medications covered (12 total):**
+
+| Category | Medications |
+|----------|-------------|
+| **Antiplatelet** | Aspirin (AAS), Clopidogrel, Ticagrelor, Prasugrel |
+| **Fibrinolytic** | Tenecteplase (TNK) with automatic dose calculator |
+| **Anticoagulant** | Enoxaparin (with renal/age adjustments) |
+| **Analgesics** | Morphine, **Fentanyl** (less hypotensive alternative) |
+| **Vasodilator** | Nitroglycerin (with multiple safety checks) |
+| **Antiemetics** | **Metoclopramide**, **Ondansetron** (with QT precaution) |
+| **Anticholinergic** | **Atropine** (for vagal bradycardia in inferior MI) |
 
 ### ⏱️ **Time-Critical Management**
 - Automatic time tracking from symptom onset to intervention
@@ -162,6 +166,7 @@ Suggests: Use Ticagrelor instead
 ```
 
 #### Fibrinolysis Contraindications 🚫
+*Note: This section only appears when fibrinolysis is selected as reperfusion strategy*
 ```
 Absolute contraindications checked:
 ├─ Prior intracranial hemorrhage (any time)
@@ -170,7 +175,7 @@ Absolute contraindications checked:
 ├─ Recent major trauma/surgery <3 months
 ├─ Active bleeding
 ├─ Suspected aortic dissection
-├─ Refractory hypertension (>180/110 mmHg)
+├─ Refractory hypertension (>180/110 mmHg - auto-detected)
 └─ Pregnancy
 ```
 
@@ -475,15 +480,22 @@ Please ensure:
 
 ## ⚠️ Medical Disclaimer
 
-**IMPORTANT:** This tool is designed to **assist** clinical decision-making, not replace it. 
+**IMPORTANT:** This tool is a **Clinical Decision Support System (CDSS)** designed to **assist**, not replace, clinical judgment.
 
-- All clinical decisions should be made by qualified healthcare professionals
-- Always verify medication doses independently
-- Check for contraindications based on complete patient assessment
-- Local protocols may differ from those implemented here
-- This tool does not replace clinical judgment or specialist consultation
+### Key Points
 
-**The developers assume no liability for clinical outcomes. Use at your own professional discretion.**
+| | |
+|---|---|
+| 👨‍⚕️ **Responsibility** | The healthcare professional is **solely responsible** for all clinical decisions |
+| 📋 **Local Protocols** | Always verify doses, contraindications, and protocols according to your institution's **current local guidelines** |
+| 🔬 **ECG Interpretation** | This application **does NOT automatically identify ECG patterns**; the physician interprets the ECG and enters the findings |
+| 📚 **Not a Substitute** | The information provided does not replace medical training or consultation of primary sources |
+| ⚖️ **Liability** | The developers **assume no liability** for errors arising from the use of this tool |
+
+### In-App Disclaimer
+A visible disclaimer is displayed at the bottom of the dashboard interface, translated in all 4 supported languages (Catalan, Spanish, French, English).
+
+**For professional use only. Educational/assistive version. Not suitable for automated diagnosis.**
 
 ---
 
@@ -579,7 +591,7 @@ SOFTWARE.
 Lines of Code: ~2,500
 Functions: 25+
 ECG Pattern Guides: 8 (physician-selected, not auto-detected)
-Medications: 8
+Medications: 12 (including analgesics, antiemetics, atropine)
 Safety Checks: 15+
 Languages: Spanish/Catalan (EN translation in progress)
 File Size: ~95 KB (uncompressed)
