@@ -8,12 +8,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
-- English translation
 - Dark mode support
 - IndexedDB persistent storage
 - QR code generation for reports
 - Voice input support
 - **Automatic ECG pattern recognition using AI** (future major feature)
+
+---
+
+## [1.1.0] - 2026-04-03
+
+### Added
+
+#### Checklist d'actuació — ICS form alignment
+- **DEA checkbox** inside the ECG activation alert (`alertaActivacion`): appears simultaneously with the STEMI alert when an ECG criterion is checked. Includes an SVG DEA/AED icon (green heart + lightning bolt).
+- **Antecedents section** replacing the single anticoagulation checkbox. Structured Sí/No toggle pairs for: HTA, DM (Diabetes), DL (Dyslipidemia), Tabac (Smoking), ACO/NACOs, Al·lèrgia AAS, Al·lèrgia iode. Visual color coding (orange for ACO, red for allergies).
+- **Clinical criteria reference block** inside the Datos Clínicos section, positioned between vital signs and Killip classification. Side-by-side cards for Typical vs Atypical presentation criteria (ERC 2025 aligned).
+- **Killip visual card selector**: four clickable color-coded cards (I=blue, II=amber, III=orange, IV=red) replacing the `<select>` dropdown. Each card shows the grade number and a short description.
+- **Automatic timeline interval calculation**: intervals are computed in real time between Inici de símptomes → 1r contacte, 1r contacte → ECG, ECG → Activació. Displayed in a green panel below the timeline.
+- **ABCD structured recommendations (ERC 2025)**: clinical recommendations panel is now grouped into four sections — A (Vía Aèria), B (Ventilació), C (Circulació), D (Decisió) — each with a colored header and a "✓ OK / n alerts" badge.
+- **Aspirin allergy safety block**: marking "Sí" on Al·lèrgia AAS disables the Aspirina checkbox, shows a red banner on the medication item, fires an alert with Clopidogrel 600 mg as alternative, and adds a critical ABCD-C recommendation card.
+- **Medication Fet/Hora/Dosi labels**: medication items now show clearly labeled Dosi and Hora fields with a green "Fet ✓" badge when marked as administered.
+
+### Changed
+- **"Activació Codi IAM" timeline label** renamed to **"Hora de llamada (061)"** across all 4 languages (ca/es/fr/en) to match the ICS checklist terminology.
+- **Recommendations panel** restructured from a flat list to ABCD sections (ERC 2025 methodology).
+
+### Removed
+- **Second antiplatelet recommendation calculator** removed from the Reperfusion Strategy section (button and `calculateAntiplatelet()` function). Antiplatelet selection is handled by the clinical team based on full patient context.
+
+### Translations
+All new UI elements added in all 4 supported languages: **ca, es, fr, en**.
+New translation keys: `timeline.activation`, `ecg.dea.*`, `patient.antecedents.*`, `patient.ant.*`, `patient.yn.*`, `clinical.symptoms.*`, `clinical.killip.*.short`, `timeline.interval.*`, `med.fet`, `med.hora`, `med.dosi`.
+
+### Clinical Evidence Base (additions)
+- ERC 2025 Guidelines (ABCDE systematic approach)
 
 ---
 

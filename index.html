@@ -1232,7 +1232,7 @@
                         </div>
                         <div class="form-group">
                             <label data-i18n="patient.weight">Peso (kg)</label>
-                            <input type="number" id="peso" data-i18n-placeholder="patient.weight.placeholder" placeholder="kg" onchange="calculateTNK()">
+                            <input type="number" id="peso" data-i18n-placeholder="patient.weight.placeholder" placeholder="kg">
                         </div>
                         <div class="form-group">
                             <label data-i18n="patient.gender">Sexo</label>
@@ -1241,15 +1241,71 @@
                                 <option value="F" data-i18n-value="patient.gender.female">Femenino</option>
                             </select>
                         </div>
+                        <!-- Antecedents section -->
                         <div class="form-group full">
-                            <label data-i18n="clinical.allergies">Alergias conocidas</label>
-                            <input type="text" id="alergias" data-i18n-placeholder="clinical.allergies.placeholder" placeholder="Ninguna conocida">
-                        </div>
-                        <div class="form-group full">
-                            <label style="display: flex; align-items: center; gap: 10px; padding: 12px; background: #fff7ed; border-radius: 8px; border: 2px solid #fed7aa; cursor: pointer;">
-                                <input type="checkbox" id="anticoagulacion" style="width: 18px; height: 18px;">
-                                <span style="font-weight: 600; color: #ea580c;" data-i18n="patient.anticoagulation">Anticoagulación oral activa</span>
-                            </label>
+                            <div style="background: #fff7ed; border-radius: 10px; border: 2px solid #fed7aa; padding: 12px;">
+                                <div style="font-weight: 700; color: #92400e; font-size: 13px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="patient.antecedents.title">Antecedentes</div>
+                                <div style="display: grid; gap: 6px;">
+                                    <!-- HTA -->
+                                    <div style="display: flex; align-items: center; justify-content: space-between; background: white; border-radius: 6px; padding: 6px 10px;">
+                                        <span style="font-size: 13px; font-weight: 600; color: #374151;" data-i18n="patient.ant.hta">HTA</span>
+                                        <div style="display: flex; gap: 4px;">
+                                            <button type="button" id="ant-hta-yes" onclick="toggleAntecedent('hta', true)" style="padding: 3px 12px; border-radius: 4px; border: 2px solid #d1d5db; background: white; font-size: 12px; font-weight: 600; cursor: pointer;" data-i18n="patient.yn.yes">Sí</button>
+                                            <button type="button" id="ant-hta-no" onclick="toggleAntecedent('hta', false)" style="padding: 3px 12px; border-radius: 4px; border: 2px solid #d1d5db; background: white; font-size: 12px; font-weight: 600; cursor: pointer;" data-i18n="patient.yn.no">No</button>
+                                        </div>
+                                    </div>
+                                    <!-- DM -->
+                                    <div style="display: flex; align-items: center; justify-content: space-between; background: white; border-radius: 6px; padding: 6px 10px;">
+                                        <span style="font-size: 13px; font-weight: 600; color: #374151;" data-i18n="patient.ant.dm">DM (Diabetes)</span>
+                                        <div style="display: flex; gap: 4px;">
+                                            <button type="button" id="ant-dm-yes" onclick="toggleAntecedent('dm', true)" style="padding: 3px 12px; border-radius: 4px; border: 2px solid #d1d5db; background: white; font-size: 12px; font-weight: 600; cursor: pointer;" data-i18n="patient.yn.yes">Sí</button>
+                                            <button type="button" id="ant-dm-no" onclick="toggleAntecedent('dm', false)" style="padding: 3px 12px; border-radius: 4px; border: 2px solid #d1d5db; background: white; font-size: 12px; font-weight: 600; cursor: pointer;" data-i18n="patient.yn.no">No</button>
+                                        </div>
+                                    </div>
+                                    <!-- DL -->
+                                    <div style="display: flex; align-items: center; justify-content: space-between; background: white; border-radius: 6px; padding: 6px 10px;">
+                                        <span style="font-size: 13px; font-weight: 600; color: #374151;" data-i18n="patient.ant.dl">DL (Dislipidemia)</span>
+                                        <div style="display: flex; gap: 4px;">
+                                            <button type="button" id="ant-dl-yes" onclick="toggleAntecedent('dl', true)" style="padding: 3px 12px; border-radius: 4px; border: 2px solid #d1d5db; background: white; font-size: 12px; font-weight: 600; cursor: pointer;" data-i18n="patient.yn.yes">Sí</button>
+                                            <button type="button" id="ant-dl-no" onclick="toggleAntecedent('dl', false)" style="padding: 3px 12px; border-radius: 4px; border: 2px solid #d1d5db; background: white; font-size: 12px; font-weight: 600; cursor: pointer;" data-i18n="patient.yn.no">No</button>
+                                        </div>
+                                    </div>
+                                    <!-- Tabac -->
+                                    <div style="display: flex; align-items: center; justify-content: space-between; background: white; border-radius: 6px; padding: 6px 10px;">
+                                        <span style="font-size: 13px; font-weight: 600; color: #374151;" data-i18n="patient.ant.tabac">Tabaco</span>
+                                        <div style="display: flex; gap: 4px;">
+                                            <button type="button" id="ant-tabac-yes" onclick="toggleAntecedent('tabac', true)" style="padding: 3px 12px; border-radius: 4px; border: 2px solid #d1d5db; background: white; font-size: 12px; font-weight: 600; cursor: pointer;" data-i18n="patient.yn.yes">Sí</button>
+                                            <button type="button" id="ant-tabac-no" onclick="toggleAntecedent('tabac', false)" style="padding: 3px 12px; border-radius: 4px; border: 2px solid #d1d5db; background: white; font-size: 12px; font-weight: 600; cursor: pointer;" data-i18n="patient.yn.no">No</button>
+                                        </div>
+                                    </div>
+                                    <!-- ACO/NACOs (keeps id=anticoagulacion for JS compatibility) -->
+                                    <div style="display: flex; align-items: center; justify-content: space-between; background: #fff7ed; border-radius: 6px; padding: 6px 10px; border: 1px solid #fed7aa;">
+                                        <span style="font-size: 13px; font-weight: 700; color: #ea580c;" data-i18n="patient.ant.aco">ACO / NACOs</span>
+                                        <div style="display: flex; gap: 4px;">
+                                            <button type="button" id="ant-aco-yes" onclick="toggleAntecedent('aco', true)" style="padding: 3px 12px; border-radius: 4px; border: 2px solid #d1d5db; background: white; font-size: 12px; font-weight: 600; cursor: pointer;" data-i18n="patient.yn.yes">Sí</button>
+                                            <button type="button" id="ant-aco-no" onclick="toggleAntecedent('aco', false)" style="padding: 3px 12px; border-radius: 4px; border: 2px solid #d1d5db; background: white; font-size: 12px; font-weight: 600; cursor: pointer;" data-i18n="patient.yn.no">No</button>
+                                        </div>
+                                    </div>
+                                    <!-- Al·lèrgia AAS -->
+                                    <div style="display: flex; align-items: center; justify-content: space-between; background: #fef2f2; border-radius: 6px; padding: 6px 10px; border: 1px solid #fecaca;">
+                                        <span style="font-size: 13px; font-weight: 700; color: #dc2626;" data-i18n="patient.ant.al.aas">Alergia AAS</span>
+                                        <div style="display: flex; gap: 4px;">
+                                            <button type="button" id="ant-al-aas-yes" onclick="toggleAntecedent('al-aas', true)" style="padding: 3px 12px; border-radius: 4px; border: 2px solid #d1d5db; background: white; font-size: 12px; font-weight: 600; cursor: pointer;" data-i18n="patient.yn.yes">Sí</button>
+                                            <button type="button" id="ant-al-aas-no" onclick="toggleAntecedent('al-aas', false)" style="padding: 3px 12px; border-radius: 4px; border: 2px solid #d1d5db; background: white; font-size: 12px; font-weight: 600; cursor: pointer;" data-i18n="patient.yn.no">No</button>
+                                        </div>
+                                    </div>
+                                    <!-- Al·lèrgia iode -->
+                                    <div style="display: flex; align-items: center; justify-content: space-between; background: #fef2f2; border-radius: 6px; padding: 6px 10px; border: 1px solid #fecaca;">
+                                        <span style="font-size: 13px; font-weight: 700; color: #dc2626;" data-i18n="patient.ant.al.iode">Alergia yodo</span>
+                                        <div style="display: flex; gap: 4px;">
+                                            <button type="button" id="ant-al-iode-yes" onclick="toggleAntecedent('al-iode', true)" style="padding: 3px 12px; border-radius: 4px; border: 2px solid #d1d5db; background: white; font-size: 12px; font-weight: 600; cursor: pointer;" data-i18n="patient.yn.yes">Sí</button>
+                                            <button type="button" id="ant-al-iode-no" onclick="toggleAntecedent('al-iode', false)" style="padding: 3px 12px; border-radius: 4px; border: 2px solid #d1d5db; background: white; font-size: 12px; font-weight: 600; cursor: pointer;" data-i18n="patient.yn.no">No</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Hidden checkbox for backward JS compatibility -->
+                                <input type="checkbox" id="anticoagulacion" style="display: none;">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1263,18 +1319,18 @@
                     </div>
 
                     <div class="time-row">
-                        <input type="time" id="inicioSintomas">
-                        <button class="btn" onclick="markTime('inicioSintomas')" data-i18n="btn.now">Ahora</button>
+                        <input type="time" id="inicioSintomas" onchange="updateIntervals()">
+                        <button class="btn" onclick="markTime('inicioSintomas'); updateIntervals();" data-i18n="btn.now">Ahora</button>
                         <span style="font-size: 13px; color: #16a34a; min-width: 160px;" data-i18n="timeline.symptom.onset">Inicio de síntomas</span>
                     </div>
                     <div class="time-row">
-                        <input type="time" id="primerContacto">
-                        <button class="btn" onclick="markTime('primerContacto')" data-i18n="btn.now">Ahora</button>
+                        <input type="time" id="primerContacto" onchange="updateIntervals()">
+                        <button class="btn" onclick="markTime('primerContacto'); updateIntervals();" data-i18n="btn.now">Ahora</button>
                         <span style="font-size: 13px; color: #16a34a; min-width: 160px;" data-i18n="timeline.first.contact">Primer contacto médico</span>
                     </div>
                     <div class="time-row">
-                        <input type="time" id="ecgRealizado">
-                        <button class="btn" onclick="markTime('ecgRealizado')" data-i18n="btn.now">Ahora</button>
+                        <input type="time" id="ecgRealizado" onchange="updateIntervals()">
+                        <button class="btn" onclick="markTime('ecgRealizado'); updateIntervals();" data-i18n="btn.now">Ahora</button>
                         <span style="font-size: 13px; color: #16a34a; min-width: 160px;" data-i18n="timeline.ecg.initial">ECG inicial realizado</span>
                     </div>
                     <div class="time-row">
@@ -1283,9 +1339,17 @@
                         <span style="font-size: 13px; color: #ea580c; min-width: 160px;" data-i18n="timeline.ecg.control">ECG control (15 min post-NTG)</span>
                     </div>
                     <div class="time-row">
-                        <input type="time" id="activacionCodigo">
-                        <button class="btn" onclick="markTime('activacionCodigo')" data-i18n="btn.now">Ahora</button>
-                        <span style="font-size: 13px; color: #dc2626; min-width: 160px; font-weight: 700;" data-i18n="timeline.activation">Activación Código IAM</span>
+                        <input type="time" id="activacionCodigo" onchange="updateIntervals()">
+                        <button class="btn" onclick="markTime('activacionCodigo'); updateIntervals();" data-i18n="btn.now">Ahora</button>
+                        <span style="font-size: 13px; color: #dc2626; min-width: 160px; font-weight: 700;" data-i18n="timeline.activation">Hora de llamada (061)</span>
+                    </div>
+
+                    <!-- Intervalos calculados -->
+                    <div id="intervalsContainer" style="display: none; margin-top: 12px; padding: 10px; background: #f0fdf4; border-radius: 8px; border: 1px solid #86efac;">
+                        <div style="font-size: 12px; font-weight: 700; color: #166534; margin-bottom: 6px;">⏱️ Intervals</div>
+                        <div id="intervalSymptoms1c" style="display: none; font-size: 12px; color: #15803d; padding: 2px 0;"></div>
+                        <div id="interval1cECG" style="display: none; font-size: 12px; color: #15803d; padding: 2px 0;"></div>
+                        <div id="intervalECGActivation" style="display: none; font-size: 12px; color: #15803d; padding: 2px 0;"></div>
                     </div>
                 </div>
 
@@ -1339,10 +1403,26 @@
                 <!-- Alerta de activación -->
                 <div id="alertaActivacion" style="display: none;" class="alert-box">
                     <div class="icon">⚠️</div>
-                    <div>
+                    <div style="flex: 1;">
                         <div class="text" data-i18n="ecg.alert.st.detected">¡Elevación del ST detectada!</div>
                         <div style="font-size: 14px; color: #991b1b;" id="alertaTexto" data-i18n="ecg.alert.ntg.instructions">
                             Administrar NTG y realizar ECG de control a los 15 min para confirmar elevación PERSISTENTE
+                        </div>
+                        <!-- DEA checkbox -->
+                        <div style="margin-top: 12px; padding: 10px 14px; background: rgba(255,255,255,0.25); border-radius: 8px; border: 2px solid rgba(255,255,255,0.5); display: flex; align-items: center; gap: 12px;">
+                            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; flex: 1;">
+                                <input type="checkbox" id="deaVerificado" style="width: 22px; height: 22px; cursor: pointer; flex-shrink: 0;">
+                                <!-- DEA icon (AED symbol) -->
+                                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
+                                    <rect width="36" height="36" rx="6" fill="white" fill-opacity="0.9"/>
+                                    <rect x="3" y="3" width="30" height="30" rx="4" fill="#16a34a"/>
+                                    <text x="18" y="14" text-anchor="middle" font-size="8" font-weight="bold" fill="white" font-family="Arial">DEA</text>
+                                    <!-- Heart with lightning bolt -->
+                                    <path d="M18 28 C18 28 8 21 8 15 C8 12 10.5 10 13 10 C15 10 17 11.5 18 13 C19 11.5 21 10 23 10 C25.5 10 28 12 28 15 C28 21 18 28 18 28Z" fill="white"/>
+                                    <polygon points="17,14 15,19 18,19 16,24 21,17 18,17 20,14" fill="#16a34a"/>
+                                </svg>
+                                <span style="font-weight: 700; font-size: 14px; color: white;" data-i18n="ecg.dea.available">DEA disponible y verificado</span>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -1391,14 +1471,61 @@
                             <label data-i18n="clinical.o2sat">SpO₂ (%)</label>
                             <input type="number" id="spo2" data-i18n-placeholder="clinical.o2sat.placeholder" placeholder="%">
                         </div>
-                        <div class="form-group full">
-                            <label data-i18n="clinical.killip.class">Clasificación Killip</label>
-                            <select id="killip">
-                                <option value="1" data-i18n-value="clinical.killip.1">I - Auscultación normal</option>
-                                <option value="2" data-i18n-value="clinical.killip.2">II - Crepitantes y/o 3er ruido</option>
-                                <option value="3" data-i18n-value="clinical.killip.3">III - Edema agudo de pulmón</option>
-                                <option value="4" data-i18n-value="clinical.killip.4">IV - Shock cardiogénico</option>
-                            </select>
+                    </div>
+
+                    <!-- Criterios clínicos (entre constantes y Killip) -->
+                    <div style="background: #f0fdf4; border-radius: 10px; border: 2px solid #86efac; padding: 14px; margin-bottom: 16px;">
+                        <div style="font-weight: 700; color: #166534; font-size: 13px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="clinical.symptoms.title">Criterios Clínicos</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <!-- Típica -->
+                            <div style="background: white; border-radius: 8px; padding: 10px; border-left: 4px solid #22c55e;">
+                                <div style="font-weight: 700; color: #15803d; font-size: 12px; margin-bottom: 6px;" data-i18n="clinical.symptoms.typical.title">Clínica TÍPICA:</div>
+                                <ul style="margin: 0; padding-left: 14px; font-size: 11px; color: #374151; line-height: 1.6;">
+                                    <li data-i18n="clinical.symptoms.typical.1">Dolor opresivo centrotorácico &gt;20 min</li>
+                                    <li data-i18n="clinical.symptoms.typical.2">Irradiación a brazo izq., cuello, mandíbula</li>
+                                    <li data-i18n="clinical.symptoms.typical.3">Cortejo vegetativo (sudoración, náuseas, vómitos)</li>
+                                    <li data-i18n="clinical.symptoms.typical.4">No responde a NTG sublingual</li>
+                                </ul>
+                            </div>
+                            <!-- Atípica -->
+                            <div style="background: white; border-radius: 8px; padding: 10px; border-left: 4px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #b45309; font-size: 12px; margin-bottom: 6px;" data-i18n="clinical.symptoms.atypical.title">Clínica ATÍPICA:</div>
+                                <ul style="margin: 0; padding-left: 14px; font-size: 11px; color: #374151; line-height: 1.6;">
+                                    <li data-i18n="clinical.symptoms.atypical.1">Dolor epigástrico, dorsal o atípico</li>
+                                    <li data-i18n="clinical.symptoms.atypical.2">Disnea, síncope o cansancio excesivo</li>
+                                    <li data-i18n="clinical.symptoms.atypical.3">Paciente joven, mujer, diabético</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Killip visual selector -->
+                    <div style="margin-bottom: 16px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151; font-size: 14px;" data-i18n="clinical.killip.class">Clasificación Killip</label>
+                        <!-- Hidden select for JS compatibility -->
+                        <select id="killip" style="display: none;" onchange="checkActivation()">
+                            <option value="1">I</option>
+                            <option value="2">II</option>
+                            <option value="3">III</option>
+                            <option value="4">IV</option>
+                        </select>
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+                            <div id="killip-btn-1" onclick="selectKillip(1)" style="cursor: pointer; border-radius: 8px; border: 2px solid #e5e7eb; background: white; padding: 10px 6px; text-align: center; transition: all 0.2s;">
+                                <div style="font-weight: 800; font-size: 18px; color: #1e40af;">I</div>
+                                <div style="font-size: 11px; color: #6b7280; margin-top: 2px; line-height: 1.3;" data-i18n="clinical.killip.1.short">Auscultación normal</div>
+                            </div>
+                            <div id="killip-btn-2" onclick="selectKillip(2)" style="cursor: pointer; border-radius: 8px; border: 2px solid #e5e7eb; background: white; padding: 10px 6px; text-align: center; transition: all 0.2s;">
+                                <div style="font-weight: 800; font-size: 18px; color: #f59e0b;">II</div>
+                                <div style="font-size: 11px; color: #6b7280; margin-top: 2px; line-height: 1.3;" data-i18n="clinical.killip.2.short">Estertores / S3</div>
+                            </div>
+                            <div id="killip-btn-3" onclick="selectKillip(3)" style="cursor: pointer; border-radius: 8px; border: 2px solid #e5e7eb; background: white; padding: 10px 6px; text-align: center; transition: all 0.2s;">
+                                <div style="font-weight: 800; font-size: 18px; color: #ea580c;">III</div>
+                                <div style="font-size: 11px; color: #6b7280; margin-top: 2px; line-height: 1.3;" data-i18n="clinical.killip.3.short">Edema pulmonar agudo</div>
+                            </div>
+                            <div id="killip-btn-4" onclick="selectKillip(4)" style="cursor: pointer; border-radius: 8px; border: 2px solid #e5e7eb; background: white; padding: 10px 6px; text-align: center; transition: all 0.2s;">
+                                <div style="font-weight: 800; font-size: 18px; color: #dc2626;">IV</div>
+                                <div style="font-size: 11px; color: #6b7280; margin-top: 2px; line-height: 1.3;" data-i18n="clinical.killip.4.short">Shock cardiogénico</div>
+                            </div>
                         </div>
                     </div>
                     
@@ -1434,46 +1561,6 @@
                     </div>
                 </div>
 
-                <!-- Contraindicaciones - Solo visible si se selecciona fibrinólisis -->
-                <div id="contraSection" class="section section-contra" style="margin-top: 20px; display: none;">
-                    <h2 data-i18n="section.contraindications">⚠️ Contraindicaciones para Fibrinólisis</h2>
-                    
-                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('hemorragiaCerebral')">
-                        <input type="checkbox" id="hemorragiaCerebral" onclick="event.stopPropagation()">
-                        <span style="font-size: 13px;" data-i18n="contra.cerebral.hemorrhage">Hemorragia cerebral previa</span>
-                    </div>
-
-                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('avcReciente')">
-                        <input type="checkbox" id="avcReciente" onclick="event.stopPropagation()">
-                        <span style="font-size: 13px;" data-i18n="contra.recent.stroke">AVC isquémico &lt;6 meses</span>
-                    </div>
-
-                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('traumaCirugia')">
-                        <input type="checkbox" id="traumaCirugia" onclick="event.stopPropagation()">
-                        <span style="font-size: 13px;" data-i18n="contra.recent.trauma.surgery">Trauma/cirugía reciente &lt;3 meses</span>
-                    </div>
-
-                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('sangradoActivo')">
-                        <input type="checkbox" id="sangradoActivo" onclick="event.stopPropagation()">
-                        <span style="font-size: 13px;" data-i18n="contra.active.bleeding">Sangrado activo</span>
-                    </div>
-
-                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('htaRefractaria')">
-                        <input type="checkbox" id="htaRefractaria" onclick="event.stopPropagation()">
-                        <span style="font-size: 13px;" data-i18n="contra.refractory.hypertension">HTA refractaria (&gt;180/110)</span>
-                    </div>
-
-                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('gestacion')">
-                        <input type="checkbox" id="gestacion" onclick="event.stopPropagation()">
-                        <span style="font-size: 13px;" data-i18n="contra.pregnancy">Gestación</span>
-                    </div>
-
-                    <div class="checkbox-item" style="border-color: #fca5a5;" onclick="toggleCheck('ictusAit')">
-                        <input type="checkbox" id="ictusAit" onclick="event.stopPropagation()">
-                        <span style="font-size: 13px;" data-i18n="contra.previous.stroke">Ictus/AIT previo</span>
-                    </div>
-                </div>
-
                 <!-- Estrategia -->
                 <div class="section section-strategy" style="margin-top: 20px;">
                     <h2 data-i18n="section.strategy">💉 Estrategia de Reperfusión</h2>
@@ -1497,26 +1584,7 @@
                         <input type="text" id="hospitalDestino" data-i18n-placeholder="strategy.hospital.placeholder" placeholder="Nombre del hospital">
                     </div>
 
-                    <!-- Recomendación segundo antiagregante -->
-                    <div class="info-box yellow">
-                        <div style="font-weight: 700; font-size: 15px; margin-bottom: 8px; color: #854d0e;" data-i18n="strategy.antiplatelet.title">
-                            Segundo antiagregante recomendado:
-                        </div>
-                        <button class="btn-warning" onclick="calculateAntiplatelet()" data-i18n="strategy.antiplatelet.calculate">
-                            Calcular recomendación
-                        </button>
-                        <div id="antiplateletResult" style="margin-top: 12px; padding: 12px; background: white; border-radius: 6px; font-weight: 700; font-size: 16px; color: #1e293b; text-transform: uppercase; text-align: center; display: none;">
-                        </div>
-                    </div>
 
-                    <!-- Calculadora TNK -->
-                    <div id="tnkCalculator" style="display: none;" class="info-box red">
-                        <div style="font-weight: 700; font-size: 15px; margin-bottom: 8px; color: #991b1b;" data-i18n="strategy.tnk.title">
-                            Dosis Tenecteplasa calculada:
-                        </div>
-                        <div class="dose-display" id="tnkDose"></div>
-                        <div style="font-size: 14px; color: #991b1b;" id="tnkVolume"></div>
-                    </div>
                 </div>
 
                 <!-- Medicación -->
@@ -1566,39 +1634,36 @@
                 defaultRoute: 'VO',
                 instructions: '✓ Masticar y tragar para mejor absorción\n✓ Dosis de carga en IAM\n✓ Administrar lo antes posible'
             },
-            { 
-                id: 'clopidogrel', 
-                name: 'Clopidogrel', 
+            {
+                id: 'clopidogrel',
+                name: 'Clopidogrel',
                 doseOptions: ['300 mg', '600 mg'],
                 defaultRoute: 'VO',
+                semOnly: true,
                 instructions: '✓ Dosis de carga: 600 mg (preferida)\n✓ 300 mg si edad >75 años\n✓ Tragar entero con agua'
             },
-            { 
-                id: 'ticagrelor', 
-                name: 'Ticagrelor', 
+            {
+                id: 'ticagrelor',
+                name: 'Ticagrelor',
                 doseOptions: ['180 mg'],
                 defaultRoute: 'VO',
+                semOnly: true,
                 instructions: '✓ Dosis de carga: 2 comprimidos de 90 mg\n✓ NO requiere ajuste por edad\n✓ Tragar entero con agua'
             },
-            { 
-                id: 'prasugrel', 
-                name: 'Prasugrel', 
+            {
+                id: 'prasugrel',
+                name: 'Prasugrel',
                 doseOptions: ['60 mg'],
                 defaultRoute: 'VO',
+                semOnly: true,
                 instructions: '✓ Dosis de carga: 60 mg (6 comprimidos de 10 mg)\n⚠️ Contraindicado si: edad >75 años, peso <60 kg, AIT/ictus previo\n✓ Tragar entero con agua'
             },
-            { 
-                id: 'tenecteplasa', 
-                name: 'Tenecteplasa (TNK)', 
-                doseOptions: ['Según peso (ver calculadora)'],
-                defaultRoute: 'IV',
-                instructions: '✓ Bolo único IV en 5-10 segundos\n✓ Usar calculadora automática arriba\n✓ Reconstituir con 10 ml de agua estéril\n⚠️ Verificar ausencia de contraindicaciones'
-            },
-            { 
-                id: 'enoxaparina', 
-                name: 'Enoxaparina', 
+            {
+                id: 'enoxaparina',
+                name: 'Enoxaparina',
                 doseOptions: ['30 mg IV + 1 mg/kg SC', '1 mg/kg SC c/12h', '0.75 mg/kg SC c/12h (>75a o I.Renal)'],
                 defaultRoute: 'IV + SC',
+                semOnly: true,
                 instructions: '< 75 años SIN insuficiencia renal (Cr <2.5 mg/dl o <2 mg/dl en mujeres):\n✓ Bolo 30 mg IV\n✓ Seguido a los 15 min: 1 mg/kg SC (máx 100 mg 1ª dosis)\n\n≥ 75 años Y/O insuficiencia renal:\n✓ NO bolo IV inicial\n✓ 0.75 mg/kg SC c/12h (máx 75 mg)\n\n✓ SC en abdomen, alternar lados\n⚠️ Ajustar si FG <30 ml/min: considerar HNF'
             },
             {
@@ -1646,29 +1711,42 @@
         ];
 
         // Renderizar lista de medicamentos
-        function renderMedicationList() {
-            const container = document.getElementById('medicationList');
-            container.innerHTML = medications.map(med => {
-                const doseOptionsHTML = med.doseOptions.map(opt => 
-                    `<option value="${opt}">${opt}</option>`
-                ).join('');
-                
-                return `
+        function renderMedItem(med) {
+            const doseOptionsHTML = med.doseOptions.map(opt =>
+                `<option value="${opt}">${opt}</option>`
+            ).join('');
+            const allergyBanner = med.id === 'aspirina' ? `
+                <div id="aspirina-allergy-banner" style="display:none; align-items:center; gap:8px; background:#fee2e2; border:2px solid #fca5a5; border-radius:8px; padding:8px 12px; margin-bottom:8px;">
+                    <span style="font-size:18px;">🚫</span>
+                    <span style="font-weight:700; color:#991b1b; font-size:13px;">AL·LÈRGIA A AAS documentada — No administrar</span>
+                </div>` : '';
+            return `
                 <div class="med-item not-given" id="med-${med.id}">
-                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                        <input type="checkbox" id="check-${med.id}" 
-                               onchange="toggleMedication('${med.id}')"
-                               style="width: 20px; height: 20px; cursor: pointer;">
-                        <span style="font-weight: 700; font-size: 15px;">${med.name}</span>
-                    </label>
-                    <div id="inputs-${med.id}" style="display: none;">
-                        <div class="med-inputs" style="margin-top: 8px;">
-                            <select id="dose-${med.id}" style="grid-column: 1 / 3;">
-                                ${doseOptionsHTML}
-                            </select>
-                            <input type="time" id="time-${med.id}">
+                    ${allergyBanner}
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; flex: 1;">
+                            <input type="checkbox" id="check-${med.id}"
+                                   onchange="toggleMedication('${med.id}')"
+                                   style="width: 22px; height: 22px; cursor: pointer; flex-shrink: 0;">
+                            <span style="font-weight: 700; font-size: 15px;">${med.name}</span>
+                        </label>
+                        <span id="fet-badge-${med.id}" style="display: none; background: #22c55e; color: white; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 12px; white-space: nowrap;" data-i18n="med.fet">Hecho ✓</span>
+                    </div>
+                    <div id="inputs-${med.id}" style="display: none; margin-top: 10px;">
+                        <!-- Dosi + Hora labels -->
+                        <div style="display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-bottom: 8px;">
+                            <div>
+                                <label style="display: block; font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; margin-bottom: 3px;" data-i18n="med.dosi">Dosis</label>
+                                <select id="dose-${med.id}" style="width: 100%;">
+                                    ${doseOptionsHTML}
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; margin-bottom: 3px;" data-i18n="med.hora">Hora</label>
+                                <input type="time" id="time-${med.id}" style="width: 100px;">
+                            </div>
                         </div>
-                        <div id="instructions-${med.id}" style="background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%); padding: 14px; border-radius: 8px; margin-top: 10px; border-left: 4px solid #3b82f6; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <div id="instructions-${med.id}" style="background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%); padding: 14px; border-radius: 8px; border-left: 4px solid #3b82f6; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                             <div style="font-weight: 700; color: #075985; font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
                                 <span style="font-size: 16px;">💉</span>
                                 <span>Vía: ${med.defaultRoute}</span>
@@ -1679,7 +1757,27 @@
                         </div>
                     </div>
                 </div>
-            `}).join('');
+            `;
+        }
+
+        function renderMedicationList() {
+            const container = document.getElementById('medicationList');
+            const normalMeds = medications.filter(m => !m.semOnly);
+            const semMeds = medications.filter(m => m.semOnly);
+
+            const semHeader = `
+                <div style="margin: 16px 0 8px 0; padding: 10px 14px; background: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px;">
+                    <div style="font-weight: 700; font-size: 13px; color: #92400e; text-transform: uppercase; letter-spacing: 0.5px;">
+                        ⚠️ Solo si indicación del SEM
+                    </div>
+                    <div style="font-size: 11px; color: #a16207; margin-top: 3px;">Fármacos avanzados — no administrar en atención primaria sin indicación SEM</div>
+                </div>
+            `;
+
+            container.innerHTML =
+                normalMeds.map(renderMedItem).join('') +
+                semHeader +
+                semMeds.map(renderMedItem).join('');
         }
 
         function toggleMedication(medId) {
@@ -1687,11 +1785,13 @@
             const medItem = document.getElementById(`med-${medId}`);
             const inputs = document.getElementById(`inputs-${medId}`);
             const timeInput = document.getElementById(`time-${medId}`);
-            
+            const fetBadge = document.getElementById(`fet-badge-${medId}`);
+
             if (checkbox.checked) {
                 medItem.classList.remove('not-given');
                 medItem.classList.add('given');
                 inputs.style.display = 'block';
+                if (fetBadge) fetBadge.style.display = 'inline-block';
                 if (!timeInput.value) {
                     timeInput.value = new Date().toTimeString().slice(0, 5);
                 }
@@ -1702,8 +1802,9 @@
                 medItem.classList.remove('given');
                 medItem.classList.add('not-given');
                 inputs.style.display = 'none';
+                if (fetBadge) fetBadge.style.display = 'none';
             }
-            
+
             // Actualizar recomendaciones si es aspirina o nitroglicerina
             if (medId === 'aspirina' || medId === 'nitroglicerina') {
                 updateRecomendaciones();
@@ -1715,10 +1816,15 @@
             const infartoVD = document.getElementById('infartoVD').checked;
             const edad = parseInt(document.getElementById('edad').value);
             const peso = parseFloat(document.getElementById('peso').value);
-            const ictusAit = document.getElementById('ictusAit').checked;
             
-            // Aspirina - medicamento prioritario
+            // Aspirina — bloquear si alergia confirmada
             if (medId === 'aspirina') {
+                if (antecedentState['al-aas'] === true) {
+                    alert('🚫 CONTRAINDICACIÓN\n\nEl paciente tiene ALERGIA A AAS documentada en antecedentes.\n\nNO administrar aspirina.\n\nConsiderar antiagregante alternativo según protocolo (Clopidogrel 600 mg).');
+                    document.getElementById('check-aspirina').checked = false;
+                    toggleMedication('aspirina');
+                    return;
+                }
                 alert('✓ ASPIRINA - Medicamento PRIORITARIO\n\n• Administrar lo ANTES posible\n• MASTICAR y tragar (mejor absorción)\n• Beneficio probado en reducir mortalidad\n\n⏱️ Objetivo: <10 min desde primer contacto');
             }
             
@@ -1752,8 +1858,7 @@
                 let warnings = [];
                 if (edad > 75) warnings.push('• Edad >75 años');
                 if (peso < 60) warnings.push('• Peso <60 kg');
-                if (ictusAit) warnings.push('• Antecedente de AIT/ictus');
-                
+
                 if (warnings.length > 0) {
                     alert('🚫 CONTRAINDICACIÓN para Prasugrel:\n\n' + warnings.join('\n') + '\n\nUsar TICAGRELOR en su lugar.');
                     document.getElementById(`check-${medId}`).checked = false;
@@ -1776,28 +1881,6 @@
                 alert('💡 AJUSTE POR EDAD\n\nEdad ≥75 años:\n• Dosis: 0.75 mg/kg SC c/12h (máx 75 mg)\n• SIN bolo IV de 30 mg\n\n⚠️ También usar esta dosis si hay insuficiencia renal\n(Creatinina >2.5 mg/dl o >2 mg/dl en mujeres)');
             }
             
-            // TNK - recordar usar calculadora
-            if (medId === 'tenecteplasa') {
-                const peso = parseFloat(document.getElementById('peso').value);
-                const edad = parseInt(document.getElementById('edad').value);
-
-                if (!peso) {
-                    alert('💡 RECORDATORIO\n\nPara calcular la dosis de TNK:\n\n1. Ingresa el PESO del paciente arriba\n2. Selecciona "Fibrinólisis" en Estrategia de Reperfusión\n3. La dosis se calculará automáticamente\n\n⚠️ Verifica TODAS las contraindicaciones antes de administrar.');
-                } else {
-                    // Calcular dosis
-                    const mayor75 = edad > 75;
-                    let dose;
-                    if (peso < 60) dose = mayor75 ? 15 : 30;
-                    else if (peso <= 70) dose = mayor75 ? 17.5 : 35;
-                    else if (peso <= 80) dose = mayor75 ? 20 : 40;
-                    else if (peso <= 90) dose = mayor75 ? 22.5 : 45;
-                    else dose = mayor75 ? 25 : 50;
-
-                    const volume = (dose / 5).toFixed(1);
-                    alert(`✓ DOSIS CALCULADA\n\nPeso: ${peso} kg\nEdad: ${edad > 75 ? '>75 años (dosis reducida)' : '≤75 años'}\n\nDOSIS TNK: ${dose} mg\nVOLUMEN: ${volume} ml\n\n📋 Preparación:\n• Reconstituir con 10 ml de agua estéril\n• Administrar en bolo IV (5-10 seg)\n• Verificar contraindicaciones`);
-                }
-            }
-
             // Fentanilo - alternativa a morfina
             if (medId === 'fentanilo') {
                 if (tas && tas < 90) {
@@ -1852,6 +1935,135 @@
             checkActivation();
         }
 
+        // Antecedent Sí/No toggle buttons
+        const antecedentState = {};
+        function toggleAntecedent(key, value) {
+            antecedentState[key] = value;
+            const yesBtn = document.getElementById(`ant-${key}-yes`);
+            const noBtn = document.getElementById(`ant-${key}-no`);
+            if (yesBtn && noBtn) {
+                if (value) {
+                    yesBtn.style.background = '#22c55e';
+                    yesBtn.style.color = 'white';
+                    yesBtn.style.borderColor = '#16a34a';
+                    noBtn.style.background = 'white';
+                    noBtn.style.color = '#374151';
+                    noBtn.style.borderColor = '#d1d5db';
+                } else {
+                    noBtn.style.background = '#ef4444';
+                    noBtn.style.color = 'white';
+                    noBtn.style.borderColor = '#dc2626';
+                    yesBtn.style.background = 'white';
+                    yesBtn.style.color = '#374151';
+                    yesBtn.style.borderColor = '#d1d5db';
+                }
+            }
+            // Sync hidden anticoagulacion checkbox for ACO
+            if (key === 'aco') {
+                document.getElementById('anticoagulacion').checked = value;
+                updateRecomendaciones();
+            }
+            // Alergia AAS → bloquear/desbloquear aspirina
+            if (key === 'al-aas') {
+                applyAspirinAllergyBlock(value);
+                updateRecomendaciones();
+            }
+        }
+
+        function applyAspirinAllergyBlock(blocked) {
+            const checkbox = document.getElementById('check-aspirina');
+            const medItem = document.getElementById('med-aspirina');
+            const allergyBanner = document.getElementById('aspirina-allergy-banner');
+            if (!checkbox || !medItem) return;
+
+            if (blocked) {
+                // Uncheck and hide inputs if already checked
+                if (checkbox.checked) {
+                    checkbox.checked = false;
+                    toggleMedication('aspirina');
+                }
+                checkbox.disabled = true;
+                checkbox.style.opacity = '0.3';
+                checkbox.style.cursor = 'not-allowed';
+                medItem.style.opacity = '0.6';
+                if (allergyBanner) allergyBanner.style.display = 'flex';
+            } else {
+                checkbox.disabled = false;
+                checkbox.style.opacity = '1';
+                checkbox.style.cursor = 'pointer';
+                medItem.style.opacity = '1';
+                if (allergyBanner) allergyBanner.style.display = 'none';
+            }
+        }
+
+        // Killip visual card selector
+        function selectKillip(grade) {
+            // Update hidden select
+            document.getElementById('killip').value = String(grade);
+            // Update card styles
+            const colors = { 1: '#1e40af', 2: '#f59e0b', 3: '#ea580c', 4: '#dc2626' };
+            const bgColors = { 1: '#eff6ff', 2: '#fffbeb', 3: '#fff7ed', 4: '#fef2f2' };
+            const borderColors = { 1: '#93c5fd', 2: '#fde68a', 3: '#fed7aa', 4: '#fca5a5' };
+            [1, 2, 3, 4].forEach(i => {
+                const btn = document.getElementById(`killip-btn-${i}`);
+                if (i === grade) {
+                    btn.style.background = bgColors[i];
+                    btn.style.borderColor = borderColors[i];
+                    btn.style.boxShadow = `0 0 0 3px ${borderColors[i]}`;
+                    btn.style.transform = 'scale(1.04)';
+                } else {
+                    btn.style.background = 'white';
+                    btn.style.borderColor = '#e5e7eb';
+                    btn.style.boxShadow = 'none';
+                    btn.style.transform = 'scale(1)';
+                }
+            });
+            checkActivation();
+        }
+
+        // Timeline interval calculation
+        function updateIntervals() {
+            function toMinutes(timeStr) {
+                if (!timeStr) return null;
+                const [h, m] = timeStr.split(':').map(Number);
+                return h * 60 + m;
+            }
+            function diffMin(t1, t2) {
+                const m1 = toMinutes(t1), m2 = toMinutes(t2);
+                if (m1 === null || m2 === null) return null;
+                let diff = m2 - m1;
+                if (diff < 0) diff += 1440; // overnight crossing
+                return diff;
+            }
+            const t0 = document.getElementById('inicioSintomas').value;
+            const t1 = document.getElementById('primerContacto').value;
+            const t2 = document.getElementById('ecgRealizado').value;
+            const t3 = document.getElementById('activacionCodigo').value;
+
+            const lang = (typeof i18n !== 'undefined') ? i18n.currentLang : 'es';
+            const tl = (key) => (typeof i18n !== 'undefined') ? i18n.t(key) : key;
+            const minLabel = tl('timeline.interval.min');
+
+            let anyInterval = false;
+
+            const el0 = document.getElementById('intervalSymptoms1c');
+            const d0 = diffMin(t0, t1);
+            if (d0 !== null) { el0.textContent = `${tl('timeline.interval.symptoms.1c')}: ${d0} ${minLabel}`; el0.style.display = 'block'; anyInterval = true; }
+            else { el0.style.display = 'none'; }
+
+            const el1 = document.getElementById('interval1cECG');
+            const d1 = diffMin(t1, t2);
+            if (d1 !== null) { el1.textContent = `${tl('timeline.interval.1c.ecg')}: ${d1} ${minLabel}`; el1.style.display = 'block'; anyInterval = true; }
+            else { el1.style.display = 'none'; }
+
+            const el2 = document.getElementById('intervalECGActivation');
+            const d2 = diffMin(t2, t3);
+            if (d2 !== null) { el2.textContent = `${tl('timeline.interval.ecg.activation')}: ${d2} ${minLabel}`; el2.style.display = 'block'; anyInterval = true; }
+            else { el2.style.display = 'none'; }
+
+            document.getElementById('intervalsContainer').style.display = anyInterval ? 'block' : 'none';
+        }
+
         function checkActivation() {
             const hasSTEMI = document.getElementById('elevacionST').checked ||
                             document.getElementById('patronWinter').checked ||
@@ -1878,16 +2090,6 @@
                 }
             } else {
                 alertaShock.style.display = 'none';
-            }
-            
-            // Detectar HTA refractaria automáticamente
-            const tad = parseFloat(document.getElementById('tad').value);
-            const htaRefractariaCheckbox = document.getElementById('htaRefractaria');
-            if (tas && tad && tas > 180 && tad > 110) {
-                htaRefractariaCheckbox.checked = true;
-            } else if (tas && tad && (tas <= 180 || tad <= 110)) {
-                // Solo desmarcar si AMBOS valores están por debajo del umbral
-                htaRefractariaCheckbox.checked = false;
             }
             
             const hasVeryHighRisk = hasShockCardiogenico;
@@ -1988,201 +2190,179 @@
             
             if (hasSTEMI && !clinicaTipica && !clinicaAtipica) {
                 recomendaciones.push({
-                    tipo: 'advertencia',
+                    tipo: 'advertencia', categoria: 'D',
                     icon: '👨‍⚕️',
                     texto: 'Valorar CLÍNICA del paciente',
                     detalle: 'ECG positivo detectado. CRÍTICO: Valorar si la clínica es TÍPICA (activar ya) o ATÍPICA (considerar ECG control). Ver sección "Datos Clínicos" arriba.'
                 });
             }
-            
+
             // SpO2
             const spo2 = parseFloat(document.getElementById('spo2').value);
             if (spo2 && spo2 < 90) {
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'B',
                     icon: '🫁',
                     texto: 'SpO₂ <90%: Administrar oxigenoterapia',
-                    detalle: 'Objetivo: mantener SpO₂ ≥94%. Usar cánula nasal o mascarilla según necesidad.'
+                    detalle: 'Objetivo: mantener SpO₂ ≥94%. Usar cánula nasal (2-4 L/min) o mascarilla Venturi/reservorio según necesidad.'
                 });
             } else if (spo2 && spo2 >= 90 && spo2 < 94) {
                 recomendaciones.push({
-                    tipo: 'advertencia',
+                    tipo: 'advertencia', categoria: 'B',
                     icon: '🫁',
                     texto: 'SpO₂ 90-94%: Considerar oxigenoterapia',
-                    detalle: 'Monitorizar estrechamente. Oxígeno si tendencia descendente.'
+                    detalle: 'Monitorizar estrechamente. Oxígeno si tendencia descendente. ERC 2025: O₂ solo si SpO₂ <90%.'
                 });
             }
-            
-            // Shock cardiogénico (detectado automáticamente por TAS o Killip IV)
+
+            // Shock cardiogénico
             const tas = parseFloat(document.getElementById('tas').value);
             const killip = document.getElementById('killip').value;
             const shockDetectado = (tas && tas < 90) || killip === '4';
-            
+
             if (shockDetectado) {
-                let causaShock = '';
-                if (killip === '4') causaShock = 'Killip IV';
-                else if (tas < 90) causaShock = 'TAS <90 mmHg';
-                
+                let causaShock = killip === '4' ? 'Killip IV' : 'TAS <90 mmHg';
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'C',
                     icon: '💉',
                     texto: `¡SHOCK CARDIOGÉNICO! (${causaShock})`,
-                    detalle: '• Vía venosa de gran calibre (14-16G)\n• Considerar segunda vía\n• Monitorización hemodinámica continua\n• Avisar a UCI/Hemodinámica URGENTE\n• NO administrar betabloqueantes ni nitratos'
+                    detalle: '• Vía venosa de gran calibre (14-16G)\n• Considerar segunda vía\n• Monitorización hemodinámica continua\n• Avisar UCI/Hemodinámica URGENTE\n• NO betabloqueantes ni nitratos'
                 });
-                
                 recomendaciones.push({
-                    tipo: 'info',
+                    tipo: 'info', categoria: 'C',
                     icon: '💊',
                     texto: 'Considerar soporte inotrópico',
                     detalle: 'Valorar dopamina o dobutamina según protocolo. Traslado prioritario.'
                 });
             }
-            
-            // Presión arterial - Solo hipotensión (HTA se maneja más abajo con tad)
+
+            // Hipotensión
             if (tas && tas < 90) {
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'C',
                     icon: '⚠️',
                     texto: 'Hipotensión severa (TAS <90 mmHg)',
-                    detalle: 'CONTRAINDICACIÓN para nitratos y morfina. Asegurar vía venosa. Considerar expansión con cristaloides (250-500ml).'
+                    detalle: 'CONTRAINDICACIÓN para nitratos y morfina. Asegurar vía venosa. Considerar expansión con cristaloides (250-500 ml).'
                 });
             }
-            
-            // Infarto de VD + nitratos
+
+            // Infarto de VD
             if (document.getElementById('infartoVD').checked) {
                 if (tas && tas < 100) {
                     recomendaciones.push({
-                        tipo: 'critico',
+                        tipo: 'critico', categoria: 'C',
                         icon: '❌',
                         texto: 'Infarto VD con TAS <100: CONTRAINDICADO nitratos',
                         detalle: '¡PELIGRO! NO administrar nitroglicerina. Riesgo de hipotensión severa y colapso cardiovascular. Expansión con volumen si hipotensión.'
                     });
                 } else {
                     recomendaciones.push({
-                        tipo: 'advertencia',
+                        tipo: 'advertencia', categoria: 'C',
                         icon: '⚠️',
                         texto: 'Infarto VD: EXTREMA PRECAUCIÓN con nitratos',
-                        detalle: 'Los nitratos pueden causar hipotensión severa en IAM de VD. Evitar completamente si TAS <100 mmHg. Usar con extrema precaución si TAS ≥100.'
+                        detalle: 'Los nitratos pueden causar hipotensión severa en IAM de VD. Evitar completamente si TAS <100 mmHg.'
                     });
                 }
-                
                 recomendaciones.push({
-                    tipo: 'info',
+                    tipo: 'info', categoria: 'C',
                     icon: '💧',
                     texto: 'Infarto VD: Expansión de volumen si hipotensión',
-                    detalle: 'Si hipotensión: cristaloides 250-500ml en bolo. Repetir según respuesta. NO usar diuréticos.'
+                    detalle: 'Cristaloides 250-500 ml en bolo. Repetir según respuesta. NO usar diuréticos.'
                 });
             }
-            
+
             // Frecuencia cardíaca
             const fc = parseFloat(document.getElementById('fc').value);
             const isInferiorMI = document.getElementById('infartoVD') && document.getElementById('infartoVD').checked;
             if (fc && fc < 50) {
                 if (isInferiorMI) {
                     recomendaciones.push({
-                        tipo: 'advertencia',
+                        tipo: 'advertencia', categoria: 'C',
                         icon: '💓',
                         texto: 'Bradicardia en IAM INFERIOR (FC <50 lpm)',
-                        detalle: 'Frecuente por tono vagal aumentado en IAM inferior.\n\n💊 ATROPINA 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n\n✅ Efectiva en bradicardia vagal sinusal y bloqueo AV nodal\n⚠️ Si no responde: considerar bloqueo infranodal → marcapasos'
+                        detalle: 'Frecuente por tono vagal aumentado en IAM inferior.\n💊 ATROPINA 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n⚠️ Si no responde → marcapasos'
                     });
                 } else {
                     recomendaciones.push({
-                        tipo: 'advertencia',
+                        tipo: 'advertencia', categoria: 'C',
                         icon: '💓',
                         texto: 'Bradicardia (FC <50 lpm)',
-                        detalle: 'Monitorizar estrechamente. Si síntomas (hipotensión, mareo, síncope):\n\n💊 ATROPINA 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n\n⚠️ Si no responde: considerar marcapasos transcutáneo'
+                        detalle: 'Si síntomas (hipotensión, mareo, síncope):\n💊 ATROPINA 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n⚠️ Si no responde: marcapasos transcutáneo'
                     });
                 }
             } else if (fc && fc > 120) {
                 recomendaciones.push({
-                    tipo: 'advertencia',
+                    tipo: 'advertencia', categoria: 'C',
                     icon: '💓',
                     texto: 'Taquicardia (FC >120 lpm)',
                     detalle: 'Descartar arritmias en monitor. Si taquicardia sinusal: puede indicar dolor, ansiedad o compromiso hemodinámico.'
                 });
             }
-            
-            // Killip
+
+            // Killip III → B (edema pulmonar = ventilación comprometida)
             if (killip === '3') {
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'B',
                     icon: '🫁',
                     texto: 'Killip III: Edema agudo de pulmón',
-                    detalle: 'Posición semisentada, oxígeno, furosemida 40-80mg IV, nitratos IV (si TAS >100), morfina. Traslado urgente.'
+                    detalle: 'Posición semisentada, O₂, furosemida 40-80 mg IV, nitratos IV (si TAS >100), morfina. Traslado urgente.'
                 });
             } else if (killip === '4') {
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'C',
                     icon: '🚨',
                     texto: 'Killip IV: Shock cardiogénico',
-                    detalle: 'Máxima prioridad. Ver recomendaciones de shock cardiogénico arriba.'
+                    detalle: 'Máxima prioridad. Ver recomendaciones de shock cardiogénico.'
                 });
             }
-            
-            // HTA refractaria (detectada automáticamente)
+
+            // HTA refractaria
             const tad = parseFloat(document.getElementById('tad').value);
             if (tas && tad && tas > 180 && tad > 110) {
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'C',
                     icon: '⚠️',
-                    texto: 'HTA REFRACTARIA (>180/110) - CONTRAINDICACIÓN para fibrinólisis',
+                    texto: 'HTA REFRACTARIA (>180/110) — CONTRAINDICACIÓN fibrinólisis',
                     detalle: 'Contraindicación ABSOLUTA para fibrinólisis. Intentar control tensional urgente con nitratos IV. Si no se controla → ICP aunque tiempo >120 min.'
                 });
             } else if (tas && tas > 180) {
                 recomendaciones.push({
-                    tipo: 'advertencia',
+                    tipo: 'advertencia', categoria: 'C',
                     icon: '⚠️',
                     texto: 'HTA severa (TAS >180 mmHg)',
                     detalle: 'Puede contraindicar fibrinólisis si TAD >110. Considerar nitratos para control tensional. Valorar ICP.'
                 });
             }
-            
+
             // Anticoagulación oral + Fibrinólisis
             const decision = document.getElementById('decision').value;
             const anticoagulacion = document.getElementById('anticoagulacion').checked;
             if (anticoagulacion && decision === 'fibrinolisis') {
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'D',
                     icon: '⚠️',
                     texto: '¡ALTO RIESGO! Anticoagulación + Fibrinólisis',
-                    detalle: 'Paciente en anticoagulación oral activa. ALTO riesgo hemorrágico con fibrinólisis. Considerar fuertemente ICP en su lugar. Si fibrinólisis es única opción: monitorización muy estrecha.'
-                });
-            }
-            
-            // Gestación
-            if (document.getElementById('gestacion').checked) {
-                recomendaciones.push({
-                    tipo: 'critico',
-                    icon: '🤰',
-                    texto: 'GESTACIÓN - Contraindicación ABSOLUTA para fibrinólisis',
-                    detalle: 'ICP es la estrategia preferida independientemente del tiempo. Coordinar con obstetricia. NO administrar fibrinolíticos.'
-                });
-            }
-            
-            // Detección de contraindicaciones para fibrinólisis
-            const contraFibrinolisis = document.getElementById('hemorragiaCerebral').checked ||
-                                      document.getElementById('avcReciente').checked ||
-                                      document.getElementById('traumaCirugia').checked ||
-                                      document.getElementById('sangradoActivo').checked ||
-                                      document.getElementById('htaRefractaria').checked ||
-                                      document.getElementById('gestacion').checked;
-            
-            if (contraFibrinolisis && decision === 'fibrinolisis') {
-                recomendaciones.push({
-                    tipo: 'critico',
-                    icon: '🚫',
-                    texto: '¡CONTRAINDICACIÓN ABSOLUTA PARA FIBRINÓLISIS!',
-                    detalle: 'Has seleccionado fibrinólisis pero existen contraindicaciones absolutas. CAMBIAR a ICP urgente (traslado prioritario aunque >120 min).'
+                    detalle: 'Paciente en anticoagulación oral activa. ALTO riesgo hemorrágico con fibrinólisis. Considerar fuertemente ICP en su lugar.'
                 });
             }
             
             // Patrón de De Winter
             if (document.getElementById('patronWinter').checked) {
                 recomendaciones.push({
-                    tipo: 'critico',
+                    tipo: 'critico', categoria: 'D',
                     icon: '📊',
                     texto: 'Patrón De Winter detectado',
                     detalle: 'EQUIVALENTE A STEMI. Indica oclusión proximal de LAD. Activación INMEDIATA aunque no haya elevación ST típica.'
+                });
+            }
+
+            // Al·lèrgia AAS
+            if (antecedentState['al-aas'] === true) {
+                recomendaciones.push({
+                    tipo: 'critico', categoria: 'C',
+                    icon: '🚫',
+                    texto: 'ALERGIA A AAS — Aspirina CONTRAINDICADA',
+                    detalle: 'Documentada en antecedentes. NO administrar aspirina.\nAlternativa: CLOPIDOGREL 600 mg VO como antiagregante de carga.\nAvisar al hospital receptor de la alergia.'
                 });
             }
             
@@ -2352,53 +2532,80 @@
             const listRec = document.getElementById('recomendacionesList');
             const panelRecordatorios = document.getElementById('recordatoriosPanel');
             const listRecordatorios = document.getElementById('recordatoriosList');
-            
-            // Recomendaciones clínicas
+
+            // === ABCD groups (ERC 2025) ===
+            const abcd = {
+                A: { label: 'A — Vía Aérea', icon: '😮‍💨', headerBg: '#1e3a5f', items: [] },
+                B: { label: 'B — Ventilació / Respiració', icon: '🫁', headerBg: '#065f46', items: [] },
+                C: { label: 'C — Circulació', icon: '❤️', headerBg: '#7f1d1d', items: [] },
+                D: { label: 'D — Decisió / Discapacitat', icon: '🧠', headerBg: '#713f12', items: [] },
+            };
+
+            recomendaciones.forEach(rec => {
+                const cat = rec.categoria || 'C';
+                if (abcd[cat]) abcd[cat].items.push(rec);
+            });
+
+            function recCard(rec) {
+                const bgColor = rec.tipo === 'critico' ? '#fee2e2' :
+                               rec.tipo === 'advertencia' ? '#fef3c7' : '#e0f2fe';
+                const borderColor = rec.tipo === 'critico' ? '#fca5a5' :
+                                   rec.tipo === 'advertencia' ? '#fde047' : '#93c5fd';
+                const textColor = rec.tipo === 'critico' ? '#991b1b' :
+                                 rec.tipo === 'advertencia' ? '#854d0e' : '#075985';
+                return `
+                    <div style="background:${bgColor}; padding:12px 14px; border-radius:8px; border-left:4px solid ${borderColor}; margin-bottom:6px;">
+                        <div style="font-weight:700; color:${textColor}; margin-bottom:5px; display:flex; align-items:center; gap:8px;">
+                            <span style="font-size:18px;">${rec.icon}</span>
+                            <span>${rec.texto}</span>
+                        </div>
+                        <div style="color:${textColor}; font-size:12px; white-space:pre-line; opacity:0.9; line-height:1.5;">
+                            ${rec.detalle}
+                        </div>
+                    </div>`;
+            }
+
             if (recomendaciones.length > 0) {
                 panelRec.style.display = 'block';
-                listRec.innerHTML = recomendaciones.map(rec => {
-                    const bgColor = rec.tipo === 'critico' ? '#fee2e2' : 
-                                   rec.tipo === 'advertencia' ? '#fef3c7' : '#e0f2fe';
-                    const borderColor = rec.tipo === 'critico' ? '#fca5a5' : 
-                                       rec.tipo === 'advertencia' ? '#fde047' : '#93c5fd';
-                    const textColor = rec.tipo === 'critico' ? '#991b1b' : 
-                                     rec.tipo === 'advertencia' ? '#854d0e' : '#075985';
-                    
-                    return `
-                        <div style="background: ${bgColor}; padding: 15px; border-radius: 8px; border-left: 4px solid ${borderColor};">
-                            <div style="font-weight: 700; color: ${textColor}; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-                                <span style="font-size: 20px;">${rec.icon}</span>
-                                <span>${rec.texto}</span>
+                let html = '';
+                ['A','B','C','D'].forEach(key => {
+                    const group = abcd[key];
+                    const hasItems = group.items.length > 0;
+                    html += `
+                        <div style="margin-bottom:10px; border-radius:10px; overflow:hidden; border:1px solid #e5e7eb;">
+                            <div style="background:${group.headerBg}; padding:8px 14px; display:flex; align-items:center; gap:8px;">
+                                <span style="font-size:18px;">${group.icon}</span>
+                                <span style="font-weight:800; color:white; font-size:14px; letter-spacing:0.3px;">${group.label}</span>
+                                ${hasItems ? `<span style="margin-left:auto; background:rgba(255,255,255,0.25); color:white; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px;">${group.items.length}</span>` : '<span style="margin-left:auto; color:rgba(255,255,255,0.7); font-size:11px;">✓ OK</span>'}
                             </div>
-                            <div style="color: ${textColor}; font-size: 13px; white-space: pre-line; opacity: 0.9;">
-                                ${rec.detalle}
-                            </div>
-                        </div>
-                    `;
-                }).join('');
+                            ${hasItems
+                                ? `<div style="padding:10px 10px 4px;">${group.items.map(recCard).join('')}</div>`
+                                : '<div style="padding:8px 14px; font-size:12px; color:#6b7280; background:#f9fafb;">Sin incidencias</div>'
+                            }
+                        </div>`;
+                });
+                listRec.innerHTML = html;
             } else {
                 panelRec.style.display = 'none';
             }
-            
-            // Recordatorios de tiempo
+
+            // Recordatorios de tiempo (unchanged layout)
             if (recordatorios.length > 0) {
                 panelRecordatorios.style.display = 'block';
                 listRecordatorios.innerHTML = recordatorios.map(rec => {
                     const bgColor = rec.tipo === 'critico' ? '#fee2e2' : '#fef3c7';
                     const borderColor = rec.tipo === 'critico' ? '#fca5a5' : '#fde047';
                     const textColor = rec.tipo === 'critico' ? '#991b1b' : '#854d0e';
-                    
                     return `
-                        <div style="background: ${bgColor}; padding: 15px; border-radius: 8px; border-left: 4px solid ${borderColor};">
-                            <div style="font-weight: 700; color: ${textColor}; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-                                <span style="font-size: 20px;">${rec.icon}</span>
+                        <div style="background:${bgColor}; padding:12px; border-radius:8px; border-left:4px solid ${borderColor}; margin-bottom:6px;">
+                            <div style="font-weight:700; color:${textColor}; margin-bottom:5px; display:flex; align-items:center; gap:8px;">
+                                <span style="font-size:18px;">${rec.icon}</span>
                                 <span>${rec.texto}</span>
                             </div>
-                            <div style="color: ${textColor}; font-size: 13px; white-space: pre-line; opacity: 0.9;">
+                            <div style="color:${textColor}; font-size:12px; white-space:pre-line; opacity:0.9;">
                                 ${rec.detalle}
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                 }).join('');
             } else {
                 panelRecordatorios.style.display = 'none';
@@ -2419,13 +2626,7 @@
 
             document.getElementById('motivoFibrinolisis').style.display =
                 isFibrinolisis ? 'block' : 'none';
-            document.getElementById('tnkCalculator').style.display =
-                isFibrinolisis ? 'block' : 'none';
-            // Mostrar contraindicaciones SOLO si se selecciona fibrinólisis
-            document.getElementById('contraSection').style.display =
-                isFibrinolisis ? 'block' : 'none';
 
-            calculateTNK();
             updateRecomendaciones();
         }
 
@@ -2453,26 +2654,21 @@
         }
 
         function calculateAntiplatelet() {
-            const altoRiesgo = document.getElementById('hemorragiaCerebral').checked ||
-                              document.getElementById('sangradoActivo').checked ||
-                              document.getElementById('anticoagulacion').checked;
-            
+            const anticoagulacion = document.getElementById('anticoagulacion').checked;
             const edad = parseInt(document.getElementById('edad').value);
             const peso = parseFloat(document.getElementById('peso').value);
-            
-            const contraPrasugrel = document.getElementById('ictusAit').checked ||
-                                   edad > 75 ||
-                                   peso < 60;
-            
+
+            const contraPrasugrel = edad > 75 || peso < 60;
+
             let recommendation;
-            if (altoRiesgo) {
+            if (anticoagulacion) {
                 recommendation = 'CLOPIDOGREL (Alto riesgo hemorrágico)';
             } else if (contraPrasugrel) {
                 recommendation = 'TICAGRELOR (Sin contraindicaciones)';
             } else {
                 recommendation = 'TICAGRELOR o PRASUGREL';
             }
-            
+
             const resultDiv = document.getElementById('antiplateletResult');
             resultDiv.textContent = recommendation;
             resultDiv.style.display = 'block';
@@ -2482,8 +2678,6 @@
             const edad = document.getElementById('edad').value || i18n.t('report.not.specified.fem');
             const sexo = document.getElementById('sexo').value === 'M' ? i18n.t('patient.gender.male') : i18n.t('patient.gender.female');
             const peso = document.getElementById('peso').value || i18n.t('report.not.specified');
-            const alergias = document.getElementById('alergias').value || i18n.t('report.not.known');
-            
             // Hallazgos ECG
             let hallazgosECG = '';
             if (document.getElementById('elevacionST').checked) hallazgosECG += '✓ ' + i18n.t('ecg.st.elevation') + '\n';
@@ -2517,7 +2711,6 @@
             report += i18n.t('report.age') + ': ' + edad + ' ' + i18n.t('report.years') + '\n';
             report += i18n.t('report.sex') + ': ' + sexo + '\n';
             report += i18n.t('report.weight') + ': ' + peso + ' ' + i18n.t('report.kg') + '\n';
-            report += i18n.t('report.allergies') + ': ' + alergias + '\n';
             
             // Valoración de clínica
             const clinicaTipica = document.getElementById('clinicaSi') && document.getElementById('clinicaSi').checked;
@@ -2630,6 +2823,7 @@
         updateClock();
         setInterval(updateClock, 1000);
         renderMedicationList();
+        selectKillip(1); // Inicializar Killip I por defecto
         
         // Actualizar recomendaciones cada 30 segundos (para recordatorios de tiempo)
         setInterval(updateRecomendaciones, 30000);
@@ -2648,22 +2842,10 @@
         });
         document.getElementById('decision').addEventListener('change', updateRecomendaciones);
         document.getElementById('anticoagulacion').addEventListener('change', updateRecomendaciones);
-        document.getElementById('gestacion').addEventListener('change', updateRecomendaciones);
-        
-        // Listeners para contraindicaciones
-        ['hemorragiaCerebral', 'avcReciente', 'traumaCirugia', 'sangradoActivo', 'htaRefractaria', 'ictusAit'].forEach(id => {
-            document.getElementById(id).addEventListener('change', updateRecomendaciones);
-        });
-        
-        // Listeners para edad y peso (afectan antiagregantes y TNK)
-        document.getElementById('edad').addEventListener('input', function() {
-            calculateTNK();
-            updateRecomendaciones();
-        });
-        document.getElementById('peso').addEventListener('input', function() {
-            calculateTNK();
-            updateRecomendaciones();
-        });
+
+        // Listeners para edad y peso
+        document.getElementById('edad').addEventListener('input', updateRecomendaciones);
+        document.getElementById('peso').addEventListener('input', updateRecomendaciones);
         document.getElementById('primerContacto').addEventListener('change', updateRecomendaciones);
         document.getElementById('ecgRealizado').addEventListener('change', updateRecomendaciones);
         document.getElementById('ecgControl').addEventListener('change', updateRecomendaciones);
