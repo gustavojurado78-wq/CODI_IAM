@@ -2653,32 +2653,26 @@
                 'Volumen: ' + volume + ' ml' + (mayor75 ? ' (dosis reducida >75 años)' : '');
         }
 
-        function calculateAntiplatelet() {
-            const anticoagulacion = document.getElementById('anticoagulacion').checked;
-            const edad = parseInt(document.getElementById('edad').value);
-            const peso = parseFloat(document.getElementById('peso').value);
-
-            const contraPrasugrel = edad > 75 || peso < 60;
-
-            let recommendation;
-            if (anticoagulacion) {
-                recommendation = 'CLOPIDOGREL (Alto riesgo hemorrágico)';
-            } else if (contraPrasugrel) {
-                recommendation = 'TICAGRELOR (Sin contraindicaciones)';
-            } else {
-                recommendation = 'TICAGRELOR o PRASUGREL';
-            }
-
-            const resultDiv = document.getElementById('antiplateletResult');
-            resultDiv.textContent = recommendation;
-            resultDiv.style.display = 'block';
-        }
 
         function generateReport() {
             const edad = document.getElementById('edad').value || i18n.t('report.not.specified.fem');
             const sexo = document.getElementById('sexo').value === 'M' ? i18n.t('patient.gender.male') : i18n.t('patient.gender.female');
             const peso = document.getElementById('peso').value || i18n.t('report.not.specified');
-            const alergias = document.getElementById('alergias').value || i18n.t('report.not.known');
+
+            // Antecedents (nuevo sistema Sí/No)
+            const antLabels = {
+                hta: i18n.t('patient.ant.hta'),
+                dm: i18n.t('patient.ant.dm'),
+                dl: i18n.t('patient.ant.dl'),
+                tabac: i18n.t('patient.ant.tabac'),
+                aco: i18n.t('patient.ant.aco'),
+                'al-aas': i18n.t('patient.ant.al.aas'),
+                'al-iode': i18n.t('patient.ant.al.iode'),
+            };
+            const antSi = Object.entries(antLabels)
+                .filter(([k]) => antecedentState[k] === true)
+                .map(([, label]) => label);
+            const antecedentsText = antSi.length > 0 ? antSi.join(', ') : i18n.t('report.not.known');
 
             // Hallazgos ECG
             let hallazgosECG = '';
@@ -2713,7 +2707,7 @@
             report += i18n.t('report.age') + ': ' + edad + ' ' + i18n.t('report.years') + '\n';
             report += i18n.t('report.sex') + ': ' + sexo + '\n';
             report += i18n.t('report.weight') + ': ' + peso + ' ' + i18n.t('report.kg') + '\n';
-            report += i18n.t('report.allergies') + ': ' + alergias + '\n';
+            report += i18n.t('patient.antecedents.title') + ': ' + antecedentsText + '\n';
 
             // Valoración de clínica
             const clinicaTipica = document.getElementById('clinicaSi') && document.getElementById('clinicaSi').checked;
