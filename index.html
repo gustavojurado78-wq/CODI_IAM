@@ -2682,15 +2682,15 @@
 
             // Hallazgos ECG
             let hallazgosECG = '';
-            if (document.getElementById('elevacionST').checked) hallazgosECG += '• ' + i18n.t('ecg.st.elevation') + '\n';
-            if (document.getElementById('patronWinter').checked) hallazgosECG += '• ' + i18n.t('ecg.winter.pattern') + '\n';
-            if (document.getElementById('depresionSTconAVR').checked) hallazgosECG += '• ' + i18n.t('ecg.st.depression.avr') + '\n';
-            if (document.getElementById('infartoPosterior').checked) hallazgosECG += '• ' + i18n.t('ecg.posterior.infarction') + '\n';
-            if (document.getElementById('infartoVD').checked) hallazgosECG += '• ' + i18n.t('ecg.right.ventricle') + '\n';
-            if (document.getElementById('bbefh').checked) hallazgosECG += '• ' + i18n.t('ecg.new.lbbb') + '\n';
-            if (document.getElementById('bbdfh').checked) hallazgosECG += '• ' + i18n.t('ecg.new.rbbb') + '\n';
-            if (document.getElementById('marcapassos').checked) hallazgosECG += '• ' + i18n.t('ecg.pacemaker') + '\n';
-            if (document.getElementById('otrosECG').value) hallazgosECG += '• ' + i18n.t('report.other.findings') + ': ' + document.getElementById('otrosECG').value + '\n';
+            if (document.getElementById('elevacionST').checked) hallazgosECG += '- ' + i18n.t('ecg.st.elevation') + '\n';
+            if (document.getElementById('patronWinter').checked) hallazgosECG += '- ' + i18n.t('ecg.winter.pattern') + '\n';
+            if (document.getElementById('depresionSTconAVR').checked) hallazgosECG += '- ' + i18n.t('ecg.st.depression.avr') + '\n';
+            if (document.getElementById('infartoPosterior').checked) hallazgosECG += '- ' + i18n.t('ecg.posterior.infarction') + '\n';
+            if (document.getElementById('infartoVD').checked) hallazgosECG += '- ' + i18n.t('ecg.right.ventricle') + '\n';
+            if (document.getElementById('bbefh').checked) hallazgosECG += '- ' + i18n.t('ecg.new.lbbb') + '\n';
+            if (document.getElementById('bbdfh').checked) hallazgosECG += '- ' + i18n.t('ecg.new.rbbb') + '\n';
+            if (document.getElementById('marcapassos').checked) hallazgosECG += '- ' + i18n.t('ecg.pacemaker') + '\n';
+            if (document.getElementById('otrosECG').value) hallazgosECG += '- ' + i18n.t('report.other.findings') + ': ' + document.getElementById('otrosECG').value + '\n';
 
             if (hallazgosECG === '') hallazgosECG = i18n.t('report.no.findings') + '\n';
 
@@ -2700,18 +2700,16 @@
             const killip = document.getElementById('killip').value;
             if ((tas && tas < 90) || killip === '4') {
                 let causa = killip === '4' ? 'Killip IV' : i18n.t('clinical.sbp') + ' <90 mmHg';
-                datosAdicionales += '⚠️ ' + i18n.t('report.cardiogenic.shock') + ' (' + causa + ')\n';
+                datosAdicionales += 'ALERTA: ' + i18n.t('report.cardiogenic.shock') + ' (' + causa + ')\n';
             }
 
             let report = '';
 
             // Encabezado
-            report += '▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n';
-            report += '           ' + i18n.t('report.title').toUpperCase() + '\n';
-            report += '▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n\n';
+            report += i18n.t('report.title').toUpperCase() + '\n\n';
 
             // Datos del paciente
-            report += '📋 ' + i18n.t('report.patient.data').toUpperCase() + '\n\n';
+            report += i18n.t('report.patient.data').toUpperCase() + '\n';
             report += i18n.t('report.age') + ': ' + edad + ' ' + i18n.t('report.years') + '\n';
             report += i18n.t('report.sex') + ': ' + sexo + '\n';
             report += i18n.t('report.weight') + ': ' + peso + ' ' + i18n.t('report.kg') + '\n';
@@ -2728,7 +2726,7 @@
             report += '\n';
 
             // Timeline
-            report += '⏱️ ' + i18n.t('report.timeline').toUpperCase() + '\n\n';
+            report += i18n.t('report.timeline').toUpperCase() + '\n';
             report += i18n.t('timeline.symptom.onset') + ': ' + (document.getElementById('inicioSintomas').value || '---') + '\n';
             report += i18n.t('timeline.first.contact') + ': ' + (document.getElementById('primerContacto').value || '---') + '\n';
             report += i18n.t('timeline.ecg.initial') + ': ' + (document.getElementById('ecgRealizado').value || '---') + '\n';
@@ -2736,11 +2734,11 @@
             report += i18n.t('timeline.activation') + ': ' + (document.getElementById('activacionCodigo').value || '---') + '\n\n';
 
             // ECG
-            report += '📈 ' + i18n.t('report.ecg.findings').toUpperCase() + '\n\n';
+            report += i18n.t('report.ecg.findings').toUpperCase() + '\n';
             report += hallazgosECG + '\n';
 
             // Datos clínicos
-            report += '🩺 ' + i18n.t('report.clinical.data').toUpperCase() + '\n\n';
+            report += i18n.t('report.clinical.data').toUpperCase() + '\n';
             report += i18n.t('clinical.bp') + ': ' + (document.getElementById('tas').value || '---') + '/' + (document.getElementById('tad').value || '---') + ' mmHg\n';
             report += i18n.t('clinical.hr') + ': ' + (document.getElementById('fc').value || '---') + ' lpm\n';
             report += i18n.t('clinical.o2sat') + ': ' + (document.getElementById('spo2').value || '---') + '%\n';
@@ -2749,7 +2747,7 @@
             report += '\n';
 
             // Estrategia
-            report += '💉 ' + i18n.t('report.strategy').toUpperCase() + '\n\n';
+            report += i18n.t('report.strategy').toUpperCase() + '\n';
             const decisionValue = document.getElementById('decision').value;
             report += i18n.t('report.decision') + ': ';
             if (decisionValue === 'icp') {
@@ -2762,7 +2760,7 @@
             report += i18n.t('report.destination.hospital') + ': ' + (document.getElementById('hospitalDestino').value || i18n.t('report.not.specified')) + '\n\n';
 
             // Medicación
-            report += '💊 ' + i18n.t('report.medication.administered').toUpperCase() + '\n\n';
+            report += i18n.t('report.medication.administered').toUpperCase() + '\n';
 
             let medsAdministered = false;
             medications.forEach(med => {
@@ -2771,7 +2769,7 @@
                     medsAdministered = true;
                     const dose = document.getElementById('dose-' + med.id).value;
                     const time = document.getElementById('time-' + med.id).value;
-                    report += '• ' + med.name + ': ' + dose + ' (' + med.defaultRoute + ') - ' + time + '\n';
+                    report += '- ' + med.name + ': ' + dose + ' (' + med.defaultRoute + ') - ' + time + '\n';
                 }
             });
 
@@ -2780,12 +2778,10 @@
             }
 
             report += '\n';
-            report += '▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n';
             const locale = i18n.currentLang === 'ca' ? 'ca-ES' : i18n.currentLang === 'es' ? 'es-ES' : i18n.currentLang === 'fr' ? 'fr-FR' : 'en-US';
             report += i18n.t('report.generated') + ': ' + new Date().toLocaleString(locale) + '\n\n';
             report += 'Médico responsable: _________________________\n\n';
-            report += 'Firma: _________________________\n';
-            report += '▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬';
+            report += 'Firma: _________________________';
 
             return report;
         }
