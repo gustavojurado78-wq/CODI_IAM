@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <title>Dashboard Código IAM - Atención Primaria</title>
     <style>
         * {
@@ -1228,11 +1229,11 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label data-i18n="patient.age">Edad (años)</label>
-                            <input type="number" id="edad" data-i18n-placeholder="patient.age.placeholder" placeholder="Años" onchange="updateContraindications()">
+                            <input type="number" id="edad" min="0" max="130" data-i18n-placeholder="patient.age.placeholder" placeholder="Años" onchange="updateContraindications()">
                         </div>
                         <div class="form-group">
                             <label data-i18n="patient.weight">Peso (kg)</label>
-                            <input type="number" id="peso" data-i18n-placeholder="patient.weight.placeholder" placeholder="kg">
+                            <input type="number" id="peso" min="1" max="300" data-i18n-placeholder="patient.weight.placeholder" placeholder="kg">
                         </div>
                         <div class="form-group">
                             <label data-i18n="patient.gender">Sexo</label>
@@ -1308,7 +1309,8 @@
                                 <!-- Free-text otros antecedentes -->
                                 <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #fed7aa;">
                                     <label style="display: block; font-size: 12px; font-weight: 700; color: #92400e; margin-bottom: 4px;" data-i18n="patient.ant.otros">Altres antecedents d'interès</label>
-                                    <textarea id="otrosAntecedentes" rows="2" data-i18n-placeholder="patient.ant.otros.placeholder" placeholder="Escriu aquí altres antecedents rellevants..." style="width: 100%; border: 1px solid #fed7aa; border-radius: 6px; padding: 6px 8px; font-size: 12px; font-family: inherit; resize: vertical; box-sizing: border-box;"></textarea>
+                                    <textarea id="otrosAntecedentes" rows="2" maxlength="300" data-i18n-placeholder="patient.ant.otros.placeholder" placeholder="Escriu aquí altres antecedents rellevants..." style="width: 100%; border: 1px solid #fed7aa; border-radius: 6px; padding: 6px 8px; font-size: 12px; font-family: inherit; resize: vertical; box-sizing: border-box;"></textarea>
+                                    <div style="font-size: 10px; color: #b45309; margin-top: 3px;" data-i18n="privacy.no.pii">⚠️ No introduir nom, DNI ni dades identificatives</div>
                                 </div>
                             </div>
                         </div>
@@ -1402,7 +1404,7 @@
                         <span data-i18n="ecg.pacemaker">Ritmo de marcapassos</span>
                     </div>
 
-                    <textarea id="otrosECG" data-i18n-placeholder="ecg.other.findings" placeholder="Otros hallazgos ECG..." style="border-color: #fde047; margin-top: 10px;"></textarea>
+                    <textarea id="otrosECG" maxlength="300" data-i18n-placeholder="ecg.other.findings" placeholder="Otros hallazgos ECG..." style="border-color: #fde047; margin-top: 10px;"></textarea>
                 </div>
 
                 <!-- Alerta de activación -->
@@ -1462,19 +1464,19 @@
                     <div class="form-grid" style="margin-bottom: 16px;">
                         <div class="form-group">
                             <label data-i18n="clinical.sbp">TAS (mmHg)</label>
-                            <input type="number" id="tas" data-i18n-placeholder="clinical.sbp.placeholder" placeholder="mmHg">
+                            <input type="number" id="tas" min="40" max="300" data-i18n-placeholder="clinical.sbp.placeholder" placeholder="mmHg">
                         </div>
                         <div class="form-group">
                             <label data-i18n="clinical.dbp">TAD (mmHg)</label>
-                            <input type="number" id="tad" data-i18n-placeholder="clinical.dbp.placeholder" placeholder="mmHg">
+                            <input type="number" id="tad" min="20" max="200" data-i18n-placeholder="clinical.dbp.placeholder" placeholder="mmHg">
                         </div>
                         <div class="form-group">
                             <label data-i18n="clinical.hr">FC (lpm)</label>
-                            <input type="number" id="fc" data-i18n-placeholder="clinical.hr.placeholder" placeholder="lpm">
+                            <input type="number" id="fc" min="20" max="300" data-i18n-placeholder="clinical.hr.placeholder" placeholder="lpm">
                         </div>
                         <div class="form-group">
                             <label data-i18n="clinical.o2sat">SpO₂ (%)</label>
-                            <input type="number" id="spo2" data-i18n-placeholder="clinical.o2sat.placeholder" placeholder="%">
+                            <input type="number" id="spo2" min="50" max="100" data-i18n-placeholder="clinical.o2sat.placeholder" placeholder="%">
                         </div>
                     </div>
 
@@ -1586,7 +1588,7 @@
 
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label data-i18n="strategy.hospital.label">Hospital de destino</label>
-                        <input type="text" id="hospitalDestino" data-i18n-placeholder="strategy.hospital.placeholder" placeholder="Nombre del hospital">
+                        <input type="text" id="hospitalDestino" maxlength="100" data-i18n-placeholder="strategy.hospital.placeholder" placeholder="Nombre del hospital">
                     </div>
 
 
@@ -1622,6 +1624,9 @@
                     <li data-i18n="disclaimer.item4">La información proporcionada no sustituye la formación médica ni la consulta de fuentes primarias.</li>
                     <li data-i18n="disclaimer.item5">Los desarrolladores <strong>no asumen responsabilidad</strong> por errores derivados del uso de esta herramienta.</li>
                 </ul>
+                <div style="font-size: 11px; color: #6b7280; margin-top: 8px; padding: 8px; background: #f9fafb; border-radius: 6px; border-left: 3px solid #9ca3af;" data-i18n="disclaimer.privacy">
+                    🔒 <strong>Privacitat:</strong> Aquesta eina no transmet cap dada a servidors externs. L'informe es copia únicament al porta-retalls del dispositiu. No introduïu dades identificatives (nom, DNI, CIP) en els camps lliures. El porta-retalls és responsabilitat de l'usuari i de la política de privacitat de la institució.
+                </div>
                 <div class="disclaimer-footer" data-i18n="disclaimer.footer">
                     Uso exclusivamente profesional. Versión educativa/asistencial. No apta para diagnóstico automatizado.
                 </div>

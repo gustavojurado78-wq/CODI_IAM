@@ -420,6 +420,10 @@ const translations = {
         "report.physician.responsible": "Metge responsable",
         "report.colleague": "Col·legiat nº",
         "report.signature": "Signatura",
+
+        // Privacitat / Seguretat
+        "privacy.no.pii": "⚠️ No introduir nom, DNI ni dades identificatives",
+        "disclaimer.privacy": "🔒 <strong>Privacitat:</strong> Aquesta eina no transmet cap dada a servidors externs. L'informe es copia únicament al porta-retalls del dispositiu. No introduïu dades identificatives (nom, DNI, CIP) en els camps lliures. El porta-retalls és responsabilitat de l'usuari i de la política de privacitat de la institució.",
     },
 
     es: {
@@ -842,6 +846,10 @@ const translations = {
         "report.physician.responsible": "Médico responsable",
         "report.colleague": "Colegiado nº",
         "report.signature": "Firma",
+
+        // Privacidad / Seguridad
+        "privacy.no.pii": "⚠️ No introducir nombre, DNI ni datos identificativos",
+        "disclaimer.privacy": "🔒 <strong>Privacidad:</strong> Esta herramienta no transmite ningún dato a servidores externos. El informe se copia únicamente al portapapeles del dispositivo. No introduzca datos identificativos (nombre, DNI, CIP) en los campos libres. El portapapeles es responsabilidad del usuario y de la política de privacidad de la institución.",
     },
 
     fr: {
@@ -1264,6 +1272,10 @@ const translations = {
         "report.physician.responsible": "Médecin responsable",
         "report.colleague": "Nº d'ordre",
         "report.signature": "Signature",
+
+        // Confidentialité / Sécurité
+        "privacy.no.pii": "⚠️ Ne pas saisir de nom, numéro de sécurité sociale ou données identifiantes",
+        "disclaimer.privacy": "🔒 <strong>Confidentialité :</strong> Cet outil ne transmet aucune donnée à des serveurs externes. Le rapport est copié uniquement dans le presse-papiers de l'appareil. Ne saisissez pas de données identifiantes dans les champs libres. Le presse-papiers relève de la responsabilité de l'utilisateur et de la politique de confidentialité de l'établissement.",
     },
 
     en: {
@@ -1686,13 +1698,19 @@ const translations = {
         "report.physician.responsible": "Responsible physician",
         "report.colleague": "License nº",
         "report.signature": "Signature",
+
+        // Privacy / Security
+        "privacy.no.pii": "⚠️ Do not enter name, ID number or patient-identifying data",
+        "disclaimer.privacy": "🔒 <strong>Privacy:</strong> This tool does not transmit any data to external servers. The report is copied only to the device clipboard. Do not enter identifying data (name, ID, CIP) in free-text fields. The clipboard is the user's responsibility and subject to the institution's privacy policy.",
     }
 };
 
 // Sistema de internacionalización
 class I18n {
     constructor() {
-        this.currentLang = localStorage.getItem('language') || 'ca'; // Catalán por defecto
+        const VALID_LANGS = ['ca', 'es', 'fr', 'en'];
+        const stored = localStorage.getItem('language');
+        this.currentLang = VALID_LANGS.includes(stored) ? stored : 'ca';
         this.init();
     }
 
@@ -1728,8 +1746,20 @@ class I18n {
                         element.value = translation;
                     }
                 } else {
-                    // Usar innerHTML para soportar HTML en las traducciones
-                    element.innerHTML = translation;
+                    // Only keys explicitly marked as HTML-safe use innerHTML;
+                    // all others use textContent to prevent accidental XSS.
+                    const HTML_KEYS = [
+                        'clinical.typical.description',
+                        'disclaimer.main', 'disclaimer.item1', 'disclaimer.item2',
+                        'disclaimer.item3', 'disclaimer.item4', 'disclaimer.item5',
+                        'timeline.pragmatic.info',
+                        'ecg.alert.ntg.instructions',
+                    ];
+                    if (HTML_KEYS.includes(key)) {
+                        element.innerHTML = translation;
+                    } else {
+                        element.textContent = translation;
+                    }
                 }
             }
         });
