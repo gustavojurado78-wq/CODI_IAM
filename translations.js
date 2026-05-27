@@ -404,6 +404,22 @@ const translations = {
         "med.fet": "Fet",
         "med.hora": "Hora",
         "med.dosi": "Dosi",
+
+        // Analgèsia grup
+        "med.analgesia.title": "Analgèsia",
+        "med.analgesia.subtitle": "Morfina o Fentanilo, o ambdós",
+
+        // Altres antecedents
+        "patient.ant.otros": "Altres antecedents d'interès",
+        "patient.ant.otros.placeholder": "Escriu aquí altres antecedents rellevants...",
+
+        // Informe clínic
+        "report.date.label": "Data",
+        "report.time.label": "Hora",
+        "report.others.ant": "Altres antecedents",
+        "report.physician.responsible": "Metge responsable",
+        "report.colleague": "Col·legiat nº",
+        "report.signature": "Signatura",
     },
 
     es: {
@@ -810,6 +826,22 @@ const translations = {
         "med.fet": "Hecho",
         "med.hora": "Hora",
         "med.dosi": "Dosis",
+
+        // Grupo analgesia
+        "med.analgesia.title": "Analgesia",
+        "med.analgesia.subtitle": "Morfina o Fentanilo, o ambos",
+
+        // Otros antecedentes
+        "patient.ant.otros": "Otros antecedentes de interés",
+        "patient.ant.otros.placeholder": "Escribir aquí otros antecedentes relevantes...",
+
+        // Informe clínico
+        "report.date.label": "Fecha",
+        "report.time.label": "Hora",
+        "report.others.ant": "Otros antecedentes",
+        "report.physician.responsible": "Médico responsable",
+        "report.colleague": "Colegiado nº",
+        "report.signature": "Firma",
     },
 
     fr: {
@@ -1216,6 +1248,22 @@ const translations = {
         "med.fet": "Fait",
         "med.hora": "Heure",
         "med.dosi": "Dose",
+
+        // Groupe analgésie
+        "med.analgesia.title": "Analgésie",
+        "med.analgesia.subtitle": "Morphine ou Fentanyl, ou les deux",
+
+        // Autres antécédents
+        "patient.ant.otros": "Autres antécédents pertinents",
+        "patient.ant.otros.placeholder": "Écrire ici d'autres antécédents pertinents...",
+
+        // Rapport clinique
+        "report.date.label": "Date",
+        "report.time.label": "Heure",
+        "report.others.ant": "Autres antécédents",
+        "report.physician.responsible": "Médecin responsable",
+        "report.colleague": "Nº d'ordre",
+        "report.signature": "Signature",
     },
 
     en: {
@@ -1622,6 +1670,22 @@ const translations = {
         "med.fet": "Done",
         "med.hora": "Time",
         "med.dosi": "Dose",
+
+        // Analgesia group
+        "med.analgesia.title": "Analgesia",
+        "med.analgesia.subtitle": "Morphine or Fentanyl, or both",
+
+        // Other history
+        "patient.ant.otros": "Other relevant history",
+        "patient.ant.otros.placeholder": "Write here any other relevant history...",
+
+        // Clinical report
+        "report.date.label": "Date",
+        "report.time.label": "Time",
+        "report.others.ant": "Other history",
+        "report.physician.responsible": "Responsible physician",
+        "report.colleague": "License nº",
+        "report.signature": "Signature",
     }
 };
 

@@ -1305,6 +1305,11 @@
                                 </div>
                                 <!-- Hidden checkbox for backward JS compatibility -->
                                 <input type="checkbox" id="anticoagulacion" style="display: none;">
+                                <!-- Free-text otros antecedentes -->
+                                <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #fed7aa;">
+                                    <label style="display: block; font-size: 12px; font-weight: 700; color: #92400e; margin-bottom: 4px;" data-i18n="patient.ant.otros">Altres antecedents d'interès</label>
+                                    <textarea id="otrosAntecedentes" rows="2" data-i18n-placeholder="patient.ant.otros.placeholder" placeholder="Escriu aquí altres antecedents rellevants..." style="width: 100%; border: 1px solid #fed7aa; border-radius: 6px; padding: 6px 8px; font-size: 12px; font-family: inherit; resize: vertical; box-sizing: border-box;"></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1669,6 +1674,7 @@
             {
                 id: 'morfina',
                 name: 'Morfina',
+                analgesiaGroup: true,
                 doseOptions: ['2-3 mg IV', '3-5 mg IV', '5-10 mg IV'],
                 defaultRoute: 'IV',
                 instructions: '✓ Diluir 10 mg en 9 ml de suero (1 ml = 1 mg)\n✓ Administrar lentamente en 2-3 min\n✓ Puede repetir cada 5-10 min si precisa\n⚠️ NO administrar si TAS <90 mmHg\n⚠️ Vigilar depresión respiratoria\n⚠️ Puede retrasar absorción de antiagregantes orales\n💡 Alternativa si hipotensión: FENTANILO (menor efecto hipotensor)'
@@ -1676,6 +1682,7 @@
             {
                 id: 'fentanilo',
                 name: 'Fentanilo',
+                analgesiaGroup: true,
                 doseOptions: ['25 mcg IV', '50 mcg IV', '25-50 mcg IV (repetir)'],
                 defaultRoute: 'IV',
                 instructions: '✓ Alternativa a morfina con MENOR efecto hipotensor\n✓ Administrar lentamente en 1-2 min\n✓ Puede repetir cada 5-10 min si precisa (máx 200 mcg)\n✓ Útil si TAS límite (90-100 mmHg)\n⚠️ Vigilar depresión respiratoria\n⚠️ También puede retrasar absorción de antiagregantes (efecto más corto que morfina)'
@@ -1762,8 +1769,32 @@
 
         function renderMedicationList() {
             const container = document.getElementById('medicationList');
-            const normalMeds = medications.filter(m => !m.semOnly);
             const semMeds = medications.filter(m => m.semOnly);
+
+            // Build normal meds HTML, grouping analgesia items together
+            let normalHTML = '';
+            let analgesiaRendered = false;
+            for (const med of medications.filter(m => !m.semOnly)) {
+                if (med.analgesiaGroup) {
+                    if (!analgesiaRendered) {
+                        const analgesiaItems = medications.filter(m => !m.semOnly && m.analgesiaGroup);
+                        normalHTML += `
+                            <div style="border: 2px solid #e5e7eb; border-radius: 10px; overflow: hidden; margin-bottom: 12px;">
+                                <div style="background: #f9fafb; padding: 8px 14px; font-weight: 700; font-size: 13px; color: #374151; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; gap: 8px;">
+                                    💊 <span data-i18n="med.analgesia.title">Analgèsia</span>
+                                    <span style="font-size: 11px; font-weight: 400; color: #6b7280; text-transform: none;" data-i18n="med.analgesia.subtitle">Morfina o Fentanilo, o ambdós</span>
+                                </div>
+                                <div style="padding: 6px 6px 0 6px;">
+                                    ${analgesiaItems.map(renderMedItem).join('')}
+                                </div>
+                            </div>
+                        `;
+                        analgesiaRendered = true;
+                    }
+                } else {
+                    normalHTML += renderMedItem(med);
+                }
+            }
 
             const semHeader = `
                 <div style="margin: 16px 0 8px 0; padding: 10px 14px; background: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px;">
@@ -1774,10 +1805,7 @@
                 </div>
             `;
 
-            container.innerHTML =
-                normalMeds.map(renderMedItem).join('') +
-                semHeader +
-                semMeds.map(renderMedItem).join('');
+            container.innerHTML = normalHTML + semHeader + semMeds.map(renderMedItem).join('');
         }
 
         function toggleMedication(medId) {
@@ -2655,11 +2683,18 @@
 
 
         function generateReport() {
-            const edad = document.getElementById('edad').value || i18n.t('report.not.specified.fem');
-            const sexo = document.getElementById('sexo').value === 'M' ? i18n.t('patient.gender.male') : i18n.t('patient.gender.female');
-            const peso = document.getElementById('peso').value || i18n.t('report.not.specified');
+            const SEP  = '════════════════════════════════════════\n';
+            const LINE = '────────────────────────────────────────\n';
+            const locale = i18n.currentLang === 'ca' ? 'ca-ES' : i18n.currentLang === 'es' ? 'es-ES' : i18n.currentLang === 'fr' ? 'fr-FR' : 'en-US';
+            const now = new Date();
+            const dateStr = now.toLocaleDateString(locale);
+            const timeStr = now.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
 
-            // Antecedents (nuevo sistema Sí/No)
+            // --- Patient data ---
+            const edad = document.getElementById('edad').value || '---';
+            const sexo = document.getElementById('sexo').value === 'M' ? i18n.t('patient.gender.male') : i18n.t('patient.gender.female');
+            const peso = document.getElementById('peso').value || '---';
+
             const antLabels = {
                 hta: i18n.t('patient.ant.hta'),
                 dm: i18n.t('patient.ant.dm'),
@@ -2673,111 +2708,148 @@
                 .filter(([k]) => antecedentState[k] === true)
                 .map(([, label]) => label);
             const antecedentsText = antSi.length > 0 ? antSi.join(', ') : i18n.t('report.not.known');
+            const otrosAnt = (document.getElementById('otrosAntecedentes').value || '').trim();
 
-            // Hallazgos ECG
-            let hallazgosECG = '';
-            if (document.getElementById('elevacionST').checked) hallazgosECG += '- ' + i18n.t('ecg.st.elevation') + '\n';
-            if (document.getElementById('patronWinter').checked) hallazgosECG += '- ' + i18n.t('ecg.winter.pattern') + '\n';
-            if (document.getElementById('depresionSTconAVR').checked) hallazgosECG += '- ' + i18n.t('ecg.st.depression.avr') + '\n';
-            if (document.getElementById('infartoPosterior').checked) hallazgosECG += '- ' + i18n.t('ecg.posterior.infarction') + '\n';
-            if (document.getElementById('infartoVD').checked) hallazgosECG += '- ' + i18n.t('ecg.right.ventricle') + '\n';
-            if (document.getElementById('bbefh').checked) hallazgosECG += '- ' + i18n.t('ecg.new.lbbb') + '\n';
-            if (document.getElementById('bbdfh').checked) hallazgosECG += '- ' + i18n.t('ecg.new.rbbb') + '\n';
-            if (document.getElementById('marcapassos').checked) hallazgosECG += '- ' + i18n.t('ecg.pacemaker') + '\n';
-            if (document.getElementById('otrosECG').value) hallazgosECG += '- ' + i18n.t('report.other.findings') + ': ' + document.getElementById('otrosECG').value + '\n';
-
-            if (hallazgosECG === '') hallazgosECG = i18n.t('report.no.findings') + '\n';
-
-            // Datos clínicos adicionales
-            let datosAdicionales = '';
-            const tas = parseFloat(document.getElementById('tas').value);
-            const killip = document.getElementById('killip').value;
-            if ((tas && tas < 90) || killip === '4') {
-                let causa = killip === '4' ? 'Killip IV' : i18n.t('clinical.sbp') + ' <90 mmHg';
-                datosAdicionales += 'ALERTA: ' + i18n.t('report.cardiogenic.shock') + ' (' + causa + ')\n';
-            }
-
-            let report = '';
-
-            // Encabezado
-            report += i18n.t('report.title').toUpperCase() + '\n\n';
-
-            // Datos del paciente
-            report += i18n.t('report.patient.data').toUpperCase() + '\n';
-            report += i18n.t('report.age') + ': ' + edad + ' ' + i18n.t('report.years') + '\n';
-            report += i18n.t('report.sex') + ': ' + sexo + '\n';
-            report += i18n.t('report.weight') + ': ' + peso + ' ' + i18n.t('report.kg') + '\n';
-            report += i18n.t('patient.antecedents.title') + ': ' + antecedentsText + '\n';
-
-            // Valoración de clínica
-            const clinicaTipica = document.getElementById('clinicaSi') && document.getElementById('clinicaSi').checked;
+            const clinicaTipica  = document.getElementById('clinicaSi') && document.getElementById('clinicaSi').checked;
             const clinicaAtipica = document.getElementById('clinicaNo') && document.getElementById('clinicaNo').checked;
-            if (clinicaTipica) {
-                report += i18n.t('report.clinical.typical') + '\n';
-            } else if (clinicaAtipica) {
-                report += i18n.t('report.clinical.atypical') + '\n';
-            }
-            report += '\n';
+
+            // --- Timeline & intervals ---
+            const t0 = document.getElementById('inicioSintomas').value;
+            const t1 = document.getElementById('primerContacto').value;
+            const t2 = document.getElementById('ecgRealizado').value;
+            const t2b = document.getElementById('ecgControl').value;
+            const t3 = document.getElementById('activacionCodigo').value;
+            function toMin(v) { if (!v) return null; const [h, m] = v.split(':').map(Number); return h * 60 + m; }
+            function diffMin(a, b) { const ma = toMin(a), mb = toMin(b); if (ma === null || mb === null) return null; let d = mb - ma; if (d < 0) d += 1440; return d; }
+            const d0 = diffMin(t0, t1);
+            const d1 = diffMin(t1, t2);
+            const d2 = diffMin(t2, t3);
+            const minLbl = i18n.t('timeline.interval.min');
+
+            // --- ECG findings ---
+            const ecgFindings = [];
+            if (document.getElementById('elevacionST').checked)       ecgFindings.push(i18n.t('ecg.st.elevation'));
+            if (document.getElementById('patronWinter').checked)       ecgFindings.push(i18n.t('ecg.winter.pattern'));
+            if (document.getElementById('depresionSTconAVR').checked)  ecgFindings.push(i18n.t('ecg.st.depression.avr'));
+            if (document.getElementById('infartoPosterior').checked)   ecgFindings.push(i18n.t('ecg.posterior.infarction'));
+            if (document.getElementById('infartoVD').checked)          ecgFindings.push(i18n.t('ecg.right.ventricle'));
+            if (document.getElementById('bbefh').checked)              ecgFindings.push(i18n.t('ecg.new.lbbb'));
+            if (document.getElementById('bbdfh').checked)              ecgFindings.push(i18n.t('ecg.new.rbbb'));
+            if (document.getElementById('marcapassos').checked)        ecgFindings.push(i18n.t('ecg.pacemaker'));
+            const otrosECG = document.getElementById('otrosECG').value;
+            if (otrosECG) ecgFindings.push(i18n.t('report.other.findings') + ': ' + otrosECG);
+
+            // --- Clinical data ---
+            const tas    = document.getElementById('tas').value;
+            const tad    = document.getElementById('tad').value;
+            const fc     = document.getElementById('fc').value;
+            const spo2   = document.getElementById('spo2').value;
+            const killip = document.getElementById('killip').value;
+            const killipDesc = killip ? 'Killip ' + killip + ' — ' + i18n.t('clinical.killip.' + killip + '.short') : '---';
+            const hasShock = (parseFloat(tas) < 90) || killip === '4';
+
+            // --- Strategy ---
+            const decisionValue = document.getElementById('decision').value;
+            const decisionText = decisionValue === 'icp'         ? i18n.t('report.primary.angioplasty') :
+                                  decisionValue === 'fibrinolisis' ? i18n.t('report.fibrinolysis.in.situ') :
+                                  i18n.t('report.not.decided');
+            const hospital = document.getElementById('hospitalDestino').value || '---';
+
+            // === Build report ===
+            let r = '';
+
+            // Header
+            r += SEP;
+            r += '  ' + i18n.t('report.title') + '\n';
+            r += SEP;
+            r += i18n.t('report.date.label') + ': ' + dateStr + '   ' + i18n.t('report.time.label') + ': ' + timeStr + '\n\n';
+
+            // Patient
+            r += LINE;
+            r += '  ' + i18n.t('report.patient.data') + '\n';
+            r += LINE;
+            r += i18n.t('report.age') + ': ' + edad + ' ' + i18n.t('report.years');
+            r += '   ' + i18n.t('report.sex') + ': ' + sexo;
+            r += '   ' + i18n.t('report.weight') + ': ' + peso + ' ' + i18n.t('report.kg') + '\n';
+            r += i18n.t('patient.antecedents.title') + ': ' + antecedentsText + '\n';
+            if (otrosAnt) r += i18n.t('report.others.ant') + ': ' + otrosAnt + '\n';
+            if (clinicaTipica)  r += i18n.t('report.clinical.typical') + '\n';
+            else if (clinicaAtipica) r += i18n.t('report.clinical.atypical') + '\n';
+            r += '\n';
 
             // Timeline
-            report += i18n.t('report.timeline').toUpperCase() + '\n';
-            report += i18n.t('timeline.symptom.onset') + ': ' + (document.getElementById('inicioSintomas').value || '---') + '\n';
-            report += i18n.t('timeline.first.contact') + ': ' + (document.getElementById('primerContacto').value || '---') + '\n';
-            report += i18n.t('timeline.ecg.initial') + ': ' + (document.getElementById('ecgRealizado').value || '---') + '\n';
-            report += i18n.t('timeline.ecg.control') + ': ' + (document.getElementById('ecgControl').value || '---') + '\n';
-            report += i18n.t('timeline.activation') + ': ' + (document.getElementById('activacionCodigo').value || '---') + '\n\n';
+            r += LINE;
+            r += '  ' + i18n.t('report.timeline') + '\n';
+            r += LINE;
+            r += i18n.t('timeline.symptom.onset')  + ': ' + (t0  || '---') + '\n';
+            r += i18n.t('timeline.first.contact')  + ': ' + (t1  || '---') + '\n';
+            r += i18n.t('timeline.ecg.initial')    + ': ' + (t2  || '---') + '\n';
+            r += i18n.t('timeline.ecg.control')    + ': ' + (t2b || '---') + '\n';
+            r += i18n.t('timeline.activation')     + ': ' + (t3  || '---') + '\n';
+            if (d0 !== null || d1 !== null || d2 !== null) {
+                r += '\n';
+                if (d0 !== null) r += '  ⏱ ' + i18n.t('timeline.interval.symptoms.1c')   + ': ' + d0 + ' ' + minLbl + '\n';
+                if (d1 !== null) r += '  ⏱ ' + i18n.t('timeline.interval.1c.ecg')        + ': ' + d1 + ' ' + minLbl + '\n';
+                if (d2 !== null) r += '  ⏱ ' + i18n.t('timeline.interval.ecg.activation') + ': ' + d2 + ' ' + minLbl + '\n';
+            }
+            r += '\n';
 
             // ECG
-            report += i18n.t('report.ecg.findings').toUpperCase() + '\n';
-            report += hallazgosECG + '\n';
-
-            // Datos clínicos
-            report += i18n.t('report.clinical.data').toUpperCase() + '\n';
-            report += i18n.t('clinical.bp') + ': ' + (document.getElementById('tas').value || '---') + '/' + (document.getElementById('tad').value || '---') + ' mmHg\n';
-            report += i18n.t('clinical.hr') + ': ' + (document.getElementById('fc').value || '---') + ' lpm\n';
-            report += i18n.t('clinical.o2sat') + ': ' + (document.getElementById('spo2').value || '---') + '%\n';
-            report += i18n.t('report.killip.class') + ': ' + (killip || '---') + '\n';
-            if (datosAdicionales) report += datosAdicionales;
-            report += '\n';
-
-            // Estrategia
-            report += i18n.t('report.strategy').toUpperCase() + '\n';
-            const decisionValue = document.getElementById('decision').value;
-            report += i18n.t('report.decision') + ': ';
-            if (decisionValue === 'icp') {
-                report += i18n.t('report.primary.angioplasty') + '\n';
-            } else if (decisionValue === 'fibrinolisis') {
-                report += i18n.t('report.fibrinolysis.in.situ') + '\n';
+            r += LINE;
+            r += '  ' + i18n.t('report.ecg.findings') + '\n';
+            r += LINE;
+            if (ecgFindings.length > 0) {
+                ecgFindings.forEach(f => { r += '• ' + f + '\n'; });
             } else {
-                report += i18n.t('report.not.decided') + '\n';
+                r += i18n.t('report.no.findings') + '\n';
             }
-            report += i18n.t('report.destination.hospital') + ': ' + (document.getElementById('hospitalDestino').value || i18n.t('report.not.specified')) + '\n\n';
+            r += '\n';
 
-            // Medicación
-            report += i18n.t('report.medication.administered').toUpperCase() + '\n';
+            // Clinical data
+            r += LINE;
+            r += '  ' + i18n.t('report.clinical.data') + '\n';
+            r += LINE;
+            r += i18n.t('clinical.bp')    + ': ' + (tas  || '---') + '/' + (tad  || '---') + ' mmHg';
+            r += '   ' + i18n.t('clinical.hr')  + ': ' + (fc   || '---') + ' lpm';
+            r += '   ' + i18n.t('clinical.o2sat') + ': ' + (spo2 || '---') + '%\n';
+            r += i18n.t('report.killip.class') + ': ' + killipDesc + '\n';
+            if (hasShock) r += '⚠️ ALERTA: ' + i18n.t('report.cardiogenic.shock') + '\n';
+            r += '\n';
 
+            // Medication
+            r += LINE;
+            r += '  ' + i18n.t('report.medication.administered') + '\n';
+            r += LINE;
             let medsAdministered = false;
             medications.forEach(med => {
-                const checked = document.getElementById('check-' + med.id).checked;
-                if (checked) {
+                const checkbox = document.getElementById('check-' + med.id);
+                if (checkbox && checkbox.checked) {
                     medsAdministered = true;
                     const dose = document.getElementById('dose-' + med.id).value;
                     const time = document.getElementById('time-' + med.id).value;
-                    report += '- ' + med.name + ': ' + dose + ' (' + med.defaultRoute + ') - ' + time + '\n';
+                    r += '• ' + med.name + ' ' + dose + ' (' + med.defaultRoute + ') · ' + (time || '---') + '\n';
                 }
             });
+            if (!medsAdministered) r += i18n.t('report.no.medication') + '\n';
+            r += '\n';
 
-            if (!medsAdministered) {
-                report += i18n.t('report.no.medication') || 'Ninguna medicación registrada\n';
-            }
+            // Strategy
+            r += LINE;
+            r += '  ' + i18n.t('report.strategy') + '\n';
+            r += LINE;
+            r += i18n.t('report.decision') + ': ' + decisionText + '\n';
+            r += i18n.t('report.destination.hospital') + ': ' + hospital + '\n';
+            r += '\n';
 
-            report += '\n';
-            const locale = i18n.currentLang === 'ca' ? 'ca-ES' : i18n.currentLang === 'es' ? 'es-ES' : i18n.currentLang === 'fr' ? 'fr-FR' : 'en-US';
-            report += i18n.t('report.generated') + ': ' + new Date().toLocaleString(locale) + '\n\n';
-            report += 'Médico responsable: _________________________\n\n';
-            report += 'Firma: _________________________';
+            // Footer / signature
+            r += SEP;
+            r += i18n.t('report.physician.responsible') + ': _________________________\n';
+            r += i18n.t('report.colleague') + ': ___________\n';
+            r += i18n.t('report.signature') + ': _________________________\n\n';
+            r += i18n.t('report.generated') + ': ' + now.toLocaleString(locale) + '\n';
+            r += SEP;
 
-            return report;
+            return r;
         }
 
         function copyReport() {
