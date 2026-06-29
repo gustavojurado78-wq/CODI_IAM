@@ -2071,7 +2071,9 @@ class I18n {
         localStorage.setItem('language', lang);
         this.applyLanguage(lang);
         this.updateFlagSelection();
-        document.dispatchEvent(new CustomEvent('languageChanged'));
+        // Re-render dynamically generated content (recommendations, alerts)
+        if (typeof updateRecomendaciones === 'function') updateRecomendaciones();
+        if (typeof checkActivation === 'function') checkActivation();
     }
 
     applyLanguage(lang) {
