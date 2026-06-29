@@ -510,6 +510,36 @@ const translations = {
         "alert.activate.assess.d": "Valorar CLÍNICA a dalt: Si típica → ACTIVAR JA. Si atípica/dubtosa → considerar ECG de control.",
         "alert.shock.killip": "Killip IV = Shock cardiogènic. Activació URGENT.",
         "alert.shock.tas": "TAS <90 mmHg suggereix shock. Valorar clínica completa.",
+
+        // Medication i18n
+        "med.via": "Via",
+        "med.sem.title": "⚠️ Només si indicació del SEM",
+        "med.sem.description": "Fàrmacs avançats — no administrar en atenció primària sense indicació SEM",
+        "med.aspirina.allergy.banner": "AL·LÈRGIA A AAS documentada — No administrar",
+
+        // Medication instructions
+        "med.aspirina.instr": "✓ Mastegar i empassar per millor absorció\n✓ Dosi de càrrega en IAM\n✓ Administrar tan aviat com sigui possible",
+        "med.clopidogrel.instr": "✓ Dosi de càrrega: 600 mg (preferida)\n✓ 300 mg si edat >75 anys\n✓ Empassar sencer amb aigua",
+        "med.ticagrelor.instr": "✓ Dosi de càrrega: 2 comprimits de 90 mg\n✓ NO requereix ajust per edat\n✓ Empassar sencer amb aigua",
+        "med.prasugrel.instr": "✓ Dosi de càrrega: 60 mg (6 comprimits de 10 mg)\n⚠️ Contraindicat si: edat >75 anys, pes <60 kg, AIT/ictus previ\n✓ Empassar sencer amb aigua",
+        "med.enoxaparina.instr": "< 75 anys SENSE insuficiència renal (Cr <2.5 mg/dl o <2 mg/dl en dones):\n✓ Bolus 30 mg IV\n✓ Seguit als 15 min: 1 mg/kg SC (màx 100 mg 1a dosi)\n\n≥ 75 anys I/O insuficiència renal:\n✓ SENSE bolus IV inicial\n✓ 0.75 mg/kg SC c/12h (màx 75 mg)\n\n✓ SC a l'abdomen, alternar costats\n⚠️ Ajustar si FG <30 ml/min: considerar HNF",
+        "med.morfina.instr": "✓ Diluir 10 mg en 9 ml de sèrum (1 ml = 1 mg)\n✓ Administrar lentament en 2-3 min\n✓ Pot repetir cada 5-10 min si cal\n⚠️ NO administrar si TAS <90 mmHg\n⚠️ Vigilar depressió respiratòria\n⚠️ Pot retardar absorció d'antiagregants orals\n💡 Alternativa si hipotensió: FENTANIL (menor efecte hipotensor)",
+        "med.fentanilo.instr": "✓ Alternativa a morfina amb MENOR efecte hipotensor\n✓ Administrar lentament en 1-2 min\n✓ Pot repetir cada 5-10 min si cal (màx 200 mcg)\n✓ Útil si TAS límit (90-100 mmHg)\n⚠️ Vigilar depressió respiratòria\n⚠️ També pot retardar absorció d'antiagregants (efecte més curt que morfina)",
+        "med.nitroglicerina.instr": "✓ Sublingual: 0.4 mg (1 comp), pot repetir cada 5 min (màx 3 dosis)\n✓ IV: Iniciar 5-10 mcg/min, titular segons TA\n⚠️ CONTRAINDICAT: TAS <90, IAM VD, sildenafil darreres 24h\n✓ Pacient assegut o semiassegut",
+        "med.metoclopramida.instr": "✓ Antiemètic d'elecció en IAM\n✓ Administrar lentament en 1-2 min\n✓ Pot millorar absorció d'antiagregants orals\n✓ També útil profilaxi abans d'opioides\n⚠️ Evitar en Parkinson o discinèsia tardana",
+        "med.ondansetron.instr": "✓ Antiemètic alternatiu si metoclopramida contraindicada\n✓ Administrar lentament en 2-5 min\n⚠️ PRECAUCIÓ: prolonga l'interval QT\n⚠️ Evitar si QT prolongat o alteracions electrolítiques\n⚠️ Monitoritzar ECG en pacients cardíacs",
+        "med.atropina.instr": "✓ Indicada en BRADICÀRDIA simptomàtica\n✓ Especialment útil en IAM INFERIOR (símptomes vagals)\n✓ Dosi: 1 mg IV, repetir cada 3-5 min (màx 3 mg)\n⚠️ Dosis <0.5 mg poden causar bradicàrdia paradoxal\n⚠️ Usar amb precaució: la taquicàrdia pot augmentar la demanda d'O2\n⚠️ Ineficaç en bloqueig AV infranodal (tipus II Mobitz, 3r grau)",
+
+        // Medication alert popups
+        "med.alert.clopidogrel.age": "💡 SUGGERIMENT\n\nEdat >75 anys: S'ha seleccionat automàticament la dosi de 300 mg (en lloc de 600 mg) per seguretat.\n\nPots canviar-la si ho consideres necessari.",
+        "med.alert.enoxaparina.age": "💡 AJUST PER EDAT\n\nEdat ≥75 anys:\n• Dosi: 0.75 mg/kg SC c/12h (màx 75 mg)\n• SENSE bolus IV de 30 mg\n\n⚠️ Usar també aquesta dosi si hi ha insuficiència renal\n(Creatinina >2.5 mg/dl o >2 mg/dl en dones)",
+        "med.alert.fentanilo.hypo": "⚠️ PRECAUCIÓ: TAS <90 mmHg\n\nEncara que el fentanil causa MENYS hipotensió que la morfina, usar amb precaució en hipotensió.\n\nConsiderar dosis més baixes (25 mcg) i monitoritzar estretament.",
+        "med.alert.fentanilo.normal": "💡 FENTANIL - Analgèsic opioide\n\n✅ Avantatges sobre morfina:\n• Menor efecte hipotensor\n• Efecte més ràpid i curt\n• Menor interferència amb absorció d'antiagregants\n\n📋 Dosi: 25-50 mcg IV, pot repetir cada 5-10 min",
+        "med.alert.metoclopramida": "💡 METOCLOPRAMIDA - Antiemètic\n\n✅ Indicacions en IAM:\n• Nàusees/vòmits (freqüents amb opioides)\n• Pot millorar absorció d'antiagregants orals\n• Profilaxi abans d'administrar morfina/fentanil\n\n⚠️ Evitar en Parkinson o antecedents de discinèsia",
+        "med.alert.ondansetron": "⚠️ ONDANSETRÓ - Usar amb PRECAUCIÓ\n\nProlonga l'interval QT, la qual cosa pot augmentar el risc d'arítmies en pacients cardíacs.\n\n✅ Usar només si:\n• Metoclopramida contraindicada\n• Nàusees severes refractàries\n\n🚫 Evitar si:\n• QT prolongat conegut\n• Hipopotassèmia/hipomagnesèmia\n• Ús concomitant d'altres fàrmacs que prolonguen el QT",
+        "med.alert.atropina.taquicardia": "⚠️ ATENCIÓ: FC ≥60 lpm\n\nL'atropina està indicada en BRADICÀRDIA SIMPTOMÀTICA.\n\nEstàs segur que el pacient té bradicàrdia amb símptomes?\n\n⚠️ Augmentar la FC pot incrementar la demanda d'O2 miocàrdic",
+        "med.alert.atropina.inferior": "✓ ATROPINA en IAM INFERIOR\n\nLa bradicàrdia sinusal i el bloqueig AV són freqüents en IAM inferior per augment del to vagal.\n\n📋 Dosi: 1 mg IV, repetir cada 3-5 min (màx 3 mg)\n\n✅ Sol ser eficaç en bradicàrdia vagal\n⚠️ Ineficaç si bloqueig infranodal (Mobitz II, 3r grau) → considerar marcapassos",
+        "med.alert.atropina.general": "💡 ATROPINA - Anticolinèrgic\n\nIndicada en bradicàrdia simptomàtica.\n\n📋 Dosi: 1 mg IV cada 3-5 min (màx 3 mg)\n\n⚠️ Usar amb precaució en IAM:\n• La taquicàrdia pot augmentar la demanda d'O2\n• Evitar dosis <0.5 mg (bradicàrdia paradoxal)",
     },
 
     es: {
@@ -1022,6 +1052,36 @@ const translations = {
         "alert.activate.assess.d": "Valorar CLÍNICA arriba: Si típica → ACTIVAR YA. Si atípica/dudosa → considerar ECG de control.",
         "alert.shock.killip": "Killip IV = Shock cardiogénico. Activación URGENTE.",
         "alert.shock.tas": "TAS <90 mmHg sugiere shock. Valorar clínica completa.",
+
+        // Medication i18n
+        "med.via": "Vía",
+        "med.sem.title": "⚠️ Solo si indicación del SEM",
+        "med.sem.description": "Fármacos avanzados — no administrar en atención primaria sin indicación SEM",
+        "med.aspirina.allergy.banner": "ALERGIA A AAS documentada — No administrar",
+
+        // Medication instructions
+        "med.aspirina.instr": "✓ Masticar y tragar para mejor absorción\n✓ Dosis de carga en IAM\n✓ Administrar lo antes posible",
+        "med.clopidogrel.instr": "✓ Dosis de carga: 600 mg (preferida)\n✓ 300 mg si edad >75 años\n✓ Tragar entero con agua",
+        "med.ticagrelor.instr": "✓ Dosis de carga: 2 comprimidos de 90 mg\n✓ NO requiere ajuste por edad\n✓ Tragar entero con agua",
+        "med.prasugrel.instr": "✓ Dosis de carga: 60 mg (6 comprimidos de 10 mg)\n⚠️ Contraindicado si: edad >75 años, peso <60 kg, AIT/ictus previo\n✓ Tragar entero con agua",
+        "med.enoxaparina.instr": "< 75 años SIN insuficiencia renal (Cr <2.5 mg/dl o <2 mg/dl en mujeres):\n✓ Bolo 30 mg IV\n✓ Seguido a los 15 min: 1 mg/kg SC (máx 100 mg 1ª dosis)\n\n≥ 75 años Y/O insuficiencia renal:\n✓ NO bolo IV inicial\n✓ 0.75 mg/kg SC c/12h (máx 75 mg)\n\n✓ SC en abdomen, alternar lados\n⚠️ Ajustar si FG <30 ml/min: considerar HNF",
+        "med.morfina.instr": "✓ Diluir 10 mg en 9 ml de suero (1 ml = 1 mg)\n✓ Administrar lentamente en 2-3 min\n✓ Puede repetir cada 5-10 min si precisa\n⚠️ NO administrar si TAS <90 mmHg\n⚠️ Vigilar depresión respiratoria\n⚠️ Puede retrasar absorción de antiagregantes orales\n💡 Alternativa si hipotensión: FENTANILO (menor efecto hipotensor)",
+        "med.fentanilo.instr": "✓ Alternativa a morfina con MENOR efecto hipotensor\n✓ Administrar lentamente en 1-2 min\n✓ Puede repetir cada 5-10 min si precisa (máx 200 mcg)\n✓ Útil si TAS límite (90-100 mmHg)\n⚠️ Vigilar depresión respiratoria\n⚠️ También puede retrasar absorción de antiagregantes (efecto más corto que morfina)",
+        "med.nitroglicerina.instr": "✓ Sublingual: 0.4 mg (1 comp), puede repetir cada 5 min (máx 3 dosis)\n✓ IV: Iniciar 5-10 mcg/min, titular según TA\n⚠️ CONTRAINDICADO: TAS <90, IAM VD, sildenafil últimas 24h\n✓ Paciente sentado o semisentado",
+        "med.metoclopramida.instr": "✓ Antiemético de elección en IAM\n✓ Administrar lentamente en 1-2 min\n✓ Puede mejorar absorción de antiagregantes orales\n✓ También útil profilaxis antes de opioides\n⚠️ Evitar en Parkinson o discinesia tardía",
+        "med.ondansetron.instr": "✓ Antiemético alternativo si metoclopramida contraindicada\n✓ Administrar lentamente en 2-5 min\n⚠️ PRECAUCIÓN: prolonga intervalo QT\n⚠️ Evitar si QT prolongado o alteraciones electrolíticas\n⚠️ Monitorizar ECG en pacientes cardíacos",
+        "med.atropina.instr": "✓ Indicada en BRADICARDIA sintomática\n✓ Especialmente útil en IAM INFERIOR (síntomas vagales)\n✓ Dosis: 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n⚠️ Dosis <0.5 mg pueden causar bradicardia paradójica\n⚠️ Usar con precaución: taquicardia puede aumentar demanda O2\n⚠️ Ineficaz en bloqueo AV infranodal (tipo II Mobitz, 3er grado)",
+
+        // Medication alert popups
+        "med.alert.clopidogrel.age": "💡 SUGERENCIA\n\nEdad >75 años: Se ha seleccionado automáticamente dosis de 300 mg (en lugar de 600 mg) por seguridad.\n\nPuedes cambiarla si lo consideras necesario.",
+        "med.alert.enoxaparina.age": "💡 AJUSTE POR EDAD\n\nEdad ≥75 años:\n• Dosis: 0.75 mg/kg SC c/12h (máx 75 mg)\n• SIN bolo IV de 30 mg\n\n⚠️ También usar esta dosis si hay insuficiencia renal\n(Creatinina >2.5 mg/dl o >2 mg/dl en mujeres)",
+        "med.alert.fentanilo.hypo": "⚠️ PRECAUCIÓN: TAS <90 mmHg\n\nAunque el fentanilo causa MENOS hipotensión que la morfina, usar con precaución en hipotensión.\n\nConsiderar dosis más bajas (25 mcg) y monitorizar estrechamente.",
+        "med.alert.fentanilo.normal": "💡 FENTANILO - Analgésico opiáceo\n\n✅ Ventajas sobre morfina:\n• Menor efecto hipotensor\n• Efecto más rápido y corto\n• Menor interferencia con absorción de antiagregantes\n\n📋 Dosis: 25-50 mcg IV, puede repetir cada 5-10 min",
+        "med.alert.metoclopramida": "💡 METOCLOPRAMIDA - Antiemético\n\n✅ Indicaciones en IAM:\n• Náuseas/vómitos (frecuentes con opioides)\n• Puede mejorar absorción de antiagregantes orales\n• Profilaxis antes de administrar morfina/fentanilo\n\n⚠️ Evitar en Parkinson o antecedentes de discinesia",
+        "med.alert.ondansetron": "⚠️ ONDANSETRÓN - Usar con PRECAUCIÓN\n\nProlonga el intervalo QT, lo que puede aumentar riesgo de arritmias en pacientes cardíacos.\n\n✅ Usar solo si:\n• Metoclopramida contraindicada\n• Náuseas severas refractarias\n\n🚫 Evitar si:\n• QT prolongado conocido\n• Hipopotasemia/hipomagnesemia\n• Uso concomitante de otros fármacos que prolongan QT",
+        "med.alert.atropina.taquicardia": "⚠️ ATENCIÓN: FC ≥60 lpm\n\nLa atropina está indicada en BRADICARDIA SINTOMÁTICA.\n\n¿Está seguro de que el paciente tiene bradicardia con síntomas?\n\n⚠️ Aumentar FC puede incrementar demanda de O2 miocárdico",
+        "med.alert.atropina.inferior": "✓ ATROPINA en IAM INFERIOR\n\nLa bradicardia sinusal y el bloqueo AV son frecuentes en IAM inferior por tono vagal aumentado.\n\n📋 Dosis: 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n\n✅ Suele ser efectiva en bradicardia vagal\n⚠️ Ineficaz si bloqueo infranodal (Mobitz II, 3er grado) → considerar marcapasos",
+        "med.alert.atropina.general": "💡 ATROPINA - Anticolinérgico\n\nIndicada en bradicardia sintomática.\n\n📋 Dosis: 1 mg IV cada 3-5 min (máx 3 mg)\n\n⚠️ Usar con precaución en IAM:\n• Taquicardia puede aumentar demanda O2\n• Evitar dosis <0.5 mg (bradicardia paradójica)",
     },
 
     fr: {
@@ -1534,6 +1594,36 @@ const translations = {
         "alert.activate.assess.d": "Évaluer la CLINIQUE ci-dessus : Si typique → ACTIVER MAINTENANT. Si atypique/douteuse → envisager ECG de contrôle.",
         "alert.shock.killip": "Killip IV = Choc cardiogénique. Activation URGENTE.",
         "alert.shock.tas": "PAS <90 mmHg évoque un choc. Évaluer le tableau clinique complet.",
+
+        // Medication i18n
+        "med.via": "Voie",
+        "med.sem.title": "⚠️ Uniquement sur indication SAMU/SMUR",
+        "med.sem.description": "Médicaments avancés — ne pas administrer en soins primaires sans indication SAMU",
+        "med.aspirina.allergy.banner": "ALLERGIE à l'AAS documentée — Ne pas administrer",
+
+        // Medication instructions
+        "med.aspirina.instr": "✓ Mâcher et avaler pour une meilleure absorption\n✓ Dose de charge dans l'IDM\n✓ Administrer le plus tôt possible",
+        "med.clopidogrel.instr": "✓ Dose de charge : 600 mg (préférée)\n✓ 300 mg si âge >75 ans\n✓ Avaler entier avec de l'eau",
+        "med.ticagrelor.instr": "✓ Dose de charge : 2 comprimés de 90 mg\n✓ PAS d'ajustement selon l'âge\n✓ Avaler entier avec de l'eau",
+        "med.prasugrel.instr": "✓ Dose de charge : 60 mg (6 comprimés de 10 mg)\n⚠️ Contre-indiqué si : âge >75 ans, poids <60 kg, AIT/AVC antérieur\n✓ Avaler entier avec de l'eau",
+        "med.enoxaparina.instr": "< 75 ans SANS insuffisance rénale (Cr <2.5 mg/dl ou <2 mg/dl chez la femme) :\n✓ Bolus 30 mg IV\n✓ Puis à 15 min : 1 mg/kg SC (max 100 mg 1re dose)\n\n≥ 75 ans ET/OU insuffisance rénale :\n✓ SANS bolus IV initial\n✓ 0.75 mg/kg SC toutes les 12h (max 75 mg)\n\n✓ SC abdominal, alterner les côtés\n⚠️ Ajuster si DFG <30 ml/min : envisager HNF",
+        "med.morfina.instr": "✓ Diluer 10 mg dans 9 ml de sérum phy. (1 ml = 1 mg)\n✓ Administrer lentement en 2-3 min\n✓ Peut répéter toutes les 5-10 min si besoin\n⚠️ NE PAS administrer si TAS <90 mmHg\n⚠️ Surveiller dépression respiratoire\n⚠️ Peut retarder l'absorption des antiagrégants oraux\n💡 Alternative si hypotension : FENTANYL (moindre effet hypotenseur)",
+        "med.fentanilo.instr": "✓ Alternative à la morphine avec MOINS d'effet hypotenseur\n✓ Administrer lentement en 1-2 min\n✓ Peut répéter toutes les 5-10 min (max 200 mcg)\n✓ Utile si TAS limite (90-100 mmHg)\n⚠️ Surveiller dépression respiratoire\n⚠️ Peut aussi retarder l'absorption des antiagrégants (effet plus court que morphine)",
+        "med.nitroglicerina.instr": "✓ Sublinguale : 0.4 mg (1 cp), peut répéter toutes les 5 min (max 3 doses)\n✓ IV : Débuter à 5-10 mcg/min, titrer selon PA\n⚠️ CONTRE-INDIQUÉ : TAS <90, IDM VD, sildénafil dernières 24h\n✓ Patient assis ou semi-assis",
+        "med.metoclopramida.instr": "✓ Antiémétique de choix dans l'IDM\n✓ Administrer lentement en 1-2 min\n✓ Peut améliorer l'absorption des antiagrégants oraux\n✓ Aussi utile en prophylaxie avant les opioïdes\n⚠️ Éviter dans la maladie de Parkinson ou la dyskinésie tardive",
+        "med.ondansetron.instr": "✓ Antiémétique alternatif si métoclopramide contre-indiqué\n✓ Administrer lentement en 2-5 min\n⚠️ ATTENTION : prolonge l'intervalle QT\n⚠️ Éviter si QT long ou troubles électrolytiques\n⚠️ Surveillance ECG chez les patients cardiaques",
+        "med.atropina.instr": "✓ Indiquée en BRADYCARDIE symptomatique\n✓ Particulièrement utile dans l'IDM INFÉRIEUR (symptômes vagaux)\n✓ Dose : 1 mg IV, répéter toutes les 3-5 min (max 3 mg)\n⚠️ Doses <0.5 mg peuvent provoquer une bradycardie paradoxale\n⚠️ Utiliser avec précaution : la tachycardie peut augmenter la demande en O2\n⚠️ Inefficace dans le bloc AV infranodal (type II Mobitz, 3e degré)",
+
+        // Medication alert popups
+        "med.alert.clopidogrel.age": "💡 SUGGESTION\n\nÂge >75 ans : La dose de 300 mg a été sélectionnée automatiquement (plutôt que 600 mg) par sécurité.\n\nVous pouvez la modifier si nécessaire.",
+        "med.alert.enoxaparina.age": "💡 AJUSTEMENT PAR ÂGE\n\nÂge ≥75 ans :\n• Dose : 0.75 mg/kg SC toutes les 12h (max 75 mg)\n• SANS bolus IV de 30 mg\n\n⚠️ Utiliser également cette dose en cas d'insuffisance rénale\n(Créatinine >2.5 mg/dl ou >2 mg/dl chez la femme)",
+        "med.alert.fentanilo.hypo": "⚠️ PRÉCAUTION : TAS <90 mmHg\n\nBien que le fentanyl cause MOINS d'hypotension que la morphine, à utiliser avec précaution en cas d'hypotension.\n\nConsidérer des doses plus faibles (25 mcg) et surveiller étroitement.",
+        "med.alert.fentanilo.normal": "💡 FENTANYL - Analgésique opioïde\n\n✅ Avantages sur la morphine :\n• Moins d'effet hypotenseur\n• Effet plus rapide et plus court\n• Moins d'interférence avec l'absorption des antiagrégants\n\n📋 Dose : 25-50 mcg IV, peut répéter toutes les 5-10 min",
+        "med.alert.metoclopramida": "💡 MÉTOCLOPRAMIDE - Antiémétique\n\n✅ Indications dans l'IDM :\n• Nausées/vomissements (fréquents avec les opioïdes)\n• Peut améliorer l'absorption des antiagrégants oraux\n• Prophylaxie avant l'administration de morphine/fentanyl\n\n⚠️ Éviter dans la maladie de Parkinson ou antécédents de dyskinésie",
+        "med.alert.ondansetron": "⚠️ ONDANSÉTRON - Utiliser avec PRÉCAUTION\n\nProlonge l'intervalle QT, pouvant augmenter le risque d'arythmies chez les patients cardiaques.\n\n✅ Utiliser uniquement si :\n• Métoclopramide contre-indiqué\n• Nausées sévères réfractaires\n\n🚫 Éviter si :\n• QT long connu\n• Hypokaliémie/hypomagnésémie\n• Utilisation concomitante d'autres médicaments prolongeant le QT",
+        "med.alert.atropina.taquicardia": "⚠️ ATTENTION : FC ≥60 bpm\n\nL'atropine est indiquée dans la BRADYCARDIE SYMPTOMATIQUE.\n\nÊtes-vous certain que le patient présente une bradycardie symptomatique ?\n\n⚠️ Augmenter la FC peut augmenter la demande en O2 myocardique",
+        "med.alert.atropina.inferior": "✓ ATROPINE dans l'IDM INFÉRIEUR\n\nLa bradycardie sinusale et le bloc AV sont fréquents dans l'IDM inférieur par augmentation du tonus vagal.\n\n📋 Dose : 1 mg IV, répéter toutes les 3-5 min (max 3 mg)\n\n✅ Généralement efficace dans la bradycardie vagale\n⚠️ Inefficace si bloc infranodal (Mobitz II, 3e degré) → envisager stimulateur",
+        "med.alert.atropina.general": "💡 ATROPINE - Anticholinergique\n\nIndiquée dans la bradycardie symptomatique.\n\n📋 Dose : 1 mg IV toutes les 3-5 min (max 3 mg)\n\n⚠️ Utiliser avec précaution dans l'IDM :\n• La tachycardie peut augmenter la demande en O2\n• Éviter les doses <0.5 mg (bradycardie paradoxale)",
     },
 
     en: {
@@ -2046,6 +2136,36 @@ const translations = {
         "alert.activate.assess.d": "Assess CLINICAL PRESENTATION above: If typical → ACTIVATE NOW. If atypical/uncertain → consider control ECG.",
         "alert.shock.killip": "Killip IV = Cardiogenic shock. URGENT activation.",
         "alert.shock.tas": "SBP <90 mmHg suggests shock. Assess full clinical picture.",
+
+        // Medication i18n
+        "med.via": "Route",
+        "med.sem.title": "⚠️ Only on EMS/SEMS indication",
+        "med.sem.description": "Advanced drugs — do not administer in primary care without EMS indication",
+        "med.aspirina.allergy.banner": "Documented ASA ALLERGY — Do not administer",
+
+        // Medication instructions
+        "med.aspirina.instr": "✓ Chew and swallow for better absorption\n✓ Loading dose in AMI\n✓ Administer as soon as possible",
+        "med.clopidogrel.instr": "✓ Loading dose: 600 mg (preferred)\n✓ 300 mg if age >75 years\n✓ Swallow whole with water",
+        "med.ticagrelor.instr": "✓ Loading dose: 2 × 90 mg tablets\n✓ NO age adjustment required\n✓ Swallow whole with water",
+        "med.prasugrel.instr": "✓ Loading dose: 60 mg (6 × 10 mg tablets)\n⚠️ Contraindicated if: age >75 years, weight <60 kg, prior TIA/stroke\n✓ Swallow whole with water",
+        "med.enoxaparina.instr": "< 75 years WITHOUT renal impairment (Cr <2.5 mg/dl or <2 mg/dl in women):\n✓ Bolus 30 mg IV\n✓ Then at 15 min: 1 mg/kg SC (max 100 mg 1st dose)\n\n≥ 75 years AND/OR renal impairment:\n✓ NO initial IV bolus\n✓ 0.75 mg/kg SC every 12h (max 75 mg)\n\n✓ SC in abdomen, alternate sides\n⚠️ Adjust if GFR <30 ml/min: consider UFH",
+        "med.morfina.instr": "✓ Dilute 10 mg in 9 ml saline (1 ml = 1 mg)\n✓ Administer slowly over 2-3 min\n✓ May repeat every 5-10 min if needed\n⚠️ DO NOT give if SBP <90 mmHg\n⚠️ Monitor for respiratory depression\n⚠️ May delay absorption of oral antiplatelets\n💡 Alternative if hypotension: FENTANYL (less hypotensive effect)",
+        "med.fentanilo.instr": "✓ Alternative to morphine with LESS hypotensive effect\n✓ Administer slowly over 1-2 min\n✓ May repeat every 5-10 min (max 200 mcg)\n✓ Useful if borderline SBP (90-100 mmHg)\n⚠️ Monitor for respiratory depression\n⚠️ May also delay antiplatelet absorption (shorter effect than morphine)",
+        "med.nitroglicerina.instr": "✓ Sublingual: 0.4 mg (1 tab), may repeat every 5 min (max 3 doses)\n✓ IV: Start 5-10 mcg/min, titrate per BP\n⚠️ CONTRAINDICATED: SBP <90, RV MI, sildenafil in last 24h\n✓ Patient seated or semi-recumbent",
+        "med.metoclopramida.instr": "✓ Antiemetic of choice in AMI\n✓ Administer slowly over 1-2 min\n✓ May improve absorption of oral antiplatelets\n✓ Also useful as prophylaxis before opioids\n⚠️ Avoid in Parkinson's disease or tardive dyskinesia",
+        "med.ondansetron.instr": "✓ Alternative antiemetic if metoclopramide is contraindicated\n✓ Administer slowly over 2-5 min\n⚠️ CAUTION: prolongs QT interval\n⚠️ Avoid if prolonged QT or electrolyte disturbances\n⚠️ Monitor ECG in cardiac patients",
+        "med.atropina.instr": "✓ Indicated in SYMPTOMATIC BRADYCARDIA\n✓ Especially useful in INFERIOR MI (vagal symptoms)\n✓ Dose: 1 mg IV, repeat every 3-5 min (max 3 mg)\n⚠️ Doses <0.5 mg may cause paradoxical bradycardia\n⚠️ Use with caution: tachycardia may increase O2 demand\n⚠️ Ineffective in infranodal AV block (Mobitz type II, 3rd degree)",
+
+        // Medication alert popups
+        "med.alert.clopidogrel.age": "💡 SUGGESTION\n\nAge >75 years: 300 mg dose has been automatically selected (instead of 600 mg) for safety.\n\nYou may change it if clinically appropriate.",
+        "med.alert.enoxaparina.age": "💡 AGE-BASED ADJUSTMENT\n\nAge ≥75 years:\n• Dose: 0.75 mg/kg SC every 12h (max 75 mg)\n• NO 30 mg IV bolus\n\n⚠️ Also use this dose with renal impairment\n(Creatinine >2.5 mg/dl or >2 mg/dl in women)",
+        "med.alert.fentanilo.hypo": "⚠️ CAUTION: SBP <90 mmHg\n\nAlthough fentanyl causes LESS hypotension than morphine, use with caution in hypotension.\n\nConsider lower doses (25 mcg) and monitor closely.",
+        "med.alert.fentanilo.normal": "💡 FENTANYL - Opioid analgesic\n\n✅ Advantages over morphine:\n• Less hypotensive effect\n• Faster and shorter action\n• Less interference with antiplatelet absorption\n\n📋 Dose: 25-50 mcg IV, may repeat every 5-10 min",
+        "med.alert.metoclopramida": "💡 METOCLOPRAMIDE - Antiemetic\n\n✅ Indications in AMI:\n• Nausea/vomiting (common with opioids)\n• May improve absorption of oral antiplatelets\n• Prophylaxis before morphine/fentanyl administration\n\n⚠️ Avoid in Parkinson's disease or history of dyskinesia",
+        "med.alert.ondansetron": "⚠️ ONDANSETRON - Use with CAUTION\n\nProlongs QT interval, which may increase arrhythmia risk in cardiac patients.\n\n✅ Use only if:\n• Metoclopramide contraindicated\n• Refractory severe nausea\n\n🚫 Avoid if:\n• Known prolonged QT\n• Hypokalaemia/hypomagnesaemia\n• Concomitant use of other QT-prolonging drugs",
+        "med.alert.atropina.taquicardia": "⚠️ CAUTION: HR ≥60 bpm\n\nAtropine is indicated in SYMPTOMATIC BRADYCARDIA.\n\nAre you sure the patient has symptomatic bradycardia?\n\n⚠️ Increasing HR may increase myocardial O2 demand",
+        "med.alert.atropina.inferior": "✓ ATROPINE in INFERIOR MI\n\nSinus bradycardia and AV block are common in inferior MI due to increased vagal tone.\n\n📋 Dose: 1 mg IV, repeat every 3-5 min (max 3 mg)\n\n✅ Usually effective in vagal bradycardia\n⚠️ Ineffective in infranodal block (Mobitz II, 3rd degree) → consider pacemaker",
+        "med.alert.atropina.general": "💡 ATROPINE - Anticholinergic\n\nIndicated in symptomatic bradycardia.\n\n📋 Dose: 1 mg IV every 3-5 min (max 3 mg)\n\n⚠️ Use with caution in AMI:\n• Tachycardia may increase O2 demand\n• Avoid doses <0.5 mg (paradoxical bradycardia)",
     }
 };
 
