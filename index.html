@@ -1735,8 +1735,9 @@
             const allergyBanner = med.id === 'aspirina' ? `
                 <div id="aspirina-allergy-banner" style="display:none; align-items:center; gap:8px; background:#fee2e2; border:2px solid #fca5a5; border-radius:8px; padding:8px 12px; margin-bottom:8px;">
                     <span style="font-size:18px;">🚫</span>
-                    <span style="font-weight:700; color:#991b1b; font-size:13px;">AL·LÈRGIA A AAS documentada — No administrar</span>
+                    <span data-i18n="med.aspirina.allergy.banner" style="font-weight:700; color:#991b1b; font-size:13px;">AL·LÈRGIA A AAS documentada — No administrar</span>
                 </div>` : '';
+            const instrKey = 'med.' + med.id + '.instr';
             return `
                 <div class="med-item not-given" id="med-${med.id}">
                     ${allergyBanner}
@@ -1766,11 +1767,9 @@
                         <div id="instructions-${med.id}" style="background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%); padding: 14px; border-radius: 8px; border-left: 4px solid #3b82f6; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                             <div style="font-weight: 700; color: #075985; font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
                                 <span style="font-size: 16px;">💉</span>
-                                <span>Vía: ${med.defaultRoute}</span>
+                                <span><span data-i18n="med.via">Via</span>: ${med.defaultRoute}</span>
                             </div>
-                            <div style="color: #0c4a6e; font-size: 12px; white-space: pre-line; line-height: 1.6; background: white; padding: 10px; border-radius: 6px;">
-                                ${med.instructions}
-                            </div>
+                            <div data-i18n="${instrKey}" style="color: #0c4a6e; font-size: 12px; white-space: pre-line; line-height: 1.6; background: white; padding: 10px; border-radius: 6px;">${med.instructions}</div>
                         </div>
                     </div>
                 </div>
@@ -1811,10 +1810,10 @@
 
             const semHeader = `
                 <div style="margin: 16px 0 8px 0; padding: 10px 14px; background: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px;">
-                    <div style="font-weight: 700; font-size: 13px; color: #92400e; text-transform: uppercase; letter-spacing: 0.5px;">
+                    <div data-i18n="med.sem.title" style="font-weight: 700; font-size: 13px; color: #92400e; text-transform: uppercase; letter-spacing: 0.5px;">
                         ⚠️ Solo si indicación del SEM
                     </div>
-                    <div style="font-size: 11px; color: #a16207; margin-top: 3px;">Fármacos avanzados — no administrar en atención primaria sin indicación SEM</div>
+                    <div data-i18n="med.sem.description" style="font-size: 11px; color: #a16207; margin-top: 3px;">Fármacos avanzados — no administrar en atención primaria sin indicación SEM</div>
                 </div>
             `;
 
@@ -1942,33 +1941,33 @@
             if (medId === 'clopidogrel' && edad > 75) {
                 const doseSelect = document.getElementById('dose-clopidogrel');
                 doseSelect.value = '300 mg';
-                alert('💡 SUGERENCIA\n\nEdad >75 años: Se ha seleccionado automáticamente dosis de 300 mg (en lugar de 600 mg) por seguridad.\n\nPuedes cambiarla si lo consideras necesario.');
+                alert(i18n.t('med.alert.clopidogrel.age'));
             }
-            
+
             // Enoxaparina - sugerencia según edad
             if (medId === 'enoxaparina' && edad >= 75) {
                 const doseSelect = document.getElementById('dose-enoxaparina');
                 doseSelect.value = '0.75 mg/kg SC c/12h (>75a o I.Renal)';
-                alert('💡 AJUSTE POR EDAD\n\nEdad ≥75 años:\n• Dosis: 0.75 mg/kg SC c/12h (máx 75 mg)\n• SIN bolo IV de 30 mg\n\n⚠️ También usar esta dosis si hay insuficiencia renal\n(Creatinina >2.5 mg/dl o >2 mg/dl en mujeres)');
+                alert(i18n.t('med.alert.enoxaparina.age'));
             }
-            
+
             // Fentanilo - alternativa a morfina
             if (medId === 'fentanilo') {
                 if (tas && tas < 90) {
-                    alert('⚠️ PRECAUCIÓN: TAS <90 mmHg\n\nAunque el fentanilo causa MENOS hipotensión que la morfina, usar con precaución en hipotensión.\n\nConsiderar dosis más bajas (25 mcg) y monitorizar estrechamente.');
+                    alert(i18n.t('med.alert.fentanilo.hypo'));
                 } else {
-                    alert('💡 FENTANILO - Analgésico opiáceo\n\n✅ Ventajas sobre morfina:\n• Menor efecto hipotensor\n• Efecto más rápido y corto\n• Menor interferencia con absorción de antiagregantes\n\n📋 Dosis: 25-50 mcg IV, puede repetir cada 5-10 min');
+                    alert(i18n.t('med.alert.fentanilo.normal'));
                 }
             }
 
             // Metoclopramida - antiemético
             if (medId === 'metoclopramida') {
-                alert('💡 METOCLOPRAMIDA - Antiemético\n\n✅ Indicaciones en IAM:\n• Náuseas/vómitos (frecuentes con opioides)\n• Puede mejorar absorción de antiagregantes orales\n• Profilaxis antes de administrar morfina/fentanilo\n\n⚠️ Evitar en Parkinson o antecedentes de discinesia');
+                alert(i18n.t('med.alert.metoclopramida'));
             }
 
             // Ondansetrón - precaución QT
             if (medId === 'ondansetron') {
-                alert('⚠️ ONDANSETRÓN - Usar con PRECAUCIÓN\n\nProlonga el intervalo QT, lo que puede aumentar riesgo de arritmias en pacientes cardíacos.\n\n✅ Usar solo si:\n• Metoclopramida contraindicada\n• Náuseas severas refractarias\n\n🚫 Evitar si:\n• QT prolongado conocido\n• Hipopotasemia/hipomagnesemia\n• Uso concomitante de otros fármacos que prolongan QT');
+                alert(i18n.t('med.alert.ondansetron'));
             }
 
             // Atropina - bradicardia
@@ -1977,11 +1976,11 @@
                 const inferiorMI = document.getElementById('inferiorMI') && document.getElementById('inferiorMI').checked;
 
                 if (fc && fc >= 60) {
-                    alert('⚠️ ATENCIÓN: FC ≥60 lpm\n\nLa atropina está indicada en BRADICARDIA SINTOMÁTICA.\n\n¿Está seguro de que el paciente tiene bradicardia con síntomas?\n\n⚠️ Aumentar FC puede incrementar demanda de O2 miocárdico');
+                    alert(i18n.t('med.alert.atropina.taquicardia'));
                 } else if (inferiorMI || document.getElementById('infartoVD').checked) {
-                    alert('✓ ATROPINA en IAM INFERIOR\n\nLa bradicardia sinusal y el bloqueo AV son frecuentes en IAM inferior por tono vagal aumentado.\n\n📋 Dosis: 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n\n✅ Suele ser efectiva en bradicardia vagal\n⚠️ Ineficaz si bloqueo infranodal (Mobitz II, 3er grado) → considerar marcapasos');
+                    alert(i18n.t('med.alert.atropina.inferior'));
                 } else {
-                    alert('💡 ATROPINA - Anticolinérgico\n\nIndicada en bradicardia sintomática.\n\n📋 Dosis: 1 mg IV cada 3-5 min (máx 3 mg)\n\n⚠️ Usar con precaución en IAM:\n• Taquicardia puede aumentar demanda O2\n• Evitar dosis <0.5 mg (bradicardia paradójica)');
+                    alert(i18n.t('med.alert.atropina.general'));
                 }
             }
         }
