@@ -1722,6 +1722,11 @@
             }
         ];
 
+        // Helper: translate with {placeholder} substitution
+        function tFmt(key, vars) {
+            return i18n.t(key).replace(/\{(\w+)\}/g, (_, k) => vars && vars[k] !== undefined ? String(vars[k]) : '{' + k + '}');
+        }
+
         // Renderizar lista de medicamentos
         function renderMedItem(med) {
             const doseOptionsHTML = med.doseOptions.map(opt =>
@@ -2150,9 +2155,9 @@
             if (hasShockCardiogenico) {
                 alertaShock.style.display = 'block';
                 if (killip === '4') {
-                    alertaShock.querySelector('div:last-child').textContent = 'Killip IV = Shock cardiogénico. Activación URGENTE.';
+                    alertaShock.querySelector('div:last-child').textContent = i18n.t('alert.shock.killip');
                 } else {
-                    alertaShock.querySelector('div:last-child').textContent = 'TAS <90 mmHg sugiere shock. Valorar clínica completa.';
+                    alertaShock.querySelector('div:last-child').textContent = i18n.t('alert.shock.tas');
                 }
             } else {
                 alertaShock.style.display = 'none';
@@ -2175,43 +2180,43 @@
             if (hasVeryHighRisk) {
                 shouldActivate = true;
                 alertType = 'inmediato';
-                alertTitulo.textContent = '¡ACTIVAR CÓDIGO IAM INMEDIATAMENTE!';
-                alertTexto.textContent = 'Paciente de MUY ALTO RIESGO (shock cardiogénico). Activación URGENTE - llamar 061/112 AHORA.';
+                alertTitulo.textContent = i18n.t('alert.activate.vhigh.t');
+                alertTexto.textContent = i18n.t('alert.activate.vhigh.d');
             }
             // CASO 2: CLÍNICA TÍPICA + ECG compatible - Activar inmediatamente
             else if (hasSTEMI && clinicaTipica) {
                 shouldActivate = true;
                 alertType = 'inmediato';
-                alertTitulo.textContent = '¡ACTIVAR CÓDIGO IAM AHORA!';
-                alertTexto.textContent = 'Clínica TÍPICA + ECG compatible. NO esperar ECG control. Llamar 061/112 inmediatamente.';
+                alertTitulo.textContent = i18n.t('alert.activate.typical.t');
+                alertTexto.textContent = i18n.t('alert.activate.typical.d');
             }
             // CASO 3: ECG control confirma elevación persistente
             else if (hasSTEMI && ecgControl) {
                 shouldActivate = true;
                 alertType = 'inmediato';
-                alertTitulo.textContent = '¡ACTIVAR CÓDIGO IAM AHORA!';
-                alertTexto.textContent = 'Elevación del ST CONFIRMADA como persistente en ECG de control. Llamar 061/112 inmediatamente.';
+                alertTitulo.textContent = i18n.t('alert.activate.confirmed.t');
+                alertTexto.textContent = i18n.t('alert.activate.confirmed.d');
             }
             // CASO 4: CLÍNICA ATÍPICA o SIN DEFINIR + ECG compatible - Sugerir ECG control
             else if (hasSTEMI && (clinicaAtipica || (!clinicaTipica && !clinicaAtipica))) {
                 shouldActivate = true;
                 alertType = 'control';
-                alertTitulo.textContent = '⚠️ Elevación del ST con clínica atípica/dudosa';
-                
+                alertTitulo.textContent = i18n.t('alert.activate.control.t');
+
                 // NO sugerir NTG si hay infarto de VD
                 const infartoVD = document.getElementById('infartoVD').checked;
                 if (infartoVD) {
-                    alertTexto.textContent = '⚠️ INFARTO VD: NO administrar NTG (riesgo de hipotensión). ECG de control a los 15 min para valorar persistencia. Si persiste → Activar.';
+                    alertTexto.textContent = i18n.t('alert.activate.control.vd.d');
                 } else {
-                    alertTexto.textContent = 'Considerar: 1) NTG sublingual, 2) ECG de control a los 15 min para descartar espasmo coronario (Prinzmetal). Si persiste → Activar.';
+                    alertTexto.textContent = i18n.t('alert.activate.control.d');
                 }
             }
             // CASO 5: ECG positivo pero sin valorar clínica aún
             else if (hasSTEMI && !clinicaTipica && !clinicaAtipica) {
                 shouldActivate = true;
                 alertType = 'evaluar';
-                alertTitulo.textContent = '📊 ECG con elevación del ST detectada';
-                alertTexto.textContent = 'Valorar CLÍNICA arriba: Si típica → ACTIVAR YA. Si atípica/dudosa → considerar ECG de control.';
+                alertTitulo.textContent = i18n.t('alert.activate.assess.t');
+                alertTexto.textContent = i18n.t('alert.activate.assess.d');
             }
             
             // Aplicar estilos según tipo de alerta
@@ -2258,8 +2263,8 @@
                 recomendaciones.push({
                     tipo: 'advertencia', categoria: 'D',
                     icon: '👨‍⚕️',
-                    texto: 'Valorar CLÍNICA del paciente',
-                    detalle: 'ECG positivo detectado. CRÍTICO: Valorar si la clínica es TÍPICA (activar ya) o ATÍPICA (considerar ECG control). Ver sección "Datos Clínicos" arriba.'
+                    texto: i18n.t('rec.clinical.assess.t'),
+                    detalle: i18n.t('rec.clinical.assess.d')
                 });
             }
 
@@ -2269,15 +2274,15 @@
                 recomendaciones.push({
                     tipo: 'critico', categoria: 'B',
                     icon: '🫁',
-                    texto: 'SpO₂ <90%: Administrar oxigenoterapia',
-                    detalle: 'Objetivo: mantener SpO₂ ≥94%. Usar cánula nasal (2-4 L/min) o mascarilla Venturi/reservorio según necesidad.'
+                    texto: i18n.t('rec.spo2.critical.t'),
+                    detalle: i18n.t('rec.spo2.critical.d')
                 });
             } else if (spo2 && spo2 >= 90 && spo2 < 94) {
                 recomendaciones.push({
                     tipo: 'advertencia', categoria: 'B',
                     icon: '🫁',
-                    texto: 'SpO₂ 90-94%: Considerar oxigenoterapia',
-                    detalle: 'Monitorizar estrechamente. Oxígeno si tendencia descendente. ERC 2025: O₂ solo si SpO₂ <90%.'
+                    texto: i18n.t('rec.spo2.warning.t'),
+                    detalle: i18n.t('rec.spo2.warning.d')
                 });
             }
 
@@ -2287,18 +2292,18 @@
             const shockDetectado = (tas && tas < 90) || killip === '4';
 
             if (shockDetectado) {
-                let causaShock = killip === '4' ? 'Killip IV' : 'TAS <90 mmHg';
+                const causaKey = killip === '4' ? 'rec.shock.causa.k4' : 'rec.shock.causa.tas';
                 recomendaciones.push({
                     tipo: 'critico', categoria: 'C',
                     icon: '💉',
-                    texto: `¡SHOCK CARDIOGÉNICO! (${causaShock})`,
-                    detalle: '• Vía venosa de gran calibre (14-16G)\n• Considerar segunda vía\n• Monitorización hemodinámica continua\n• Avisar UCI/Hemodinámica URGENTE\n• NO betabloqueantes ni nitratos'
+                    texto: tFmt('rec.shock.t', {causa: i18n.t(causaKey)}),
+                    detalle: i18n.t('rec.shock.d')
                 });
                 recomendaciones.push({
                     tipo: 'info', categoria: 'C',
                     icon: '💊',
-                    texto: 'Considerar soporte inotrópico',
-                    detalle: 'Valorar dopamina o dobutamina según protocolo. Traslado prioritario.'
+                    texto: i18n.t('rec.inotrope.t'),
+                    detalle: i18n.t('rec.inotrope.d')
                 });
             }
 
@@ -2307,8 +2312,8 @@
                 recomendaciones.push({
                     tipo: 'critico', categoria: 'C',
                     icon: '⚠️',
-                    texto: 'Hipotensión severa (TAS <90 mmHg)',
-                    detalle: 'CONTRAINDICACIÓN para nitratos y morfina. Asegurar vía venosa. Considerar expansión con cristaloides (250-500 ml).'
+                    texto: i18n.t('rec.hypotension.t'),
+                    detalle: i18n.t('rec.hypotension.d')
                 });
             }
 
@@ -2318,22 +2323,22 @@
                     recomendaciones.push({
                         tipo: 'critico', categoria: 'C',
                         icon: '❌',
-                        texto: 'Infarto VD con TAS <100: CONTRAINDICADO nitratos',
-                        detalle: '¡PELIGRO! NO administrar nitroglicerina. Riesgo de hipotensión severa y colapso cardiovascular. Expansión con volumen si hipotensión.'
+                        texto: i18n.t('rec.vd.critical.t'),
+                        detalle: i18n.t('rec.vd.critical.d')
                     });
                 } else {
                     recomendaciones.push({
                         tipo: 'advertencia', categoria: 'C',
                         icon: '⚠️',
-                        texto: 'Infarto VD: EXTREMA PRECAUCIÓN con nitratos',
-                        detalle: 'Los nitratos pueden causar hipotensión severa en IAM de VD. Evitar completamente si TAS <100 mmHg.'
+                        texto: i18n.t('rec.vd.warning.t'),
+                        detalle: i18n.t('rec.vd.warning.d')
                     });
                 }
                 recomendaciones.push({
                     tipo: 'info', categoria: 'C',
                     icon: '💧',
-                    texto: 'Infarto VD: Expansión de volumen si hipotensión',
-                    detalle: 'Cristaloides 250-500 ml en bolo. Repetir según respuesta. NO usar diuréticos.'
+                    texto: i18n.t('rec.vd.volume.t'),
+                    detalle: i18n.t('rec.vd.volume.d')
                 });
             }
 
@@ -2345,23 +2350,23 @@
                     recomendaciones.push({
                         tipo: 'advertencia', categoria: 'C',
                         icon: '💓',
-                        texto: 'Bradicardia en IAM INFERIOR (FC <50 lpm)',
-                        detalle: 'Frecuente por tono vagal aumentado en IAM inferior.\n💊 ATROPINA 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n⚠️ Si no responde → marcapasos'
+                        texto: i18n.t('rec.brady.inferior.t'),
+                        detalle: i18n.t('rec.brady.inferior.d')
                     });
                 } else {
                     recomendaciones.push({
                         tipo: 'advertencia', categoria: 'C',
                         icon: '💓',
-                        texto: 'Bradicardia (FC <50 lpm)',
-                        detalle: 'Si síntomas (hipotensión, mareo, síncope):\n💊 ATROPINA 1 mg IV, repetir cada 3-5 min (máx 3 mg)\n⚠️ Si no responde: marcapasos transcutáneo'
+                        texto: i18n.t('rec.brady.general.t'),
+                        detalle: i18n.t('rec.brady.general.d')
                     });
                 }
             } else if (fc && fc > 120) {
                 recomendaciones.push({
                     tipo: 'advertencia', categoria: 'C',
                     icon: '💓',
-                    texto: 'Taquicardia (FC >120 lpm)',
-                    detalle: 'Descartar arritmias en monitor. Si taquicardia sinusal: puede indicar dolor, ansiedad o compromiso hemodinámico.'
+                    texto: i18n.t('rec.tachy.t'),
+                    detalle: i18n.t('rec.tachy.d')
                 });
             }
 
@@ -2370,15 +2375,15 @@
                 recomendaciones.push({
                     tipo: 'critico', categoria: 'B',
                     icon: '🫁',
-                    texto: 'Killip III: Edema agudo de pulmón',
-                    detalle: 'Posición semisentada, O₂, furosemida 40-80 mg IV, nitratos IV (si TAS >100), morfina. Traslado urgente.'
+                    texto: i18n.t('rec.killip3.t'),
+                    detalle: i18n.t('rec.killip3.d')
                 });
             } else if (killip === '4') {
                 recomendaciones.push({
                     tipo: 'critico', categoria: 'C',
                     icon: '🚨',
-                    texto: 'Killip IV: Shock cardiogénico',
-                    detalle: 'Máxima prioridad. Ver recomendaciones de shock cardiogénico.'
+                    texto: i18n.t('rec.killip4.t'),
+                    detalle: i18n.t('rec.killip4.d')
                 });
             }
 
@@ -2388,15 +2393,15 @@
                 recomendaciones.push({
                     tipo: 'critico', categoria: 'C',
                     icon: '⚠️',
-                    texto: 'HTA REFRACTARIA (>180/110) — CONTRAINDICACIÓN fibrinólisis',
-                    detalle: 'Contraindicación ABSOLUTA para fibrinólisis. Intentar control tensional urgente con nitratos IV. Si no se controla → ICP aunque tiempo >120 min.'
+                    texto: i18n.t('rec.hta.critical.t'),
+                    detalle: i18n.t('rec.hta.critical.d')
                 });
             } else if (tas && tas > 180) {
                 recomendaciones.push({
                     tipo: 'advertencia', categoria: 'C',
                     icon: '⚠️',
-                    texto: 'HTA severa (TAS >180 mmHg)',
-                    detalle: 'Puede contraindicar fibrinólisis si TAD >110. Considerar nitratos para control tensional. Valorar ICP.'
+                    texto: i18n.t('rec.hta.warning.t'),
+                    detalle: i18n.t('rec.hta.warning.d')
                 });
             }
 
@@ -2407,18 +2412,18 @@
                 recomendaciones.push({
                     tipo: 'critico', categoria: 'D',
                     icon: '⚠️',
-                    texto: '¡ALTO RIESGO! Anticoagulación + Fibrinólisis',
-                    detalle: 'Paciente en anticoagulación oral activa. ALTO riesgo hemorrágico con fibrinólisis. Considerar fuertemente ICP en su lugar.'
+                    texto: i18n.t('rec.aco.fibrinolysis.t'),
+                    detalle: i18n.t('rec.aco.fibrinolysis.d')
                 });
             }
-            
+
             // Patrón de De Winter
             if (document.getElementById('patronWinter').checked) {
                 recomendaciones.push({
                     tipo: 'critico', categoria: 'D',
                     icon: '📊',
-                    texto: 'Patrón De Winter detectado',
-                    detalle: 'EQUIVALENTE A STEMI. Indica oclusión proximal de LAD. Activación INMEDIATA aunque no haya elevación ST típica.'
+                    texto: i18n.t('rec.dewinter.t'),
+                    detalle: i18n.t('rec.dewinter.d')
                 });
             }
 
@@ -2427,8 +2432,8 @@
                 recomendaciones.push({
                     tipo: 'critico', categoria: 'C',
                     icon: '🚫',
-                    texto: 'ALERGIA A AAS — Aspirina CONTRAINDICADA',
-                    detalle: 'Documentada en antecedentes. NO administrar aspirina.\nAlternativa: CLOPIDOGREL 600 mg VO como antiagregante de carga.\nAvisar al hospital receptor de la alergia.'
+                    texto: i18n.t('rec.aspirin.allergy.t'),
+                    detalle: i18n.t('rec.aspirin.allergy.d')
                 });
             }
             
@@ -2454,25 +2459,25 @@
                     recordatorios.push({
                         tipo: 'critico',
                         icon: '📊',
-                        texto: `Han pasado ${minutosDesde} minutos sin ECG inicial`,
-                        detalle: 'OBJETIVO: ECG en <10 minutos desde primer contacto. Realizar inmediatamente.'
+                        texto: tFmt('rem.ecg.delay.t', {min: minutosDesde}),
+                        detalle: i18n.t('rem.ecg.delay.d')
                     });
                 } else if (!ecgRealizado && minutosDesde > 5) {
                     recordatorios.push({
                         tipo: 'advertencia',
                         icon: '📊',
-                        texto: `${minutosDesde} minutos desde primer contacto`,
-                        detalle: 'Pendiente ECG de 12 derivaciones.'
+                        texto: tFmt('rem.ecg.pending.t', {min: minutosDesde}),
+                        detalle: i18n.t('rem.ecg.pending.d')
                     });
                 }
-                
+
                 // Aspirina no administrada
                 if (!aspirinaAdmin && minutosDesde > 15) {
                     recordatorios.push({
                         tipo: 'advertencia',
                         icon: '💊',
-                        texto: 'Aspirina no registrada',
-                        detalle: 'Si no hay contraindicaciones: AAS 300mg VO (masticar).'
+                        texto: i18n.t('rem.aspirin.pending.t'),
+                        detalle: i18n.t('rem.aspirin.pending.d')
                     });
                 }
             }
@@ -2497,43 +2502,43 @@
                         recordatorios.push({
                             tipo: 'critico',
                             icon: '📞',
-                            texto: `Clínica típica + ECG compatible - ${minutosDesdeECG} min sin activar`,
-                            detalle: '¡NO ESPERAR ECG de control! Con clínica típica + ECG compatible → ACTIVAR CÓDIGO IAM YA. Llamar 061/112.'
+                            texto: tFmt('rem.typical.activate.t', {min: minutosDesdeECG}),
+                            detalle: i18n.t('rem.typical.activate.d')
                         });
                     }
                     // Si clínica ATÍPICA o sin definir, sugerir ECG control
                     else if ((clinicaAtipica || (!clinicaTipica && !clinicaAtipica))) {
                         const infartoVD = document.getElementById('infartoVD').checked;
-                        
+
                         if (!ntgAdmin && minutosDesdeECG > 2 && !infartoVD) {
                             // Solo sugerir NTG si NO hay infarto VD
                             recordatorios.push({
                                 tipo: 'advertencia',
                                 icon: '💊',
-                                texto: 'Clínica atípica - Pendiente nitroglicerina y ECG control',
-                                detalle: 'Administrar NTG sublingual (si no contraindicado) y repetir ECG a los 15 minutos para descartar espasmo coronario.'
+                                texto: i18n.t('rem.atypical.ntg.t'),
+                                detalle: i18n.t('rem.atypical.ntg.d')
                             });
                         } else if (!ntgAdmin && minutosDesdeECG > 2 && infartoVD) {
                             // Si hay infarto VD, NO sugerir NTG
                             recordatorios.push({
                                 tipo: 'advertencia',
                                 icon: '⚠️',
-                                texto: 'Infarto VD - NO administrar NTG',
-                                detalle: '⚠️ CONTRAINDICADO NTG en infarto VD (riesgo hipotensión). Realizar ECG de control a los 15 minutos sin NTG.'
+                                texto: i18n.t('rem.vd.no.ntg.t'),
+                                detalle: i18n.t('rem.vd.no.ntg.d')
                             });
                         } else if (ntgAdmin && minutosDesdeECG >= 15) {
                             recordatorios.push({
                                 tipo: 'critico',
                                 icon: '📊',
-                                texto: `${minutosDesdeECG} min desde ECG inicial - Realizar ECG de control`,
-                                detalle: 'ECG de control para confirmar si elevación persiste (STEMI) o ha desaparecido (posible espasmo).'
+                                texto: tFmt('rem.ecg.control.ready.t', {min: minutosDesdeECG}),
+                                detalle: i18n.t('rem.ecg.control.ready.d')
                             });
                         } else if (ntgAdmin && minutosDesdeECG >= 12 && minutosDesdeECG < 15) {
                             recordatorios.push({
                                 tipo: 'advertencia',
                                 icon: '📊',
-                                texto: 'Próximo ECG de control (15 min post-NTG)',
-                                detalle: 'Preparar ECG de control para verificar persistencia de elevación del ST.'
+                                texto: i18n.t('rem.ecg.control.soon.t'),
+                                detalle: i18n.t('rem.ecg.control.soon.d')
                             });
                         }
                     }
@@ -2565,8 +2570,8 @@
                         recordatorios.push({
                             tipo: 'critico',
                             icon: '📞',
-                            texto: `ECG de control con elevación PERSISTENTE - ${minutosDesdeControl} min sin activar`,
-                            detalle: '¡Elevación del ST CONFIRMADA como persistente! Llamar al 061/112 AHORA para activación del Código IAM.'
+                            texto: tFmt('rem.ecg.persistent.t', {min: minutosDesdeControl}),
+                            detalle: i18n.t('rem.ecg.persistent.d')
                         });
                     }
                 }
@@ -2583,8 +2588,8 @@
                     recordatorios.push({
                         tipo: 'advertencia',
                         icon: '⏱️',
-                        texto: `${minutosDesdeActivacion} minutos desde activación`,
-                        detalle: 'Objetivo ECG-Balón: <120 min. Coordinar traslado urgente.'
+                        texto: tFmt('rem.target.t', {min: minutosDesdeActivacion}),
+                        detalle: i18n.t('rem.target.d')
                     });
                 }
             }
@@ -2601,10 +2606,10 @@
 
             // === ABCD groups (ERC 2025) ===
             const abcd = {
-                A: { label: 'A — Vía Aérea', icon: '😮‍💨', headerBg: '#1e3a5f', items: [] },
-                B: { label: 'B — Ventilació / Respiració', icon: '🫁', headerBg: '#065f46', items: [] },
-                C: { label: 'C — Circulació', icon: '❤️', headerBg: '#7f1d1d', items: [] },
-                D: { label: 'D — Decisió / Discapacitat', icon: '🧠', headerBg: '#713f12', items: [] },
+                A: { label: i18n.t('abcd.a.label'), icon: '😮‍💨', headerBg: '#1e3a5f', items: [] },
+                B: { label: i18n.t('abcd.b.label'), icon: '🫁', headerBg: '#065f46', items: [] },
+                C: { label: i18n.t('abcd.c.label'), icon: '❤️', headerBg: '#7f1d1d', items: [] },
+                D: { label: i18n.t('abcd.d.label'), icon: '🧠', headerBg: '#713f12', items: [] },
             };
 
             recomendaciones.forEach(rec => {
@@ -2646,7 +2651,7 @@
                             </div>
                             ${hasItems
                                 ? `<div style="padding:10px 10px 4px;">${group.items.map(recCard).join('')}</div>`
-                                : '<div style="padding:8px 14px; font-size:12px; color:#6b7280; background:#f9fafb;">Sin incidencias</div>'
+                                : `<div style="padding:8px 14px; font-size:12px; color:#6b7280; background:#f9fafb;">${i18n.t('abcd.no.issues')}</div>`
                             }
                         </div>`;
                 });
@@ -2935,6 +2940,12 @@
         setInterval(updateClock, 1000);
         renderMedicationList();
         selectKillip(1); // Inicializar Killip I por defecto
+
+        // Re-render dynamic content on language change
+        document.addEventListener('languageChanged', function() {
+            updateRecomendaciones();
+            checkActivation();
+        });
         
         // Actualizar recomendaciones cada 30 segundos (para recordatorios de tiempo)
         setInterval(updateRecomendaciones, 30000);
