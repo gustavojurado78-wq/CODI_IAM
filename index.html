@@ -2135,6 +2135,7 @@
         }
 
         function checkActivation() {
+            if (typeof i18n === 'undefined') return;
             const hasSTEMI = document.getElementById('elevacionST').checked ||
                             document.getElementById('patronWinter').checked ||
                             document.getElementById('depresionSTconAVR').checked ||
@@ -2246,6 +2247,7 @@
         }
         
         function updateRecomendaciones() {
+            if (typeof i18n === 'undefined') return;
             const recomendaciones = [];
             const recordatorios = [];
             
