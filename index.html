@@ -1586,6 +1586,73 @@
                         <textarea id="motivoFibrinolisisText" data-i18n-placeholder="strategy.fibrinolysis.reason.placeholder" placeholder="Ej: Tiempo traslado estimado >90 min"></textarea>
                     </div>
 
+                    <!-- Contraindicaciones para Fibrinólisis (visible solo si se selecciona fibrinólisis) -->
+                    <div id="contraSection" style="display: none; margin-bottom: 20px; background: #fef2f2; border-radius: 10px; padding: 16px; border: 1px solid #fca5a5;">
+                        <h3 style="color: #991b1b; margin: 0 0 12px 0; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+                            <span>⚠️</span>
+                            <span data-i18n="contra.title">Contraindicaciones ABSOLUTAS para Fibrinólisis</span>
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: 6px;">
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; cursor: pointer; padding: 4px 0;">
+                                <input type="checkbox" id="contra-hemorragia" style="width: 16px; height: 16px;">
+                                <span data-i18n="contra.1">Hemorragia cerebral previa (cualquier momento)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; cursor: pointer; padding: 4px 0;">
+                                <input type="checkbox" id="contra-avc" style="width: 16px; height: 16px;">
+                                <span data-i18n="contra.2">AVC isquémico &lt;6 meses</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; cursor: pointer; padding: 4px 0;">
+                                <input type="checkbox" id="contra-snc" style="width: 16px; height: 16px;">
+                                <span data-i18n="contra.3">Lesión/neoplasia del SNC</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; cursor: pointer; padding: 4px 0;">
+                                <input type="checkbox" id="contra-trauma" style="width: 16px; height: 16px;">
+                                <span data-i18n="contra.4">Traumatismo mayor/cirugía/trauma craneal &lt;3 meses</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; cursor: pointer; padding: 4px 0;">
+                                <input type="checkbox" id="contra-sangrado" style="width: 16px; height: 16px;">
+                                <span data-i18n="contra.5">Sangrado activo o diátesis hemorrágica</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; cursor: pointer; padding: 4px 0;">
+                                <input type="checkbox" id="contra-diseccion" style="width: 16px; height: 16px;">
+                                <span data-i18n="contra.6">Sospecha disección aórtica</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; cursor: pointer; padding: 4px 0;">
+                                <input type="checkbox" id="contra-hta" style="width: 16px; height: 16px;">
+                                <span data-i18n="contra.7">HTA refractaria (&gt;180/110 mmHg)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; cursor: pointer; padding: 4px 0;">
+                                <input type="checkbox" id="contra-embarazo" style="width: 16px; height: 16px;">
+                                <span data-i18n="contra.8">Embarazo o puerperio &lt;1 semana</span>
+                            </label>
+                        </div>
+                        <div id="contraAlert" style="display: none; margin-top: 10px; padding: 10px; background: #dc2626; color: white; border-radius: 8px; font-weight: 600; font-size: 13px;">
+                            🚫 <span data-i18n="contra.alert">CONTRAINDICACIÓN ABSOLUTA PRESENTE — Fibrinólisis NO recomendada</span>
+                        </div>
+                    </div>
+
+                    <!-- Calculadora TNK (visible solo si se selecciona fibrinólisis) -->
+                    <div id="tnkCalculator" style="display: none; margin-bottom: 20px; background: #f0f9ff; border-radius: 10px; padding: 16px; border: 1px solid #93c5fd;">
+                        <h3 style="color: #1e40af; margin: 0 0 10px 0; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+                            💉 <span data-i18n="tnk.calculator.title">Calculadora TNK (Tenecteplasa)</span>
+                        </h3>
+                        <div id="tnkResult" style="display: none;">
+                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                <div style="background: white; border-radius: 8px; padding: 10px 14px; border: 1px solid #bfdbfe; flex: 1; min-width: 120px;">
+                                    <div style="font-size: 11px; color: #6b7280; margin-bottom: 4px;" data-i18n="tnk.dose">Dosis</div>
+                                    <div id="tnkDose" style="font-size: 18px; font-weight: 700; color: #1e40af;">—</div>
+                                </div>
+                                <div style="background: white; border-radius: 8px; padding: 10px 14px; border: 1px solid #bfdbfe; flex: 1; min-width: 120px;">
+                                    <div style="font-size: 11px; color: #6b7280; margin-bottom: 4px;" data-i18n="tnk.volume">Volumen</div>
+                                    <div id="tnkVolume" style="font-size: 18px; font-weight: 700; color: #1e40af;">—</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tnkNeedWeight" style="font-size: 12px; color: #6b7280; font-style: italic;" data-i18n="tnk.need.weight">
+                            Introduzca peso del paciente para calcular dosis
+                        </div>
+                    </div>
+
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label data-i18n="strategy.hospital.label">Hospital de destino</label>
                         <input type="text" id="hospitalDestino" maxlength="100" data-i18n-placeholder="strategy.hospital.placeholder" placeholder="Nombre del hospital">
@@ -2687,9 +2754,24 @@
         function updateContraindications() {
             const edad = parseInt(document.getElementById('edad').value);
             const peso = parseFloat(document.getElementById('peso').value);
-            
-            // Auto-marcar contraindicaciones según edad/peso si aplica
-            // (opcional, puedes implementar más lógica aquí)
+
+            // Auto-check HTA refractaria if BP exceeds thresholds
+            const tas = parseFloat(document.getElementById('tas').value);
+            const tad = parseFloat(document.getElementById('tad').value);
+            const contraHta = document.getElementById('contra-hta');
+            if (contraHta && tas > 180 && tad > 110) {
+                contraHta.checked = true;
+            }
+
+            updateContraAlert();
+            calculateTNK();
+        }
+
+        function updateContraAlert() {
+            const checkboxes = document.querySelectorAll('#contraSection input[type="checkbox"]');
+            const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+            const alertEl = document.getElementById('contraAlert');
+            if (alertEl) alertEl.style.display = anyChecked ? 'block' : 'none';
         }
 
         function updateStrategy() {
@@ -2699,6 +2781,14 @@
             document.getElementById('motivoFibrinolisis').style.display =
                 isFibrinolisis ? 'block' : 'none';
 
+            const contraSection = document.getElementById('contraSection');
+            if (contraSection) contraSection.style.display = isFibrinolisis ? 'block' : 'none';
+
+            const tnkCalc = document.getElementById('tnkCalculator');
+            if (tnkCalc) tnkCalc.style.display = isFibrinolisis ? 'block' : 'none';
+
+            if (isFibrinolisis) calculateTNK();
+
             updateRecomendaciones();
         }
 
@@ -2706,23 +2796,35 @@
             const peso = parseFloat(document.getElementById('peso').value);
             const edad = parseInt(document.getElementById('edad').value);
             const decision = document.getElementById('decision').value;
-            
-            if (!peso || decision !== 'fibrinolisis') return;
-            
+
+            const tnkResult = document.getElementById('tnkResult');
+            const tnkNeedWeight = document.getElementById('tnkNeedWeight');
+            if (!tnkResult || !tnkNeedWeight) return;
+
+            if (!peso || decision !== 'fibrinolisis') {
+                tnkResult.style.display = 'none';
+                tnkNeedWeight.style.display = 'block';
+                return;
+            }
+
             const mayor75 = edad > 75;
             let dose;
-            
+
             if (peso < 60) dose = mayor75 ? 15 : 30;
             else if (peso <= 70) dose = mayor75 ? 17.5 : 35;
             else if (peso <= 80) dose = mayor75 ? 20 : 40;
             else if (peso <= 90) dose = mayor75 ? 22.5 : 45;
             else dose = mayor75 ? 25 : 50;
-            
+
             const volume = (dose / 5).toFixed(1);
-            
-            document.getElementById('tnkDose').textContent = dose + ' mg';
-            document.getElementById('tnkVolume').textContent = 
-                'Volumen: ' + volume + ' ml' + (mayor75 ? ' (dosis reducida >75 años)' : '');
+
+            const doseEl = document.getElementById('tnkDose');
+            const volEl = document.getElementById('tnkVolume');
+            if (doseEl) doseEl.textContent = dose + ' mg';
+            if (volEl) volEl.textContent = volume + ' ml' + (mayor75 ? ' (>75a)' : '');
+
+            tnkResult.style.display = 'block';
+            tnkNeedWeight.style.display = 'none';
         }
 
 
@@ -2883,6 +2985,27 @@
             r += LINE;
             r += i18n.t('report.decision') + ': ' + decisionText + '\n';
             r += i18n.t('report.destination.hospital') + ': ' + hospital + '\n';
+            if (decisionValue === 'fibrinolisis') {
+                const contraLabels = [
+                    { id: 'contra-hemorragia', key: 'contra.1' },
+                    { id: 'contra-avc', key: 'contra.2' },
+                    { id: 'contra-snc', key: 'contra.3' },
+                    { id: 'contra-trauma', key: 'contra.4' },
+                    { id: 'contra-sangrado', key: 'contra.5' },
+                    { id: 'contra-diseccion', key: 'contra.6' },
+                    { id: 'contra-hta', key: 'contra.7' },
+                    { id: 'contra-embarazo', key: 'contra.8' },
+                ];
+                const checked = contraLabels.filter(c => { const el = document.getElementById(c.id); return el && el.checked; });
+                if (checked.length > 0) {
+                    r += i18n.t('contra.title') + ':\n';
+                    checked.forEach(c => { r += '  - ' + i18n.t(c.key) + '\n'; });
+                }
+                const tnkDoseEl = document.getElementById('tnkDose');
+                if (tnkDoseEl && tnkDoseEl.textContent !== '—') {
+                    r += 'TNK: ' + tnkDoseEl.textContent + '\n';
+                }
+            }
             r += '\n';
 
             // Footer / signature
@@ -2954,10 +3077,14 @@
         // Actualizar recomendaciones cuando cambien datos clínicos
         document.getElementById('spo2').addEventListener('input', updateRecomendaciones);
         document.getElementById('tas').addEventListener('input', function() {
-            checkActivation(); // Detectar shock automáticamente
+            checkActivation();
             updateRecomendaciones();
+            updateContraindications();
         });
-        document.getElementById('tad').addEventListener('input', updateRecomendaciones);
+        document.getElementById('tad').addEventListener('input', function() {
+            updateRecomendaciones();
+            updateContraindications();
+        });
         document.getElementById('fc').addEventListener('input', updateRecomendaciones);
         document.getElementById('killip').addEventListener('change', function() {
             checkActivation(); // Detectar Killip IV como shock
@@ -2967,8 +3094,13 @@
         document.getElementById('anticoagulacion').addEventListener('change', updateRecomendaciones);
 
         // Listeners para edad y peso
-        document.getElementById('edad').addEventListener('input', updateRecomendaciones);
-        document.getElementById('peso').addEventListener('input', updateRecomendaciones);
+        document.getElementById('edad').addEventListener('input', function() { updateRecomendaciones(); calculateTNK(); });
+        document.getElementById('peso').addEventListener('input', function() { updateRecomendaciones(); calculateTNK(); });
+
+        // Listeners para contraindicaciones fibrinólisis
+        document.querySelectorAll('#contraSection input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', updateContraAlert);
+        });
         document.getElementById('primerContacto').addEventListener('change', updateRecomendaciones);
         document.getElementById('ecgRealizado').addEventListener('change', updateRecomendaciones);
         document.getElementById('ecgControl').addEventListener('change', updateRecomendaciones);
